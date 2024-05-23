@@ -1,7 +1,7 @@
 # OrbiGoal 2024
 
 ## Local Development
----
+
 Step 1: Clone the repo
 ```
 git clone https://github.com/brianxlim/OrbiGoal.git
