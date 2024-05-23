@@ -111,7 +111,7 @@ function RootLayoutNav() {
         />
 
         <Stack.Screen // For matches card interface on home screen
-          name="(modals)/matches"
+          name="(modals)/match"
           options={{
             presentation: 'transparentModal',
             animation: 'fade',

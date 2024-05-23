@@ -8,7 +8,7 @@ import { useOAuth } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser'; // Import WebBrowser
 
-// https://github.com/clerk/clerk-expo-starter/issues/19
+// To fix no sessionID created: https://github.com/clerk/clerk-expo-starter/issues/19
 
 enum Strategy {
     Apple = 'oauth_apple',
