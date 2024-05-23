@@ -1,8 +1,9 @@
-import { View, StyleSheet, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import React from 'react';
-import { Stack } from 'expo-router';
+import { Link, Stack } from 'expo-router';
 import HomeHeader from '@/components/HomeHeader';
 import Matches from '@/components/Matches';
+import { SignedIn, SignedOut } from '@clerk/clerk-expo';
 
 const Index = () => {
     return (
@@ -13,7 +14,19 @@ const Index = () => {
                 }}
             />
 
-            <Matches />
+            <View style={styles.body}>
+                <SignedIn>
+                    <Text style={styles.heading1}>Welcome!</Text>
+                    <Matches />
+                </SignedIn>
+
+                <SignedOut>
+                    <Text style={styles.text}>You are signed out.</Text>
+                    <Link href={'/(modals)/login'}>
+                        <Text>Log in</Text>
+                    </Link>
+                </SignedOut>
+            </View>
         </View>
     );
 };
@@ -23,6 +36,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#181928',
     },
+    body: {
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        gap: 10,
+    },
     heading1: {
         color: 'white',
         fontFamily: 'pop-black',
@@ -31,6 +49,7 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'white',
+        fontFamily: 'pop-med',
     },
 });
 
