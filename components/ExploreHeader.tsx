@@ -1,5 +1,5 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
+import React, { useState } from 'react'
 import { Link } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import Colors from '@/constants/Colors'
@@ -10,19 +10,51 @@ interface ExploreHeaderProps {
 }
 
 const ExploreHeader: React.FC<ExploreHeaderProps> = ({ searchbar, subtitle }) => {
+    const [searchInput, setSearchInput] = useState(searchbar);
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleFocus = () => {
+        setIsFocused(true);
+        if (searchInput === searchbar) {
+            setSearchInput('');
+        }
+    };
+
+    const handleBlur = () => {
+        setIsFocused(false);
+        if (searchInput === '') {
+            setSearchInput(searchbar);
+        }
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.container}>
                 <View style={styles.actionRow}>
 
                     <Link style={styles.text} href={'/(modals)/team'} asChild>
-                        <TouchableOpacity style={styles.searchBtn}>
-                            <Ionicons name='search' size={24} color='white' />
-                            <View>
-                                <Text style={styles.text}>{searchbar}</Text>
-                                <Text style={styles.subtitle}>{subtitle}</Text>
+                        <View style={styles.searchBar}>
+                            <TouchableOpacity>
+                                <Ionicons name='search' size={24} color='white' />
+                            </TouchableOpacity>
+
+                            <View style={styles.textInput}>
+                                <TextInput
+                                    style={[styles.text, { width: 220, height: 30, paddingBottom: isFocused ? 0 : 10 }]}
+                                    value={searchInput}
+                                    onFocus={handleFocus}
+                                    onBlur={handleBlur}
+                                    onChangeText={setSearchInput}
+                                    placeholder={searchbar}
+                                    placeholderTextColor="#c2c2c2"
+                                />
+
+                                {!isFocused && searchInput === searchbar && (
+                                    <Text style={styles.subtitle}>{subtitle}</Text>
+                                )}
                             </View>
-                        </TouchableOpacity>
+
+                        </View>
                     </Link>
 
                     <TouchableOpacity style={styles.filterBtn}>
@@ -44,17 +76,26 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 24,
         paddingVertical: 16,
-        gap: 10
+        gap: 10,
     },
     text: {
         color: 'white',
-        fontFamily: 'pop-med',
+        fontFamily: 'pop-reg',
     },
     subtitle: {
         color: 'grey',
         fontFamily: 'pop-reg',
+        fontSize: 10,
+        position: 'absolute',
+        top: 18,
     },
-    searchBtn: {
+    textInput: {
+        flexDirection: 'column',
+        position: 'absolute',
+        left: 55,
+        top: 5.5,
+    },
+    searchBar: {
         flexDirection: 'row',
         borderWidth: StyleSheet.hairlineWidth,
         borderColor: '#c2c2c2',
@@ -81,7 +122,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors['dark'].tint,
         borderRadius: 24,
-    }
+    },
 })
 
 export default ExploreHeader
