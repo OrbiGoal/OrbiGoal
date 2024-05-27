@@ -2,7 +2,6 @@ import { View, SafeAreaView, StyleSheet, TouchableOpacity, Image } from 'react-n
 import React from 'react'
 import { Link } from 'expo-router'
 import { MaterialIcons, Ionicons } from '@expo/vector-icons'
-import Colors from '@/constants/Colors'
 
 const HomeHeader = () => {
     return (
@@ -16,7 +15,7 @@ const HomeHeader = () => {
                         </TouchableOpacity>
                     </Link>
 
-                    <Image source={require('@/assets/header_logo.png')} style={styles.logo} />
+                    <Image source={require('@/assets/header-logo.png')} style={styles.logo} />
 
                     <TouchableOpacity style={styles.icon}>
                         <MaterialIcons name='notifications' size={24} color='white' />
@@ -49,8 +48,8 @@ const styles = StyleSheet.create({
     },
     logo: {
         resizeMode: 'contain',
-        width: 80,
-        height: 80,
+        width: 75,
+        height: 75,
     }
 })
 

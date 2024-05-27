@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
-import { Tabs } from 'expo-router';
-import Colors from '@/constants/Colors';
-import { TabBarIcon } from '@/components/TabBarIcon';
+import { Tabs } from 'expo-router'
+import Colors from '@/constants/Colors'
+import { TabBarIcon } from '@/components/TabBarIcon'
 
 const Layout = () => {
     return (
@@ -10,7 +10,6 @@ const Layout = () => {
             screenOptions={{
                 tabBarActiveTintColor: Colors['dark'].tint,
                 tabBarLabelStyle: styles.tabBar,
-                // headerShown: true
             }}>
 
             <Tabs.Screen

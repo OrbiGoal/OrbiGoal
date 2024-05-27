@@ -1,13 +1,13 @@
-import { DarkTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack, useRouter } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import { TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import 'react-native-reanimated';
-import * as SecureStore from 'expo-secure-store';
-import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
+import { DarkTheme, NavigationContainer, ThemeProvider } from '@react-navigation/native'
+import { useFonts } from 'expo-font'
+import { Stack, useRouter } from 'expo-router'
+import * as SplashScreen from 'expo-splash-screen'
+import { useEffect } from 'react'
+import { TouchableOpacity } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+import 'react-native-reanimated'
+import * as SecureStore from 'expo-secure-store'
+import { ClerkProvider, useAuth } from '@clerk/clerk-expo'
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -42,6 +42,7 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+
   const [loaded, error] = useFonts({
     'pop-black': require('@/assets/fonts/Poppins-Black.ttf'),
     'pop-eb': require('@/assets/fonts/Poppins-ExtraBold.ttf'),
@@ -73,7 +74,7 @@ export default function RootLayout() {
   );
 }
 
-function RootLayoutNav() {
+const RootLayoutNav = () => {
   const router = useRouter();
   const { isLoaded, isSignedIn } = useAuth();
 

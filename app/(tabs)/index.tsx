@@ -1,6 +1,7 @@
-import { View, StyleSheet, Text, Button } from 'react-native';
+import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
+import { View, StyleSheet, Text, Button, SafeAreaView } from 'react-native';
 import React from 'react';
-import { Link, Stack, useRouter } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import HomeHeader from '@/components/HomeHeader';
 import Matches from '@/components/Matches';
 import { SignedIn, SignedOut, useAuth } from '@clerk/clerk-expo';
@@ -14,28 +15,32 @@ const Index = () => {
     };
 
     return (
-        <View style={styles.container}>
-            <Stack.Screen
-                options={{
-                    header: () => <HomeHeader />,
-                }}
-            />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <SafeAreaView style={styles.container}>
+                <ScrollView>
+                    <Stack.Screen
+                        options={{
+                            header: () => <HomeHeader />,
+                        }}
+                    />
 
-            <View style={styles.body}>
-                <SignedIn>
-                    <Text style={styles.heading1}>Welcome!</Text>
-                    <Matches />
-                    <Button title='Log out' onPress={() => signOut()} />
-                </SignedIn>
+                    <View style={styles.body}>
+                        <SignedIn>
+                            <Text style={styles.heading1}>Welcome!</Text>
+                            <Matches />
+                            <Button title='Log out' onPress={() => signOut()} />
+                        </SignedIn>
 
-                <SignedOut>
-                    <Text style={[styles.heading1, { paddingTop: 10 }]}>You are signed out.</Text>
-                    {!isSignedIn && (
-                        <Button title="Log in" onPress={() => handleLogin()} />
-                    )}
-                </SignedOut>
-            </View>
-        </View>
+                        <SignedOut>
+                            <Text style={[styles.heading1, { paddingTop: 10 }]}>You are signed out.</Text>
+                            {!isSignedIn && (
+                                <Button title="Log in" onPress={() => handleLogin()} />
+                            )}
+                        </SignedOut>
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+        </GestureHandlerRootView>
     );
 };
 
