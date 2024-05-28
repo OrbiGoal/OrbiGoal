@@ -1,11 +1,28 @@
-import { View, Text } from 'react-native'
+import { SafeAreaView, ImageBackground, Text, ScrollView, View } from 'react-native'
 import React from 'react'
+import { defaultStyles } from '@/constants/Styles';
+import { Stack } from 'expo-router';
 
 const Predictions = () => {
     return (
-        <View>
-            <Text>Predictions</Text>
-        </View>
+        <SafeAreaView style={defaultStyles.container}>
+            <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
+                <ScrollView>
+                    <Stack.Screen
+                        options={{
+                            headerTitle: "Predictions",
+                            headerTitleStyle: {
+                                fontFamily: 'pop-bold',
+                                fontSize: 20,
+                            },
+                        }}
+                    />
+                    <View style={defaultStyles.container2}>
+                        <Text style={defaultStyles.heading1}>Predictions</Text>
+                    </View>
+                </ScrollView>
+            </ImageBackground>
+        </SafeAreaView>
     )
 }
 

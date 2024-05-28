@@ -1,19 +1,38 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import Colors from "./Colors";
+
+const screenWidth = Dimensions.get("window").width;
 
 export const defaultStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#181928',
     },
-    inputField: {
-        height: 44,
-        borderWidth: 1,
-        borderColor: 'violet',
-        borderRadius: 8,
-        padding: 10,
-        backgroundColor: 'white',
-        color: 'black',
+    container2: {
+        paddingVertical: 20,
+        paddingHorizontal: 30,
+        gap: 10,
+    },
+    heading1: {
+        color: 'white',
+        fontFamily: 'pop-eb',
+        fontSize: 24,
+        textAlign: 'left',
+    },
+    text: {
+        color: 'white',
+        fontFamily: 'pop-reg',
+    },
+    backgroundImageContainer: {
+        flex: 1,
+        resizeMode: 'cover',
+        justifyContent: 'center',
+        width: screenWidth,
+    },
+    backgroundImage: {
+        opacity: 0.3,
+        backgroundColor: '#181928',
+        width: screenWidth,
     },
     btn: {
         backgroundColor: Colors['dark'].tabIconSelected,
@@ -30,6 +49,15 @@ export const defaultStyles = StyleSheet.create({
     btnIcon: {
         position: 'absolute',
         left: 16,
+    },
+    inputField: {
+        height: 44,
+        borderWidth: 1,
+        borderColor: 'violet',
+        borderRadius: 8,
+        padding: 10,
+        backgroundColor: 'white',
+        color: 'black',
     },
     footer: {
         position: 'absolute',

@@ -78,9 +78,6 @@ const DrawerLayout = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#181928',
-    },
     header: {
         backgroundColor: '#222232',
     },
@@ -92,7 +89,7 @@ const styles = StyleSheet.create({
         fontFamily: 'pop-sb',
     },
     icon: {
-        marginLeft: 20,
+        marginLeft: 30,
     },
     logo: {
         resizeMode: 'contain',
