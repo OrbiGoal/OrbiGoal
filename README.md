@@ -22,6 +22,7 @@ git checkout -b feature/your-feature-name
 
 Step 5: Add, commit and push the changes
 ```
+git add .
 git commit -m "Description of your changes"
 git push origin feature/your-feature-name
 ```
