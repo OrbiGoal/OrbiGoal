@@ -26,7 +26,7 @@ const Index = () => {
                             </SignedIn>
 
                             <SignedOut>
-                                <Text style={[defaultStyles.heading1, { paddingTop: 10 }]}>You are signed out.</Text>
+                                <Text style={[defaultStyles.heading1, { paddingTop: 10 }]}>No user data</Text>
                                 {!isSignedIn && (
                                     <Button title="Log in" onPress={() => handleLogin()} />
                                 )}

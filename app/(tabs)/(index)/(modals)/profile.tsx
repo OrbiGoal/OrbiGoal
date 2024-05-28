@@ -18,12 +18,20 @@ const Profile = () => {
     // In case the user signs out while on the page.
     if (!isUserLoaded || !isSignedIn) {
         return (
-            <View>
-                <Text style={[defaultStyles.heading1, { paddingTop: 10 }]}>You are signed out.</Text>
-                {!isSignedIn && (
-                    <Button title="Log in" onPress={() => handleLogin()} />
-                )}
-            </View>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <SafeAreaView style={defaultStyles.container}>
+                    <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
+                        <ScrollView>
+                            <View style={defaultStyles.container2}>
+                                <Text style={[defaultStyles.heading1, { paddingTop: 10 }]}>You are signed out.</Text>
+                                {!isSignedIn && (
+                                    <Button title="Log in" onPress={() => handleLogin()} />
+                                )}
+                            </View>
+                        </ScrollView>
+                    </ImageBackground>
+                </SafeAreaView>
+            </GestureHandlerRootView>
         )
     }
 
@@ -33,17 +41,8 @@ const Profile = () => {
                 <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
                     <ScrollView>
                         <View style={defaultStyles.container2}>
-                            <SignedIn>
-                                <Text style={defaultStyles.heading1}>Welcome, {user.firstName}!</Text>
-                                <Button title='Log out' onPress={() => signOut()} />
-                            </SignedIn>
-
-                            <SignedOut>
-                                <Text style={[defaultStyles.heading1, { paddingTop: 10 }]}>You are signed out.</Text>
-                                {!isSignedIn && (
-                                    <Button title="Log in" onPress={() => handleLogin()} />
-                                )}
-                            </SignedOut>
+                            <Text style={defaultStyles.heading1}>Welcome, {user.firstName}!</Text>
+                            <Button title='Log out' onPress={() => signOut()} />
                         </View>
                     </ScrollView>
                 </ImageBackground>
