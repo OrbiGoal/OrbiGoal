@@ -1,12 +1,10 @@
-import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
-import { View, StyleSheet, Text, Button, SafeAreaView } from 'react-native';
-import React from 'react';
-import { Stack, useRouter } from 'expo-router';
-import HomeHeader from '@/components/HomeHeader';
-import Matches from '@/components/Matches';
-import { SignedIn, SignedOut, useAuth } from '@clerk/clerk-expo';
+import { ScrollView, Text, Button, StyleSheet, SafeAreaView, View } from 'react-native'
+import React from 'react'
+import { SignedIn, SignedOut, useAuth } from '@clerk/clerk-expo'
+import { useRouter } from 'expo-router';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-const Index = () => {
+const Profile = () => {
     const { signOut, isSignedIn } = useAuth();
 
     const router = useRouter();
@@ -18,16 +16,9 @@ const Index = () => {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <SafeAreaView style={styles.container}>
                 <ScrollView>
-                    <Stack.Screen
-                        options={{
-                            header: () => <HomeHeader />,
-                        }}
-                    />
-
                     <View style={styles.body}>
                         <SignedIn>
                             <Text style={styles.heading1}>Welcome!</Text>
-                            <Matches />
                             <Button title='Log out' onPress={() => signOut()} />
                         </SignedIn>
 
@@ -41,8 +32,8 @@ const Index = () => {
                 </ScrollView>
             </SafeAreaView>
         </GestureHandlerRootView>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -66,4 +57,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Index
+export default Profile
