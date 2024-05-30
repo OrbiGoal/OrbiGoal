@@ -12,6 +12,7 @@ export const defaultStyles = StyleSheet.create({
         paddingVertical: 20,
         paddingHorizontal: 30,
         gap: 10,
+        flexGrow: 1,
     },
     heading1: {
         color: 'white',
