@@ -1,31 +1,24 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
-import pandas as pd
+import json
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate("/path/to/your/project/serviceAccountKey.json")
+cred = credentials.Certificate("/Users/lihanlin/Downloads/orbigoal-b4283-firebase-adminsdk-fr3wg-b51ec0940e.json")
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
-# Load your Kaggle dataset
-df = pd.read_csv('path/to/your/kaggle-dataset', encoding='ISO-8859-1')
-
-# Reset the index to start from 1
-df.index = range(1, len(df) + 1)
-
-# Function to upload data to Firestore
-def upload_to_firestore(df, collection_name):
-    max_id_length = len(str(len(df)))  # Calculate the maximum length of the document ID
-    for index, row in df.iterrows():
-        doc_id = str(index).zfill(max_id_length)  # Pad the document ID with leading zeros
-        doc_ref = db.collection(collection_name).document(doc_id)
-        doc_ref.set(row.to_dict())
+# Read the JSON file into a Python dictionary
+with open("/Users/lihanlin/Downloads/FootballTeamStats2021-2022.json", "r") as json_file:
+    data = json.load(json_file)
 
 # Define your Firestore collection name
-collection_name = 'Your collection name'
+collection_name = 'Football Team Stats 2021-2022'
 
 # Upload data to Firestore
-upload_to_firestore(df, collection_name)
+for index, row in enumerate(data, start=1):
+    doc_id = f"{index:04d}"  # Use the index as document ID
+    doc_ref = db.collection(collection_name).document(doc_id)
+    doc_ref.set(row)
 
-print(f"Uploaded {len(df)} documents to Firestore collection '{collection_name}'")
+print(f"Uploaded {len(data)} documents to Firestore collection '{collection_name}'")
