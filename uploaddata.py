@@ -3,17 +3,17 @@ from firebase_admin import credentials, firestore
 import json
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate("/Users/lihanlin/Downloads/orbigoal-b4283-firebase-adminsdk-fr3wg-b51ec0940e.json")
+cred = credentials.Certificate("path/to/your_firebasesdk.json")
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
 
 # Read the JSON file into a Python dictionary
-with open("/Users/lihanlin/Downloads/FootballTeamStats2021-2022.json", "r") as json_file:
+with open("path/to/your_json.json", "r") as json_file:
     data = json.load(json_file)
 
 # Define your Firestore collection name
-collection_name = 'Football Team Stats 2021-2022'
+collection_name = 'your_collection_name'
 
 # Upload data to Firestore
 for index, row in enumerate(data, start=1):
