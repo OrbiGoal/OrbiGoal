@@ -20,9 +20,16 @@ export const defaultStyles = StyleSheet.create({
         fontSize: 24,
         textAlign: 'left',
     },
+    heading2: {
+        color: 'white',
+        fontFamily: 'pop-sb',
+        fontSize: 18,
+        textAlign: 'left',
+    },
     text: {
         color: 'white',
         fontFamily: 'pop-reg',
+        fontSize: 14,
     },
     backgroundImageContainer: {
         flex: 1,

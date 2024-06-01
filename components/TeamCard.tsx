@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const Match = () => {
+const TeamCard = () => {
     return (
         <View>
-            <Text>Match</Text>
+            <Text>TeamCard</Text>
         </View>
     )
 }
 
-export default Match;
+export default TeamCard

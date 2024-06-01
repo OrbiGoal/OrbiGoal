@@ -2,9 +2,9 @@ import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler
 import { View, Text, Button, SafeAreaView, ImageBackground } from 'react-native';
 import React from 'react';
 import { useRouter } from 'expo-router';
-import Matches from '@/components/Matches';
 import { SignedIn, SignedOut, useAuth } from '@clerk/clerk-expo';
 import { defaultStyles } from '@/constants/Styles';
+import Matches from '@/components/Matches';
 
 const Index = () => {
     const { signOut, isSignedIn } = useAuth();
