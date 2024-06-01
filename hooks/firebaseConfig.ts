@@ -32,6 +32,10 @@ export const fetchData = async (collectionName: string) => {
     }
 }
 
+export const getLocalData = async (collectionName: string) => {
+
+}
+
 // Add data to database
 export const addDocument = async (collectionName: string, data: any) => {
     try {
@@ -56,15 +60,3 @@ export const updateDocument = async (collectionName: string, docId: string, upda
         Alert.alert("Unable to update document");
     }
 }
-
-// // Example: Call fetchData when a button is clicked
-// const handleClick = () => {
-//     fetchData();
-// };
-
-// // Example: Render a button that calls fetchData when clicked
-// const YourComponent = () => {
-//     return (
-//         <button onClick={handleClick}>Fetch Data</button>
-//     );
-// };
