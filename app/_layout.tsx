@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons'
 import 'react-native-reanimated'
 import * as SecureStore from 'expo-secure-store'
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo'
+import { AppProvider } from '@/components/AppProvider'
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -69,7 +70,9 @@ export default function RootLayout() {
 
   return (
     <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY!} tokenCache={tokenCache}>
-      <RootLayoutNav />
+      <AppProvider>
+        <RootLayoutNav />
+      </AppProvider>
     </ClerkProvider>
   );
 }

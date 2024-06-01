@@ -1,20 +1,12 @@
-import { SafeAreaView, ImageBackground, ScrollView, Text } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { SafeAreaView, ImageBackground, ScrollView, Text, View } from 'react-native'
+import React, { useEffect, useState, useMemo } from 'react'
 import { Stack } from 'expo-router';
 import ExploreHeader from '@/components/ExploreHeader';
 import { defaultStyles } from '@/constants/Styles';
-import { fetchData } from '@/hooks/firebaseConfig';
+import { useAppContext } from '@/components/AppProvider';
 
 const Players = () => {
-    const collection2122 = "Kaggle Football Player Stats 2021-2022";
-    const [data2122, setData] = useState<any[]>([]);
-    useEffect(() => {
-        const fetchDataFromFirestore = async () => {
-            const fetchedData = await fetchData(collection2122);
-            setData(fetchedData);
-        };
-        fetchDataFromFirestore();
-    }, []);
+    const { player2223 } = useAppContext();
 
     return (
         <SafeAreaView style={defaultStyles.container}>
@@ -26,7 +18,7 @@ const Players = () => {
                 />
 
                 <ScrollView style={defaultStyles.container2}>
-                    {data2122.map((player, index) => (
+                    {player2223.map((player: any, index: number) => (
                         <Text key={index} style={defaultStyles.text}>{player.Player}</Text>
                     ))}
                 </ScrollView>

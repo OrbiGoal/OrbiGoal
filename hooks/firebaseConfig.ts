@@ -2,6 +2,7 @@
 import { initializeApp } from '@firebase/app';
 import { getFirestore, collection, getDocs, addDoc, updateDoc, doc } from '@firebase/firestore';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -23,18 +24,36 @@ export const fetchData = async (collectionName: string) => {
         const statsCollection = collection(db, collectionName);
         const statsSnapShot = await getDocs(statsCollection);
         const data = statsSnapShot.docs.map(doc => doc.data());
-        console.log(data);
+        console.log("Successfully loaded data from Firebase: ", collectionName);
+
+        // Save data to AsyncStorage
+        await AsyncStorage.setItem(collectionName, JSON.stringify(data));
+        console.log("Successfully saved data to AsyncStorage with the key: ", collectionName)
+
         return data;
     } catch (err) {
         console.error("Error fetching data: ", err);
-        Alert.alert("Unable to fetch data");
+        Alert.alert('Unable to fetch data')
         return [];
     }
-}
+};
 
+// Get local data after fetching from API
 export const getLocalData = async (collectionName: string) => {
-
-}
+    try {
+        const jsonValue = await AsyncStorage.getItem(collectionName);
+        if (jsonValue != null) {
+            console.log(`Successfully retrieved data from AsyncStorage for collection ${collectionName}. Size of jsonValue: ${jsonValue.length} characters`);
+            return JSON.parse(jsonValue);
+        } else {
+            console.log('Loaded null data');
+            return null;
+        }
+    } catch (err) {
+        console.error("Error retrieving data: ", err);
+        return null;
+    }
+};
 
 // Add data to database
 export const addDocument = async (collectionName: string, data: any) => {

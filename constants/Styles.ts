@@ -20,6 +20,12 @@ export const defaultStyles = StyleSheet.create({
         fontSize: 24,
         textAlign: 'left',
     },
+    heading2: {
+        color: 'white',
+        fontFamily: 'pop-sb',
+        fontSize: 20,
+        textAlign: 'left',
+    },
     text: {
         color: 'white',
         fontFamily: 'pop-reg',
