@@ -25,6 +25,7 @@ export const defaultStyles = StyleSheet.create({
         fontFamily: 'pop-sb',
         fontSize: 18,
         textAlign: 'left',
+        paddingVertical: 12,
     },
     text: {
         color: 'white',

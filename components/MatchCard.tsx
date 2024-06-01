@@ -1,38 +1,76 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { defaultStyles } from '@/constants/Styles';
 
-interface Props {
-    matches: any[];
-}
+type Props = {
+    team1: string;
+    team2: string;
+    team1logo: string;
+    team2logo: string;
+    date: string;
+    time: string;
+};
 
-const MatchCard = () => {
-
+const MatchCard = ({ team1, team2, team1logo, team2logo, date, time }: Props) => {
     return (
-        <View style={styles.imageContainer}>
-            <Image
-                style={styles.logo}
-                source={{ uri: "https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/1200px-FC_Barcelona_%28crest%29.svg.png" }}
-            />
-            <Image
-                style={styles.logo}
-                source={{ uri: "https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/1200px-Real_Madrid_CF.svg.png" }}
-            />
+        <View style={styles.container}>
+            <TouchableOpacity>
+                <View style={styles.touchableContainer}>
+                    <View style={styles.teamContainer}>
+                        <Text style={styles.teamText} numberOfLines={2} ellipsizeMode="tail">{team1}</Text>
+                        <Image style={styles.logo} source={{ uri: team1logo }} />
+                    </View>
+                    <View style={styles.dateContainer}>
+                        <Text style={[defaultStyles.text, styles.dateText]}>{date}</Text>
+                        <Text style={[defaultStyles.text, styles.dateText]}>{time}</Text>
+                    </View>
+                    <View style={styles.teamContainer}>
+                        <Image style={styles.logo} source={{ uri: team2logo }} />
+                        <Text style={styles.teamText} numberOfLines={2} ellipsizeMode="tail">{team2}</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
-    imageContainer: {
+    container: {
+        backgroundColor: '#222232',
+        borderRadius: 24,
+        paddingHorizontal: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    touchableContainer: {
         flexDirection: 'row',
-        gap: 5,
+        gap: 15,
         paddingVertical: 12,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    teamContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        maxWidth: '30%', // Ensure text does not exceed a certain width
+    },
+    teamText: {
+        ...defaultStyles.text,
+        flexShrink: 1,
+        marginRight: 5,
+    },
+    dateContainer: {
+        alignItems: 'center',
     },
     logo: {
-        width: 50,
-        height: 50,
+        width: 30,
+        height: 30,
         resizeMode: 'contain',
-        padding: 12,
-    }
-})
+    },
+    dateText: {
+        textAlign: 'center',
+    },
+});
 
-export default MatchCard
+export default MatchCard;

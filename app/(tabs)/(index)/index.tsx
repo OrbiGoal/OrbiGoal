@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { SignedIn, SignedOut, useAuth } from '@clerk/clerk-expo';
 import { defaultStyles } from '@/constants/Styles';
 import Matches from '@/components/Matches';
+import Scores from '@/components/Scores';
 
 const Index = () => {
     const { signOut, isSignedIn } = useAuth();
@@ -23,6 +24,7 @@ const Index = () => {
                             <SignedIn>
                                 <Text style={defaultStyles.heading1}>Welcome!</Text>
                                 <Matches />
+                                <Scores />
                             </SignedIn>
 
                             <SignedOut>

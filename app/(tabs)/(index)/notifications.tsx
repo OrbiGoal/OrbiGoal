@@ -10,7 +10,7 @@ const Notifications = () => {
                 <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
                     <ScrollView>
                         <View style={defaultStyles.container2}>
-                            <Text style={defaultStyles.heading1}>Notifications for user</Text>
+                            <Text style={defaultStyles.heading1}>No notifications for now</Text>
                         </View>
                     </ScrollView>
                 </ImageBackground>
