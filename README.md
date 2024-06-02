@@ -19,7 +19,6 @@
 4. [**Features**](#features)
 5. [**Overall Navigation Flow**](#overall-navigation-flow)
 6. [**User Interface Design**](#user-interface-design)
-7. [**Model-Entity Relationship**](#model-entity-relationship)
 8. [**Software Engineering Practices**](#software-engineering-practices)
 10. [**Tech Stack**](#tech-stack)
 13. [**Project Log**](#project-log)
