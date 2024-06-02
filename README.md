@@ -321,7 +321,59 @@ View [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t8
 
 ## Project Log
 
-*Documenting the progress and key milestones of the project.*
+| S/N | Task                                            | Date          | Brian (hrs) | Han Lin (hrs) | Remarks                                                           |
+| --- | ----------------------------------------------- | ------------- | ----------- | ------------- | ----------------------------------------------------------------- |
+| 1   | First sketch of wireframe                       | 12 May        | 4           | 4             | Met up physically to finalize project direction, color scheme... |
+| 2   | Consultation with advisor                      | 13 May        | 1           | 1             | Feedback from initial proposal                                    |
+| 3   | Start on user interface design                  | 14 May        | 10          | 10            | Designed main screens (Home, Analytics, Navigation, Tasks)       |
+| 4   | Design additional screens and overlays         | 15 May        | 8           | 10            | Wireframe creation, poster design, 1-minute pitch script...      |
+| 5   | Technical knowledge research                   | Start: 10 May| 20          | 20            | YouTube tutorials, online notes on Flutter, Dart, State...       |
+| 6   | Welcome Page and Login Page                    | 16 May        | 5           | 0             | Coded Welcome page, Firebase setup for authentication             |
+| 7   | Home Page                                      | 16 May        | 0           | 5             | Completed Home page                                               |
+| 8   | User account authentication for email and password login | 17 May | 8     | 0             | Implemented email and password login, reset password feature      |
+| 9   | Analytics Page                                 | 18 May        | 0           | 6             | Completed Analytics page, UI design changes to insights category  |
+| 10  | User account authentication for Google and Facebook | 18 May | 8     | 0             | Implemented Google and Facebook login, Firebase Authentication    |
+| 11  | User Onboarding Flow, Database Design          | 21 May        | 6           | 6             | Planned user onboarding flow, Explored data modeling, Firestore |
+| 12  | User Flow Diagram                              | 22 May        | 3           | 3             | Created user flow diagram using Google Flowchart maker           |
+| 13  | Report Writing for milestone 1 submission      | 23 May        | 4           | 4             |                                                                   |
+| 14  | Onboarding Screens and redesign of check in page | Start: 24 May | 8          | 3             | Created onboarding screens, Redesigned check-in page             |
+| 15  | Onboarding Screens and redesign of check in page | End: 27 May  |             |               |                                                                   |
+| 16  | Introduction Screens                           | 28 May        | 0           | 4             | Rendered introduction pages with skip button                     |
+| 17  | Communicating with Firestore                   | 31 May        | 6           | 0             | Query and set data to Firestore                                  |
+| 18  | Calendar package                               | 1 June        | 6           | 0             | Unpackaged table calendar package from Flutter                   |
+| 19  | Nutrition Log Frontend                         | 2 June        | 8           | 0             | Initial nutrition log UI without backend                         |
+| 20  | Focus Log Frontend                             | 3 June        | 6           | 0             | Focus Log frontend without working countdown timer               |
+| 21  | Security Measures                              | 4 June        | 0           | 6             | Sorted out security measures, Created .env file                  |
+| 22  | UI updates                                     | 5 June        | 0           | 7             |                                                                   |
+| 23  | Nutrition Backend                              | Start: 6 June | 16          | 16            | Connected nutrition search to Calorie Ninja API, Defined data...  |
+|     |                                                | End: 8 June   |             |               |                                                                   |
+| 24  | Focus Backend                                  | 9 June        | 5           | 0             | Completed focus backend, Circular slider displaying updated...   |
+| 25  | Mood and Sleep Tracker Backend                 | 10 June       | 3           | 0             | Bottom sheet for mood and sleep tracker, Created controllers...  |
+| 26  | Test and debug                                 | 11 June       | 4           | 4             | Fixed issues with countdown timer                                |
+| 27  | Task and Project Backend                       | Start: 13 June| 20          | 20            | Completed tasks page backend, Added new projects, Milestone...   |
+|     |                                                | End: 17 June  |             |               |                                                                   |
+| 28  | Fitness Log Backend                            | Start: 17 June| 15          | 15            | Completed fitness log backend, Automatic calorie calculation... |
+|     |                                                | End: 19 June  |             |               |                                                                   |
+| 29  | Integrate Fitness data with Navigation Page    | 19 June       | 0           | 4             | Wrote query and logic to display workout data on navigation...   |
+| 30  | Insights Algorithm Initial Write               | 20 June       | 0           | 3             | Setup with Firestore, Loaded statistics libraries               |
+| 31  | Insights Algorithm Initial Write               | Start: 21 June| 35          | 35            | Implementing modified DFS algorithm, Correlation analysis...     |
+|     |                                                | End: 26 June  |             |               | Fine-tuning, testing, Converting to REST API, Deployment...      |
+| 32  | Post milestone 2 test and bug fixes            | 5 July & 6 July | 4         | 4             | Implemented dialog box for Task and Milestone, Fixed focus...    |
+|     |                                                |               |             |               | Set up test environment for insights algo                        |
+| 33  | Setting screen                                 | 7 July        | 6           | 6             | Implemented log in streak, Tested award system for sleep log...  |
+|     |                                                |               |             |               | Built the main setting page                                      |
+| 34  | Moving algo to class part 1                    | 8 July        | 6           | 6             | Moved the main data structures into a class for the algorithm    |
+| 35  | Update data client                             | 11 July       | 0           | 4             | Clean up data client                                             |
+| 36  | Moving algo to class part 2                    | 13 July       | 8           | 4             | Completed changing insights algo to OOP, Added badges designs...  |
+|     |                                                |               |             |               | Implementation of Profile Picture feature                        |
+| 37  | Setting pages                                  | 15 July       | 6           | 2             | Contact us and FAQ pages, Started on unit test for auth...       |
+| 38  | Implementation of edit goals in settings page  | 16 July       | 0           | 3             | Calories recommended updates in real time depending...           |
+| 39  | Unit test and theme implementation             | 17 July       | 4           | 6             | Unit testing up till task controller, Update theme               |
+| 40  | Completion of unit tests cases and bug fixes   | 18 July       | 6           | 6             |                                                                   |
+| 41  | Initial integration tests                      | 19 July       | 5           | 2             | Set up the initial integration test cases                        |
+| 42  | Widget tests                                   | 20 July       | 0           | 4             | Complete widget tests.                                           |
+|     | **Total**                                       |               | **259**     | **237**       |                                                                   |
+
 
 ---
 
