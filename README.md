@@ -84,7 +84,7 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
    
   Create a file called `.env` at the root and put in the following
   
-  ```
+  ```bash
   cd OrbiGoal
   EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=API_KEY
   ```
