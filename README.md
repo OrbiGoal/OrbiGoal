@@ -21,10 +21,7 @@
 6. [**User Interface Design**](#user-interface-design)
 7. [**Model-Entity Relationship**](#model-entity-relationship)
 8. [**Software Engineering Practices**](#software-engineering-practices)
-9. [**Quality Control**](#quality-control)
 10. [**Tech Stack**](#tech-stack)
-11. [**Limitations**](#limitations)
-12. [**Contributing**](#contributing)
 13. [**Project Log**](#project-log)
 14. [**Contact**](#contact)
 
@@ -274,12 +271,6 @@ View [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t8
 
 ---
 
-## Model-Entity Relationship
-
-*Explaining the database schema and entity relationships.*
-
----
-
 ## Software Engineering Practices
 
 1. **Agile Methodology**: Adopting an agile approach to project management, breaking down the development process into small, manageable tasks or sprints.
@@ -289,11 +280,6 @@ View [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t8
 5. **Continuous Integration and Deployment (CI/CD)**: Setting up CI/CD pipelines to automate the build, testing, and deployment processes.
 6. **Documentation**: Maintaining comprehensive documentation throughout the development process.
 
----
-
-## Quality Control
-
-*Outlining the processes for ensuring high-quality software development and maintenance.*
 
 ---
 
@@ -304,18 +290,6 @@ View [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t8
 - **HTML/CSS/JavaScript/TypeScript**: Frontend development
 - **Firebase**: Database management
 - **Scikit-learn**: Machine learning algorithms
-
----
-
-## Limitations
-
-*Discussing potential limitations of the project and future improvements.*
-
----
-
-## Contributing
-
-*Guidelines for contributing to the project.*
 
 ---
 
