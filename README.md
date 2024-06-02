@@ -32,11 +32,11 @@
 
 ## Project Overview
 
-Proposal for Orbital 24
-
 Team Name: OrbiGoal
 
-Proposed Level of Achievement: Apollo 11
+Team Members: Brian Lim Yen Sing, Li Han Lin
+
+Level of Achievement: Apollo 11
 
 ### Foreword
 
@@ -128,7 +128,7 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 This feature allows users to create accounts, log in, and manage their profiles securely. It ensures that each user has a personalized experience navigating through the app.
 
 #### Implementation Philosophy & Details
-The authentication system is built with a focus on security and user convenience. We use industry-standard encryption methods to protect user passwords and employ multi-factor authentication to add an extra layer of security.
+The authentication system is built with a focus on security and user convenience.
 **Other details**
 
 #### Implementation Challenges
