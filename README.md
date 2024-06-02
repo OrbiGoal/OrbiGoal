@@ -73,28 +73,54 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 ### Installation
 
 1. **Clone the Repository**
-   
-   Open up your terminal and run
-   
+
+   Open up your terminal and run:
+
    ```bash
    git clone https://github.com/brianxlim/OrbiGoal.git
    ```
 
 2. **Create .env file**
-   
-  Create a file called `.env` at the root and put in the following
-  
-  ```bash
-  cd OrbiGoal
-  EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=API_KEY
-  ```
-  where `API_KEY` is known only to developers of the app. Please contact the developers to get the API key. Developers contacts are available at the end of this document.
+
+   Navigate to the project directory:
+
+   ```bash
+   cd OrbiGoal
+   ```
+
+   Create a file called `.env` at the root and add the following content:
+
+   ```env
+   EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY=API_KEY
+   ```
+
+   Replace `API_KEY` with the actual key, which is known only to the developers of the app. Please contact the developers to get the API key. Developer contacts are available at the end of this document.
 
 3. **Install Dependencies**
+
+   Run the following command to install the project dependencies:
 
    ```bash
    npm install
    ```
+
+## Troubleshooting Tips
+
+- **Network Issues**: Ensure your Mac and mobile device are on the same Wi-Fi network.
+- **Expo Account**: If you have an Expo account, logging into Expo Go with the same account can sometimes simplify the process.
+- **Dependencies**: If there are any issues with dependencies, try the following steps:
+  1. Delete the `node_modules` folder:
+     ```bash
+     rm -rf node_modules
+     ```
+  2. Delete the `package-lock.json` file:
+     ```bash
+     rm package-lock.json
+     ```
+  3. Reinstall the dependencies:
+     ```bash
+     npm install
+     ```
 
 ### Running the App
 
