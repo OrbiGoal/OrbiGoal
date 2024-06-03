@@ -1,7 +1,5 @@
 <div align="center">
-    <div style="background-color: #4b0082; padding: 10px; display: inline-block;">
-        <img src="https://imgur.com/XWrG8HP.png" alt="Orbigoal Logo" width="200">
-    </div>
+    <img src="https://imgur.com/XWrG8HP.png" alt="Orbigoal Logo" width="200">
     <h1>OrbiGoal</h1>
     <h3>[Orbital Apollo]</h3>
     <h2>README</h2>
