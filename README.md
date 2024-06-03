@@ -105,24 +105,6 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
    npm install
    ```
 
-## Troubleshooting Tips
-
-- **Network Issues**: Ensure your Mac and mobile device are on the same Wi-Fi network.
-- **Expo Account**: If you have an Expo account, logging into Expo Go with the same account can sometimes simplify the process.
-- **Dependencies**: If there are any issues with dependencies, try the following steps:
-  1. Delete the `node_modules` folder:
-     ```bash
-     rm -rf node_modules
-     ```
-  2. Delete the `package-lock.json` file:
-     ```bash
-     rm package-lock.json
-     ```
-  3. Reinstall the dependencies:
-     ```bash
-     npm install
-     ```
-
 ### Running the App
 
 1. **Start the Expo Development Server**
@@ -176,6 +158,8 @@ This feature allows users to create accounts, log in, and manage their profiles 
     <img src="https://i.imgur.com/rysE88R.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### Teams & Players Search
 #### Description
 This feature allows users to search for detailed information about teams and players, including statistics, performance history, and other relevant data.
@@ -194,6 +178,8 @@ This feature allows users to search for detailed information about teams and pla
 
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### Match Predictions
 #### Description
 This feature provides users with predictions for upcoming football matches based on historical data and performance metrics.
@@ -207,6 +193,8 @@ This feature provides users with predictions for upcoming football matches based
 <div align="left" style="margin-right: 20px;">
     <img src="https://imgur.com/m9koacj.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
+
+<div style="page-break-after: always;"></div>
 
 ### Customize Dashboard
 #### Description
@@ -223,6 +211,8 @@ Users can customize their dashboard to display their preferred teams, players, a
     <img src="https://imgur.com/k5tV3Sx.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### Notifications
 #### Description
 This feature sends notifications to users about important updates, match results, and other relevant football news.
@@ -235,6 +225,8 @@ This feature sends notifications to users about important updates, match results
 <div align="left" style="margin-right: 20px;">
     <img src="https://imgur.com/W1jInyb.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
+
+<div style="page-break-after: always;"></div>
 
 ### Forum Posts (Coming soon!)
 #### Description
