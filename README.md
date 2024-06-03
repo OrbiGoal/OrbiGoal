@@ -7,6 +7,7 @@
     Li Han Lin, A0273744X, Year 1 Business Analytics</p>
 </div>
 
+<div style="page-break-after: always;"></div>
 ---
 
 # Table of Contents
@@ -22,6 +23,7 @@
 13. [**Project Log**](#project-log)
 14. [**Contact**](#contact)
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Project Overview
@@ -52,6 +54,7 @@ To attract new fans to the sport and make it more accessible to a wider audience
 
 To bring convenience and accessibility to our users by ensuring that all users can enjoy the benefits of our app anytime, anywhere. By offering a mobile platform, users can access football analysis and insights directly from their smartphones or tablets, eliminating the need for cumbersome interfaces or repetitive Google searches.
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Getting Started
@@ -155,6 +158,7 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
      npm install
      ```
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Features (In development)
@@ -236,6 +240,7 @@ This feature sends notifications to users about important updates, match results
 #### Description
 This upcoming feature will allow users to participate in discussions, share opinions, and engage with the community through forum posts.
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Overall Navigation Flow
@@ -283,12 +288,14 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
     <img src="https://imgur.com/m9koacj.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## User Interface Design
 
 Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cqZNFjx_ze_DIgwsXuE/edit?usp=sharing) for our UI design!
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Software Engineering Practices
@@ -305,7 +312,7 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 
 6. **Documentation**: We maintain thorough documentation throughout our development process. This includes README files, code comments, and user guides. Documentation helps us communicate effectively, onboard new team members, and ensure the long-term maintainability of our project.
 
-
+<div style="page-break-after: always;"></div>
 ---
 
 ## Tech Stack
@@ -316,12 +323,14 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 - **Firebase**: Database management
 - **Scikit-learn**: Machine learning algorithms
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Project Log
 
 For the detailed project log, please refer to [this Google Sheet](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cqZNFjx_ze_DIgwsXuE/edit?usp=sharing).
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Contact
@@ -329,6 +338,7 @@ For the detailed project log, please refer to [this Google Sheet](https://docs.g
 *Brian Lim Yen Sing: e1122376@u.nus.edu.*
 *Li Han Lin: lihanlin@u.nus.edu.*
 
+<div style="page-break-after: always;"></div>
 ---
 
 # Appendices 
