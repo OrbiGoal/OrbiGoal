@@ -248,6 +248,8 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
     <img src="https://imgur.com/k5tV3Sx.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### View profile
 
 <div align="left" style="margin-right: 20px;">
@@ -255,12 +257,16 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
     <img src="https://imgur.com/y9Kj3sN.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### See notifications
 
 <div align="left" style="margin-right: 20px;">
     <p>View your notifications.</p>
     <img src="https://imgur.com/W1jInyb.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
+
+<div style="page-break-after: always;"></div>
 
 ### Team/player data and statistics
 
@@ -272,6 +278,8 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
     <img src="https://imgur.com/rYde3M4.png" alt="Log in" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/BLDH8tT.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
+
+<div style="page-break-after: always;"></div>
 
 ### Match predictions
 
