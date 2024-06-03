@@ -122,7 +122,7 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 
 ### Building the App (Coming soon!)
 
-## Troubleshooting Tips
+### Troubleshooting Tips
 
 - **Network Issues**: Ensure your Mac and mobile device are on the same Wi-Fi network.
 - **Expo Account**: If you have an Expo account, logging into Expo Go with the same account can sometimes simplify the process.
