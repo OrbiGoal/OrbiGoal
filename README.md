@@ -1,7 +1,5 @@
 <div align="center">
-    <div style="background-color: #4b0082; padding: 10px; display: inline-block;">
-        <img src="https://imgur.com/XWrG8HP.png" alt="Orbigoal Logo" width="200">
-    </div>
+    <img src="https://imgur.com/XWrG8HP.png" alt="Orbigoal Logo" width="200">
     <h1>OrbiGoal</h1>
     <h3>[Orbital Apollo]</h3>
     <h2>README</h2>
@@ -9,6 +7,7 @@
     Li Han Lin, A0273744X, Year 1 Business Analytics</p>
 </div>
 
+<div style="page-break-after: always;"></div>
 ---
 
 # Table of Contents
@@ -24,6 +23,7 @@
 13. [**Project Log**](#project-log)
 14. [**Contact**](#contact)
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Project Overview
@@ -54,6 +54,7 @@ To attract new fans to the sport and make it more accessible to a wider audience
 
 To bring convenience and accessibility to our users by ensuring that all users can enjoy the benefits of our app anytime, anywhere. By offering a mobile platform, users can access football analysis and insights directly from their smartphones or tablets, eliminating the need for cumbersome interfaces or repetitive Google searches.
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Getting Started
@@ -104,24 +105,6 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
    npm install
    ```
 
-## Troubleshooting Tips
-
-- **Network Issues**: Ensure your Mac and mobile device are on the same Wi-Fi network.
-- **Expo Account**: If you have an Expo account, logging into Expo Go with the same account can sometimes simplify the process.
-- **Dependencies**: If there are any issues with dependencies, try the following steps:
-  1. Delete the `node_modules` folder:
-     ```bash
-     rm -rf node_modules
-     ```
-  2. Delete the `package-lock.json` file:
-     ```bash
-     rm package-lock.json
-     ```
-  3. Reinstall the dependencies:
-     ```bash
-     npm install
-     ```
-
 ### Running the App
 
 1. **Start the Expo Development Server**
@@ -139,7 +122,7 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 
 ### Building the App (Coming soon!)
 
-## Troubleshooting Tips
+### Troubleshooting Tips
 
 - **Network Issues**: Ensure your Mac and mobile device are on the same Wi-Fi network.
 - **Expo Account**: If you have an Expo account, logging into Expo Go with the same account can sometimes simplify the process.
@@ -157,6 +140,7 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
      npm install
      ```
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Features (In development)
@@ -173,6 +157,8 @@ This feature allows users to create accounts, log in, and manage their profiles 
 <div align="left" style="margin-right: 20px;">
     <img src="https://i.imgur.com/rysE88R.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
+
+<div style="page-break-after: always;"></div>
 
 ### Teams & Players Search
 #### Description
@@ -192,6 +178,8 @@ This feature allows users to search for detailed information about teams and pla
 
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### Match Predictions
 #### Description
 This feature provides users with predictions for upcoming football matches based on historical data and performance metrics.
@@ -205,6 +193,8 @@ This feature provides users with predictions for upcoming football matches based
 <div align="left" style="margin-right: 20px;">
     <img src="https://imgur.com/m9koacj.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
+
+<div style="page-break-after: always;"></div>
 
 ### Customize Dashboard
 #### Description
@@ -221,6 +211,8 @@ Users can customize their dashboard to display their preferred teams, players, a
     <img src="https://imgur.com/k5tV3Sx.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### Notifications
 #### Description
 This feature sends notifications to users about important updates, match results, and other relevant football news.
@@ -234,10 +226,13 @@ This feature sends notifications to users about important updates, match results
     <img src="https://imgur.com/W1jInyb.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### Forum Posts (Coming soon!)
 #### Description
 This upcoming feature will allow users to participate in discussions, share opinions, and engage with the community through forum posts.
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Overall Navigation Flow
@@ -253,6 +248,8 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
     <img src="https://imgur.com/k5tV3Sx.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### View profile
 
 <div align="left" style="margin-right: 20px;">
@@ -260,12 +257,16 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
     <img src="https://imgur.com/y9Kj3sN.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### See notifications
 
 <div align="left" style="margin-right: 20px;">
     <p>View your notifications.</p>
     <img src="https://imgur.com/W1jInyb.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
+
+<div style="page-break-after: always;"></div>
 
 ### Team/player data and statistics
 
@@ -278,6 +279,8 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
     <img src="https://imgur.com/BLDH8tT.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+<div style="page-break-after: always;"></div>
+
 ### Match predictions
 
 <div align="left" style="margin-right: 20px;">
@@ -285,12 +288,14 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
     <img src="https://imgur.com/m9koacj.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## User Interface Design
 
 Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cqZNFjx_ze_DIgwsXuE/edit?usp=sharing) for our UI design!
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Software Engineering Practices
@@ -307,7 +312,7 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 
 6. **Documentation**: We maintain thorough documentation throughout our development process. This includes README files, code comments, and user guides. Documentation helps us communicate effectively, onboard new team members, and ensure the long-term maintainability of our project.
 
-
+<div style="page-break-after: always;"></div>
 ---
 
 ## Tech Stack
@@ -318,12 +323,14 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 - **Firebase**: Database management
 - **Scikit-learn**: Machine learning algorithms
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Project Log
 
 For the detailed project log, please refer to [this Google Sheet](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cqZNFjx_ze_DIgwsXuE/edit?usp=sharing).
 
+<div style="page-break-after: always;"></div>
 ---
 
 ## Contact
@@ -331,6 +338,7 @@ For the detailed project log, please refer to [this Google Sheet](https://docs.g
 *Brian Lim Yen Sing: e1122376@u.nus.edu.*
 *Li Han Lin: lihanlin@u.nus.edu.*
 
+<div style="page-break-after: always;"></div>
 ---
 
 # Appendices 
