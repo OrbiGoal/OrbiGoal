@@ -1,12 +1,25 @@
-import { SafeAreaView, ImageBackground, Text, ScrollView } from 'react-native'
-import React from 'react'
+import { SafeAreaView, ImageBackground, Text, ScrollView, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Stack } from 'expo-router';
 import ExploreHeader from '@/components/ExploreHeader';
 import { defaultStyles } from '@/constants/Styles';
 import { useAppContext } from '@/components/AppProvider';
+import axios from 'axios';
 
 const Teams = () => {
-  const { team2223 } = useAppContext();
+  // const { team2223 } = useAppContext();
+
+  const [teams, setTeams] = useState<any[]>([]);
+
+  useEffect(() => {
+    axios.get('http://127.0.0.1:5000/get-teams-2223')
+      .then(response => {
+        setTeams(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <SafeAreaView style={defaultStyles.container}>
@@ -17,9 +30,12 @@ const Teams = () => {
           }}
         />
         <ScrollView style={defaultStyles.container2}>
-          {team2223.map((team: any, index: number) => (
-            <Text key={index} style={defaultStyles.text}>{team.Squad}</Text>
+          {teams.map((team, index) => (
+            <Text style={defaultStyles.text} key={index}>{team.Squad}</Text>
           ))}
+
+          {/* For bottom border */}
+          <View style={{ height: 40 }}></View>
         </ScrollView>
       </ImageBackground>
     </SafeAreaView>

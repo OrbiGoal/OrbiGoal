@@ -2,6 +2,8 @@
 
 # dependencies
 node_modules/
+firebase/
+/backend/venv/
 
 # Expo
 .expo/
@@ -31,6 +33,8 @@ yarn-error.*
 # local env files
 .env
 .env*.local
+.venv/
+.backend/venv/
 
 # typescript
 *.tsbuildinfo
