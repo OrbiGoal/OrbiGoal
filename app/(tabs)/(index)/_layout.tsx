@@ -40,6 +40,9 @@ const DrawerLayout = () => {
                 <Drawer.Screen
                     name='index'
                     options={{
+                        drawerHideStatusBarOnOpen: true,
+                        drawerActiveBackgroundColor: '#bfafc9',
+                        drawerActiveTintColor: 'black',
                         headerTitle: 'Home',
                         drawerLabel: 'Home',
                         headerLeft: (props) => (<HeaderLeft {...props} />),

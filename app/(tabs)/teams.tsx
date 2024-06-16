@@ -7,8 +7,7 @@ import { useAppContext } from '@/components/AppProvider';
 import axios from 'axios';
 
 const Teams = () => {
-  // const { team2223 } = useAppContext();
-
+  // const { team2223 } = useAppContext(); // Previous method of using AppContext
   const [teams, setTeams] = useState<any[]>([]);
 
   useEffect(() => {
