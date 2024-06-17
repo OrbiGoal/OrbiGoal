@@ -1,17 +1,18 @@
-import { SafeAreaView, ImageBackground, Text, ScrollView, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { SafeAreaView, ImageBackground, FlatList, View } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
 import { Stack } from 'expo-router';
 import ExploreHeader from '@/components/ExploreHeader';
 import { defaultStyles } from '@/constants/Styles';
-import { useAppContext } from '@/components/AppProvider';
 import axios from 'axios';
+import TeamCard from '@/components/TeamCard';
 
-const Teams = () => {
-  // const { team2223 } = useAppContext(); // Previous method of using AppContext
-  const [teams, setTeams] = useState<any[]>([]);
+const Teams: React.FC = () => {
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [selectedLeague, setSelectedLeague] = useState<string | undefined>();
+  const listRef = useRef(null);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:5000/get-teams-2223')
+    axios.get('http://127.0.0.1:5000/get-team-names')
       .then(response => {
         setTeams(response.data);
       })
@@ -20,25 +21,33 @@ const Teams = () => {
       });
   }, []);
 
+  const filteredTeams = selectedLeague != 'all'
+    ? teams.filter(team => team.Country === selectedLeague)
+    : teams;
+
+  const renderItem = ({ item }: { item: Team }) => (
+    <TeamCard team={item} />
+  );
+
   return (
     <SafeAreaView style={defaultStyles.container}>
       <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
         <Stack.Screen
           options={{
-            header: () => <ExploreHeader searchbar={"Search for teams"} subtitle={"Real Madrid · Liverpool"} />
+            header: () => <ExploreHeader searchbar={"Search for teams"} subtitle={"Real Madrid · Liverpool"} type={"team"} setSelectedLeague={setSelectedLeague} />
           }}
         />
-        <ScrollView style={defaultStyles.container2}>
-          {teams.map((team, index) => (
-            <Text style={defaultStyles.text} key={index}>{team.Squad}</Text>
-          ))}
-
-          {/* For bottom border */}
-          <View style={{ height: 40 }}></View>
-        </ScrollView>
+        <FlatList
+          ref={listRef}
+          data={filteredTeams}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          contentContainerStyle={defaultStyles.container2}
+          ListFooterComponent={<View style={{ height: 40 }} />}
+        />
       </ImageBackground>
     </SafeAreaView>
-  )
+  );
 }
 
 export default Teams;

@@ -1,17 +1,28 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, TextInput, Modal } from 'react-native'
 import React, { useState } from 'react'
 import { Link } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import Colors from '@/constants/Colors'
+import { defaultStyles } from '@/constants/Styles'
+import RNPickerSelect from 'react-native-picker-select';
 
 interface ExploreHeaderProps {
     searchbar: string;
     subtitle: string;
+    type: "team" | "player";
+    setSelectedLeague: (league: string | undefined) => void; // Add this prop
 }
 
-const ExploreHeader: React.FC<ExploreHeaderProps> = ({ searchbar, subtitle }) => {
+const ExploreHeader: React.FC<ExploreHeaderProps> = ({ searchbar, subtitle, type, setSelectedLeague }) => {
     const [searchInput, setSearchInput] = useState(searchbar);
     const [isFocused, setIsFocused] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const leagues = [
+        { label: 'Ligue 1', value: 'FRA' },
+        { label: 'Bundesliga', value: 'GER' },
+        { label: 'La Liga', value: 'ESP' },
+        { label: 'Premier League', value: 'ENG' },
+        { label: 'Serie A', value: 'ITA' }];
 
     const handleFocus = () => {
         setIsFocused(true);
@@ -32,35 +43,83 @@ const ExploreHeader: React.FC<ExploreHeaderProps> = ({ searchbar, subtitle }) =>
             <View style={styles.container}>
                 <View style={styles.actionRow}>
 
-                    <Link style={styles.text} href={'/(modals)/team'} asChild>
-                        <View style={styles.searchBar}>
-                            <TouchableOpacity>
-                                <Ionicons name='search' size={24} color='white' />
-                            </TouchableOpacity>
+                    <View style={styles.searchBar}>
+                        <TouchableOpacity>
+                            <Ionicons name='search' size={24} color='white' />
+                        </TouchableOpacity>
 
-                            <View style={styles.textInput}>
-                                <TextInput
-                                    style={[styles.text, { width: 220, height: 30, paddingBottom: isFocused ? 0 : 10 }]}
-                                    value={searchInput}
-                                    onFocus={handleFocus}
-                                    onBlur={handleBlur}
-                                    onChangeText={setSearchInput}
-                                    placeholder={searchbar}
-                                    placeholderTextColor="#c2c2c2"
-                                />
+                        <View style={styles.textInput}>
+                            <TextInput
+                                style={[styles.text, { width: 220, height: 30, paddingBottom: isFocused ? 0 : 10 }]}
+                                value={searchInput}
+                                onFocus={handleFocus}
+                                onBlur={handleBlur}
+                                onChangeText={setSearchInput}
+                                placeholder={searchbar}
+                                placeholderTextColor="#c2c2c2"
+                            />
 
-                                {!isFocused && searchInput === searchbar && (
-                                    <Text style={styles.subtitle}>{subtitle}</Text>
-                                )}
-                            </View>
-
+                            {!isFocused && searchInput === searchbar && (
+                                <Text style={styles.subtitle}>{subtitle}</Text>
+                            )}
                         </View>
-                    </Link>
+                    </View>
 
-                    <TouchableOpacity style={styles.filterBtn}>
+                    <TouchableOpacity style={styles.filterBtn} onPress={() => setModalVisible(true)}>
                         <Ionicons name='options-outline' size={24} color='white' />
                     </TouchableOpacity>
                 </View>
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => setModalVisible(false)}
+                >
+                    <View style={styles.modalView}>
+                        <View style={styles.modalContent}>
+                            <Text style={defaultStyles.heading2}>Filter Options</Text>
+                            <View style={{ height: 20 }}></View>
+
+                            {/* For teams filter */}
+                            {type === "team" && (
+                                <View>
+                                    <Text style={defaultStyles.text}>Select League</Text>
+                                    <View style={{ height: 10 }}></View>
+                                    <RNPickerSelect
+                                        onValueChange={(value) => setSelectedLeague(value)}
+                                        items={leagues}
+                                        style={pickerSelectStyles}
+                                        placeholder={{ label: 'Show All', value: 'all' }}
+                                    />
+                                </View>
+                            )}
+
+                            {/* For players filter */}
+                            {type === "player" && (
+                                <View>
+                                    <View>
+                                        <Text style={defaultStyles.text}>Select League</Text>
+                                        <View style={{ height: 10 }}></View>
+                                        <RNPickerSelect
+                                            onValueChange={(value) => setSelectedLeague(value)}
+                                            items={leagues}
+                                            style={pickerSelectStyles}
+                                            placeholder={{ label: 'Show All', value: 'all' }}
+                                        />
+                                    </View>
+                                </View>
+                            )}
+
+                            <TouchableOpacity
+                                style={styles.closeButton}
+                                onPress={() => setModalVisible(false)}
+                            >
+                                <Text style={styles.closeButtonText}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         </SafeAreaView>
     )
@@ -123,6 +182,72 @@ const styles = StyleSheet.create({
         borderColor: Colors['dark'].tint,
         borderRadius: 24,
     },
+    filterText: {
+        ...defaultStyles.text,
+        textAlign: 'left',
+    },
+    modalView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    modalContent: {
+        width: '80%',
+        padding: 20,
+        backgroundColor: '#222232',
+        borderRadius: 10,
+    },
+    modalText: {
+        ...defaultStyles.heading2,
+        // marginBottom: 15,
+        // textAlign: 'center',
+        // fontSize: 18,
+        // fontWeight: 'bold',
+    },
+    closeButton: {
+        marginTop: 15,
+        padding: 10,
+        backgroundColor: 'white',
+        borderRadius: 13,
+    },
+    closeButtonText: {
+        color: 'grey',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    picker: {
+        height: 50,
+        width: 200,
+    },
 })
+
+// Define custom styles for RNPickerSelect
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        height: 20,
+        fontSize: 14,
+        paddingVertical: 12,
+        paddingHorizontal: 5,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 4,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+        backgroundColor: 'white',
+    },
+    inputAndroid: {
+        fontSize: 14,
+        paddingHorizontal: 5,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        borderColor: 'gray',
+        borderRadius: 8,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+        backgroundColor: 'white',
+    },
+});
+
 
 export default ExploreHeader
