@@ -53,7 +53,7 @@ const DrawerLayout = () => {
                     }} />
 
                 <Drawer.Screen
-                    name='(modals)/profile'
+                    name='profile'
                     options={{
                         headerTitle: 'Profile',
                         drawerLabel: 'Profile',

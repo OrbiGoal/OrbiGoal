@@ -3,6 +3,9 @@ from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, firestore
 import pandas as pd
+import pickle
+import os
+import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -17,65 +20,198 @@ players2122collection = 'Football Player Stats 2021-2022'
 players2223collection = 'Football Player Stats 2022-2023'
 
 # Function to map the team to the url of its logo
-def generate_logo(squad_name):
-    base_url = "https://raw.githubusercontent.com/brianxlim/football-logos/master/logos/2022-23/"
-    filename = squad_to_filename.get(squad_name, "").replace(" ", "%20")
+def generate_logo(squad_name, season):
+    base_url = f"https://raw.githubusercontent.com/brianxlim/football-logos/master/logos/{season}/"
+    filename = squad_to_filename[squad_name]
     return f"{base_url}{filename}" if filename else None
 
 
-def get_processed_data(season, collection_name):
+# General function to get the dataframe from Firestore database
+def get_from_collection(collection_name):
     docs = db.collection(collection_name).stream()
     data = [doc.to_dict() for doc in docs]
     df = pd.DataFrame(data)
-    df["season"] = season
+    return df
+
+
+# Global flags to check if data has been fetched. Fetch data if haven't been loaded
+teams_data_fetched = False
+players_data_fetched = False
+
+# Define paths to cache files
+CACHE_DIR = 'cache'
+teams_2122_cache = os.path.join(CACHE_DIR, 'teams_2122.pkl')
+teams_2223_cache = os.path.join(CACHE_DIR, 'teams_2223.pkl')
+players_2122_cache = os.path.join(CACHE_DIR, 'players_2122.pkl')
+players_2223_cache = os.path.join(CACHE_DIR, 'players_2223.pkl')
+
+# Initialise expiry date on cached data so it doesn't use old cached data
+cache_timestamp_file = os.path.join(CACHE_DIR, 'cache_timestamp.txt')
+CACHE_EXPIRATION_DAYS = 1
+
+def is_cache_valid():
+    if not os.path.exists(cache_timestamp_file):
+        return False
+
+    with open(cache_timestamp_file, 'r') as f:
+        timestamp_str = f.read().strip()
+    last_cache_date = datetime.datetime.strptime(timestamp_str, '%Y-%m-%d').date()
+    current_date = datetime.date.today()
+    return (current_date - last_cache_date).days < CACHE_EXPIRATION_DAYS
+
+
+def update_cache_timestamp():
+    with open(cache_timestamp_file, 'w') as f:
+        f.write(datetime.date.today().strftime('%Y-%m-%d'))
+
+
+def fetch_data():
+    global teams_data_fetched, players_data_fetched
+    global df_teams_2122, df_teams_2223, df_players_2122, df_players_2223
+
+    os.makedirs(CACHE_DIR, exist_ok=True)
+
+    if not is_cache_valid():
+        # Clear the cache by removing cache files if the cache is outdated
+        if os.path.exists(teams_2122_cache):
+            os.remove(teams_2122_cache)
+        if os.path.exists(teams_2223_cache):
+            os.remove(teams_2223_cache)
+        if os.path.exists(players_2122_cache):
+            os.remove(players_2122_cache)
+        if os.path.exists(players_2223_cache):
+            os.remove(players_2223_cache)
+        update_cache_timestamp()
+        teams_data_fetched = False
+        players_data_fetched = False
+
+    if not teams_data_fetched:
+        if os.path.exists(teams_2122_cache) and os.path.exists(teams_2223_cache):
+            with open(teams_2122_cache, 'rb') as f:
+                df_teams_2122 = pickle.load(f)
+            with open(teams_2223_cache, 'rb') as f:
+                df_teams_2223 = pickle.load(f)
+            print('Loaded Teams data from cache')
+        else:
+            df_teams_2122 = get_from_collection(teams2122collection)
+            df_teams_2122['season'] = '2122'
+            df_teams_2223 = get_from_collection(teams2223collection)
+            df_teams_2223['season'] = '2223'
+            with open(teams_2122_cache, 'wb') as f:
+                pickle.dump(df_teams_2122, f)
+            with open(teams_2223_cache, 'wb') as f:
+                pickle.dump(df_teams_2223, f)
+            print('Loaded Teams data from API and cached it')
+        teams_data_fetched = True
+
+    if not players_data_fetched:
+        if os.path.exists(players_2122_cache) and os.path.exists(players_2223_cache):
+            with open(players_2122_cache, 'rb') as f:
+                df_players_2122 = pickle.load(f)
+            with open(players_2223_cache, 'rb') as f:
+                df_players_2223 = pickle.load(f)
+            print('Loaded Players data from cache')
+        else:
+            df_players_2122 = get_from_collection(players2122collection)
+            df_players_2122['season'] = '2122'
+            df_players_2223 = get_from_collection(players2223collection)
+            df_players_2223['season'] = '2223'
+            with open(players_2122_cache, 'wb') as f:
+                pickle.dump(df_players_2122, f)
+            with open(players_2223_cache, 'wb') as f:
+                pickle.dump(df_players_2223, f)
+            print('Loaded Players data from API and cached it')
+        players_data_fetched = True
+
+
+def get_team_names_df():
+
+    fetch_data()
+
+    all_teams = pd.concat([df_teams_2122[['Squad', 'team_id']], df_teams_2223[['Squad', 'team_id']]]).drop_duplicates().reset_index(drop=True)
+
+    # Map URL to logo and map full name to squad
+    team_names_2021 = df_teams_2122[["team_id", "Squad", "Country", 'season']].copy()
+    team_names_2022 = df_teams_2223[["team_id", "Squad", "Country", 'season']].copy()
+    team_names_2021['Logo'] = df_teams_2122['Squad'].apply(generate_logo, season="2021-22")
+    team_names_2022['Logo'] = df_teams_2223['Squad'].apply(generate_logo, season="2022-23")
+
+    # Match its squad to its full name Format the name correctly 
+    squad_to_full_name = {k: v.split('/')[-1].replace('%20', ' ').replace('.png', '') for k, v in squad_to_filename.items()} # Get full name of squad
+    team_names_2021['full_name'] = team_names_2021['Squad'].map(squad_to_full_name)
+    team_names_2022['full_name'] = team_names_2022['Squad'].map(squad_to_full_name)
+
+    # Merge 2021 data into all_teams
+    new_all_teams = all_teams.merge(team_names_2021[['team_id', 'Logo', 'full_name', 'Country', 'season']], on='team_id', how='left')
+    new_all_teams = new_all_teams.set_index('team_id')
+
+    # Update with 2022 data, overwriting existing values if they exist in the 2022 data
+    new_all_teams.update(team_names_2022[['team_id', 'Logo', 'full_name', 'Country', 'season']].set_index('team_id'))
+    new_all_teams = new_all_teams.reset_index()
+
+    return new_all_teams
+
+
+def get_teams_detailed_df():
+    all_team_names = get_team_names_df()
+
+    # Process data
+    df = pd.concat([df_teams_2122, df_teams_2223], ignore_index=True)
+    df = df.sort_values(by=["Squad", "season"])
+    df['Pts/G'] = round(df['Pts'].astype(int) / df['MP'].astype(int), 2)
+    df = df.drop(['Pts/MP'], axis=1)
+    df = df.sort_values(by='team_id')
+    df = df.merge(all_team_names[['team_id', 'Logo', 'full_name']], on='team_id', how='left')
+
     return df
 
 
 @app.route('/get-teams-detailed', methods=['GET'])
 def get_teams_detailed():
-    df_2122 = get_processed_data("2122", teams2122collection)
-    df_2223 = get_processed_data("2223", teams2223collection)
+    teams_detailed_df = get_teams_detailed_df()
 
-    # Process data
-    df = pd.concat([df_2122, df_2223], ignore_index=True)
-    df = df.sort_values(by="Squad")
+    return jsonify(teams_detailed_df.to_dict(orient="records"))
 
-    return jsonify(df.to_dict(orient="records"))
+
+@app.route('/get-team-details/<teamID>', methods=['GET'])
+def get_team_details(teamID):
+
+    teams_detailed_df = get_teams_detailed_df()
+
+    # Filter the dataframe to get details for the specific team
+    team_details = teams_detailed_df[teams_detailed_df['team_id'] == int(teamID)]
+
+    # Data transformation
+    team_details["Top Team Scorer"] = team_details["Top Team Scorer"].apply(
+        lambda topScorer: f"{topScorer.split(' - ')[0]} ({topScorer.split(' - ')[1]})" if topScorer else ""
+    )
+    team_details["Record"] = team_details["W"] + "/" + team_details["D"] + "/" + team_details["L"]
+    team_details["xG/90"] = round(team_details["xG"].astype(float) / team_details["MP"].astype(int), 2)
+
+    if team_details.empty:
+        return jsonify({"error": "Team not found"}), 404
+
+    return jsonify(team_details.to_dict(orient='records'))
 
 
 @app.route('/get-team-names', methods=['GET'])
 def get_team_names():
-    df = get_processed_data("2223", teams2223collection)
-    df = df.sort_values(by="Squad")
+    all_team_names = get_team_names_df()
 
-    df = df.copy()
-    df = df[["Squad", "Country"]]
-    df['Logo'] = df['Squad'].apply(generate_logo)
-    squad_to_full_name = {k: v.split('/')[-1].replace('%20', ' ').replace('.png', '') for k, v in squad_to_filename.items()} # Get full name of squad
-    df['full_name'] = df['Squad'].map(squad_to_full_name)
-
-    return jsonify(df.to_dict(orient="records"))
+    # Return the JSON array
+    return jsonify(all_team_names.to_dict(orient="records"))
 
 
 @app.route('/get-players-detailed')
 def get_players_detailed():
-    df_2122 = get_processed_data("2122", players2122collection)
-    df_2223 = get_processed_data("2223", players2223collection)
+
+    fetch_data()
 
     # Process data
-    df = pd.concat([df_2122, df_2223], ignore_index=True)
+    df = pd.concat([df_players_2122, df_players_2223], ignore_index=True)
     df = df.sort_values(by="Player")
     
     return jsonify(df.to_dict(orient="records"))
-
-
-@app.route('/get-player-names')
-def get_player_names():
-     df = get_processed_data("2233", players2223collection)
-     df_url = pd.read_excel("")
-     
-     # Process data
-     return jsonify(df.to_dict(orient="records"))
 
 
 # Map squad to logo file
@@ -177,7 +313,21 @@ squad_to_filename = {
     'Werder Bremen': 'L1/SV%20Werder%20Bremen.png',
     'West Ham': 'GB1/West%20Ham%20United.png',
     'Wolfsburg': 'L1/VfL%20Wolfsburg.png',
-    'Wolves': 'GB1/Wolverhampton%20Wanderers.png'
+    'Wolves': 'GB1/Wolverhampton%20Wanderers.png',
+    'Alavés': 'ES1/Alavés.png',
+    'Arminia': 'L1/Arminia%20Bielefeld.png',
+    'Bordeaux': 'FR1/G.%20Bordeaux.png',
+    'Burnley': 'GB1/Burnley.png',
+    'Cagliari': 'IT1/Cagliari%20Calcio.png',
+    'Genoa': 'IT1/Genoa%20CFC.png',
+    'Granada': 'ES1/Granada%20CF.png',
+    'Greuther Fürth': 'L1/Greuther%20Fürth.png',
+    'Levante': 'ES1/Levante%20UD.png',
+    'Metz': 'FR1/FC%20Metz.png',
+    'Norwich City': 'GB1/Norwich.png',
+    'Saint-Étienne': 'FR1/AS%20Saint-Étienne.png',
+    'Venezia': 'IT1/Venezia.png',
+    'Watford': 'GB1/Watford%20FC.png'
 }
 
 if __name__ == '__main__':

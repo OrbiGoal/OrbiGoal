@@ -22,9 +22,25 @@ const Players = () => {
             });
     }, []);
 
-    const filteredTeams = selectedLeague
-        ? teams.filter(team => team.Country === selectedLeague)
-        : teams;
+    const filterPlayers = (teams: Team[]) => {
+        let filteredTeams = teams;
+    
+        if (selectedLeague && selectedLeague !== 'all') {
+          filteredTeams = filteredTeams.filter(team => team.Country === selectedLeague);
+        }
+    
+        if (searchQuery) {
+          filteredTeams = filteredTeams.filter(team =>
+            team.full_name.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+        }
+    
+        return filteredTeams;
+      };
+    
+    const renderItem = ({ item }: { item: Team }) => (
+    <TeamCard team={item} />
+    );
 
     return (
         <SafeAreaView style={defaultStyles.container}>
@@ -40,6 +56,33 @@ const Players = () => {
             </ImageBackground>
         </SafeAreaView>
     )
+
+    return (
+        <SafeAreaView style={defaultStyles.container}>
+          <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
+            <Stack.Screen
+              options={{
+                header: () =>
+                  <ExploreHeader
+                    searchbar={"Search for players"}
+                    subtitle={"Neymar jr · Haaland"} 
+                    type={"player"} 
+                    setSelectedLeague={setSelectedLeague}
+                    setSearchQuery={setSearchQuery}
+                  />
+              }}
+            />
+            <FlatList
+              ref={listRef}
+              data={filteredPlayers(teams)}
+              renderItem={({ item }) => <TeamCard team={item} />}
+              keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={defaultStyles.searchPage}
+            />
+          </ImageBackground>
+        </SafeAreaView>
+      );
 }
 
 export default Players;

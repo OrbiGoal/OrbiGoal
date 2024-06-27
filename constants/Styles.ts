@@ -37,7 +37,9 @@ export const defaultStyles = StyleSheet.create({
         width: screenWidth,
     },
     backgroundImage: {
+        flex: 1,
         opacity: 0.3,
+        resizeMode: 'cover',
         backgroundColor: '#181928',
         width: screenWidth,
     },
@@ -77,5 +79,13 @@ export const defaultStyles = StyleSheet.create({
         paddingHorizontal: 20,
         borderTopColor: Colors['dark'].tabIconDefault,
         borderTopWidth: StyleSheet.hairlineWidth,
+    },
+    searchPage: {
+        paddingVertical: 20,
+        paddingHorizontal: 30,
+        gap: 10,
+        flexGrow: 1,
+        padding: 10,
+        backgroundColor: 'transparent',
     }
 })

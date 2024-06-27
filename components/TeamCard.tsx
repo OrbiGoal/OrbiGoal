@@ -1,19 +1,20 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { defaultStyles } from '@/constants/Styles';
 
 interface TeamCardProps {
-    team: Team
+    team: Team;
+    onPress: () => void;
 }
 
-const TeamCard: React.FC<TeamCardProps> = ({ team }) => {
+const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, onPress }, ref) => {
     return (
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity ref={ref} style={styles.card} onPress={onPress}>
             <Image source={{ uri: team.Logo }} style={styles.logo} />
             <Text style={styles.text1}>{team.full_name}</Text>
         </TouchableOpacity>
     );
-};
+});
 
 const styles = StyleSheet.create({
     card: {

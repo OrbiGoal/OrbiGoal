@@ -10,10 +10,11 @@ interface ExploreHeaderProps {
     searchbar: string;
     subtitle: string;
     type: "team" | "player";
-    setSelectedLeague: (league: string | undefined) => void; // Add this prop
+    setSelectedLeague: (league: string | undefined) => void;
+    setSearchQuery: (query: string) => void;
 }
 
-const ExploreHeader: React.FC<ExploreHeaderProps> = ({ searchbar, subtitle, type, setSelectedLeague }) => {
+const ExploreHeader: React.FC<ExploreHeaderProps> = ({ searchbar, subtitle, type, setSelectedLeague, setSearchQuery }) => {
     const [searchInput, setSearchInput] = useState(searchbar);
     const [isFocused, setIsFocused] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
@@ -54,7 +55,10 @@ const ExploreHeader: React.FC<ExploreHeaderProps> = ({ searchbar, subtitle, type
                                 value={searchInput}
                                 onFocus={handleFocus}
                                 onBlur={handleBlur}
-                                onChangeText={setSearchInput}
+                                onChangeText={text => {
+                                    setSearchInput(text);
+                                    setSearchQuery(text); // Update search query
+                                }}
                                 placeholder={searchbar}
                                 placeholderTextColor="#c2c2c2"
                             />
@@ -122,7 +126,7 @@ const ExploreHeader: React.FC<ExploreHeaderProps> = ({ searchbar, subtitle, type
                 </Modal>
             </View>
         </SafeAreaView>
-    )
+    );
 }
 
 const styles = StyleSheet.create({

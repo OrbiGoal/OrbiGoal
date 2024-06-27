@@ -2,8 +2,6 @@
 
 # dependencies
 node_modules/
-firebase/
-/backend/venv/
 
 # Expo
 .expo/
@@ -44,3 +42,8 @@ yarn-error.*
 
 expo-env.d.ts
 # @end expo-cli
+
+# others
+firebase/
+/backend/venv/
+/backend/cache/*

@@ -8,7 +8,6 @@ import { Ionicons } from '@expo/vector-icons'
 import 'react-native-reanimated'
 import * as SecureStore from 'expo-secure-store'
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo'
-import { AppProvider } from '@/components/AppProvider'
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -70,9 +69,7 @@ export default function RootLayout() {
 
   return (
     <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY!} tokenCache={tokenCache}>
-      <AppProvider>
-        <RootLayoutNav />
-      </AppProvider>
+      <RootLayoutNav />
     </ClerkProvider>
   );
 }
@@ -107,12 +104,12 @@ const RootLayoutNav = () => {
             presentation: 'modal'
           }} />
 
-        <Stack.Screen // For card pop-up when user clicks on matches
+        {/* <Stack.Screen // For card pop-up when user clicks on matches
           name="matches/[id]"
           options={{
             headerTitle: '', // Empty header to do parallax effect
           }}
-        />
+        /> */}
 
         <Stack.Screen // For matches card interface on home screen
           name="(modals)/match"
