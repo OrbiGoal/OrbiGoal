@@ -14,7 +14,13 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.ios.OrbiGoal"
+      "bundleIdentifier": "com.ios.OrbiGoal",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "fetch"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
