@@ -54,34 +54,34 @@ const Notifications = () => {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <SafeAreaView style={defaultStyles.container}>
+            <SafeAreaView style={[defaultStyles.container, { backgroundColor: '#1C1C1C' }]}>
                 <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
                     <ScrollView>
                         <View style={defaultStyles.container2}>
-                            <Text style={defaultStyles.heading1}>Latest Game Results!</Text>
+                            <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>Latest Game Results!</Text>
                             {matches.length > 0 ? (
                                 matches.map(match => (
-                                    <View key={match.id} style={{ marginVertical: 10, padding: 15, backgroundColor: '#fff', borderRadius: 10 }}>
+                                    <View key={match.id} style={{ marginVertical: 10, padding: 15, backgroundColor: '#333333', borderRadius: 10 }}>
                                         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-                                            <Text style={{ fontSize: 16, fontWeight: 'bold', marginRight: 5 }}>{match.competition.name}</Text>
+                                            <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#FFFFFF', marginRight: 5 }}>{match.competition.name}</Text>
                                             <Image source={{ uri: match.competition.emblem }} style={{ width: 30, height: 30, marginLeft: 10 }} />
                                         </View>
                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{match.homeTeam.name} vs {match.awayTeam.name}</Text>
+                                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFFFFF' }}>{match.homeTeam.name} vs {match.awayTeam.name}</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
                                             <Image source={{ uri: match.homeTeam.crest }} style={{ width: 50, height: 50 }} />
-                                            <Text style={{ fontSize: 16 }}>
+                                            <Text style={{ fontSize: 16, color: '#FFFFFF' }}>
                                                 Score: {match.score && match.score.fullTime && typeof match.score.fullTime.home !== 'undefined' && typeof match.score.fullTime.away !== 'undefined' ? 
                                                         `${match.score.fullTime.home} - ${match.score.fullTime.away}` : 'N/A'}
                                             </Text>
                                             <Image source={{ uri: match.awayTeam.crest }} style={{ width: 50, height: 50 }} />
                                         </View>
-                                        <Text style={{ fontSize: 14 }}>Date: {new Date(match.utcDate).toLocaleString()}</Text>
+                                        <Text style={{ fontSize: 14, color: '#FFFFFF' }}>Date: {new Date(match.utcDate).toLocaleString()}</Text>
                                     </View>
                                 ))
                             ) : (
-                                <Text style={defaultStyles.heading1}>No match results available</Text>
+                                <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>No match results available</Text>
                             )}
                         </View>
                     </ScrollView>
