@@ -410,4 +410,3 @@ git push origin feature/your-feature-name
 ```
 
 Step 6: Open a pull request and describe the changes
-

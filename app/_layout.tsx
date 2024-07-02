@@ -35,7 +35,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  initialRouteName: '',
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -104,12 +104,12 @@ const RootLayoutNav = () => {
             presentation: 'modal'
           }} />
 
-        {/* <Stack.Screen // For card pop-up when user clicks on matches
-          name="matches/[id]"
+        <Stack.Screen // For card pop-up when user clicks on matches
+          name="notifs/[notifId]"
           options={{
-            headerTitle: '', // Empty header to do parallax effect
+            headerTitle: '', headerTransparent: true, headerBackTitle: '', // Empty header to do parallax effect
           }}
-        /> */}
+        /> 
 
         <Stack.Screen // For matches card interface on home screen
           name="(modals)/match"
@@ -123,6 +123,7 @@ const RootLayoutNav = () => {
             ),
           }}
         />
+
       </Stack>
     </ThemeProvider>
   );
