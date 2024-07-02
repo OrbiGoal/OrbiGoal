@@ -72,8 +72,8 @@ const Notifications = () => {
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
                                             <Image source={{ uri: match.homeTeam.crest }} style={{ width: 50, height: 50 }} />
                                             <Text style={{ fontSize: 16, color: '#FFFFFF' }}>
-                                                Score: {match.score && match.score.fullTime && typeof match.score.fullTime.home !== 'undefined' && typeof match.score.fullTime.away !== 'undefined' ? 
-                                                        `${match.score.fullTime.home} - ${match.score.fullTime.away}` : 'N/A'}
+                                                Score: {match.score && match.score.fullTime && typeof match.score.fullTime.home !== 'undefined' && typeof match.score.fullTime.away !== 'undefined' ?
+                                                    `${match.score.fullTime.home} - ${match.score.fullTime.away}` : 'N/A'}
                                             </Text>
                                             <Image source={{ uri: match.awayTeam.crest }} style={{ width: 50, height: 50 }} />
                                         </View>

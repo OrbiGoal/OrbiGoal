@@ -143,14 +143,14 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 <div style="page-break-after: always;"></div>
 ---
 
-## Features
+## App Features
 
 ### User Account Authentication
 #### Description
-This feature allows users to create accounts, log in, and manage their profiles securely. It ensures that each user has a personalized experience navigating through the app. Users may also choose sign up or log in with their phone number, Apple ID, Google and Facebook.
+This feature allows users to create accounts, log in, and manage their profiles securely. It ensures that each user has a personalized experience navigating through the app. Users may also choose sign up or log in with their phone number and Google.
 
 #### Implementation Challenges
-- Integrating with social login options (e.g., Google, Facebook)
+- Integrating with social login options, especially with Apple since that requires an Apple Developer account.
 - Ensuring the security of user data
 
 #### Diagrams 
@@ -165,19 +165,49 @@ This feature allows users to create accounts, log in, and manage their profiles 
 This feature allows users to search for detailed information about teams and players, including statistics, performance history, and other relevant data. The filter option on the top right corner allows users to select a league to narrow down their search results.
 
 #### Implementation Challenges
-- Integrating dataset, uploading kaggle data onto Firebase
-  The raw data from kaggle had issues displaying accented alphabets. We faced errors using encoding="utf" within read_csv(), the other encodings could not display them correctly either. To tackle the issue, we converted the csv into json and edited the characters manually to clean them before uploading onto Firebase.
+- Integrating dataset, uploading Kaggle data onto Firebase
+  The raw data from Kaggle had issues displaying accented alphabets. We faced errors using encoding="utf" within read_csv(), the other encodings could not display them correctly either. To tackle the issue, we converted the csv into json and edited the characters manually to clean them before uploading them to Firebase.
 - Handling large datasets efficiently
 - Ensuring the accuracy and relevancy of search results
 - Providing a user-friendly search interface
+- Ensuring high performance and minimizing lags with the great number of teams and players
+- Difficulty in finding a dataset with both the relevant player information as well as player faces
 
 #### Diagrams
 <div align="left" style="margin-right: 20px;">
-    <img src="https://imgur.com/BLDH8tT.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/AL49Fg4.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/CHaUb2i.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/x52j9iE.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    
+    <img src="https://imgur.com/BLDH8tT.png" alt="Player Search" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/CHaUb2i.png" alt="Team Search" width="400" style="margin-bottom: 20px;">
+</div>
+
+After working on the team search page for Milestone 2, we managed to create a more intuitive and efficient team search page. Utilizing the `Flatlist` component, we were able to achieve greater performance as compared to the `ScrollView` component which we were using initially. We also implemented a league filter for the teams so users can filter for those teams in relevant leagues. We plan to integrate more filters in the future for teams and players alike. Due to the significantly expansive size of the players dataset, coupled with a lack of suitable dataset that mapped the player's faces to their statistics, we are unable to create the player's search page by Milestone 2. However, Milestone 2 allowed us to experiment with different types of the teams page and implementations, which will undoubtedly help us in expediting the process to build the player's page. This is our updated team search page.
+
+<div align="left" style="margin-right: 20px;">
+    <img src="https://i.imgur.com/urSELJv.png" alt="Updated Team Search" width="400" style="margin-bottom: 20px;">
+</div>
+
+In Milestone 2, we also implemented the filter for leagues and working search bar. 
+
+<div align="left" style="margin-right: 20px;">
+    <img src="https://i.imgur.com/aqLAY5y.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/3MJ0AAA.png" alt="Using search bar" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/AL49Fg4.png" alt="Players filter button" width="400" style="margin-bottom: 20px;">
+</div>
+
+<div style="page-break-after: always;"></div>
+
+### Team Details Page
+#### Description
+A dedicated page for displaying comprehensive details about a team to analyse historical trends and compare with teams in the same league. Users can also filter by season if there is enough information for both seasons.
+
+#### Implementation Challenges
+- Designing a detailed and informative layout
+- Fetching and displaying dynamic data efficiently
+- Ensuring the page is user-friendly and visually appealing
+
+#### Diagrams
+<div align="left" style="margin-right: 20px;">
+    <img src="https://i.imgur.com/RE7F8BK.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/mpLG9Nr.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
@@ -190,10 +220,21 @@ This feature provides users with predictions for upcoming football matches based
 - Collecting and preprocessing large volumes of match data
 - Choosing and tuning the appropriate machine learning models
 - Continuously updating the prediction model with new data
+- Integrating predictions into actual application
+
+In Milestone 2, we created our working machine learning model which can make score predictions based on certain features of a match up that we deem important. Some of these features include the team formation, team scores, and team performance that is measured by each player's contribution to the match. To this end, we had to perform extensive data manipulation and data processing such as encoding categorical features. We also needed to create our own performance score layer to integrate into our model to account for various factors that may change in significance when the model learns from the dataset.
 
 #### Diagrams
 <div align="left" style="margin-right: 20px;">
     <img src="https://imgur.com/m9koacj.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+</div>
+
+While the entire process of building the model can be found in this repository – "Predictive Model.ipynb", we have outlined some steps that we took to build this model below.
+
+<div align="left" style="margin-right: 20px;">
+    <img src="https://i.imgur.com/igvRl9m.png" alt="Tensorflow model building" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/6LK8PSA.png" alt="Tensorflow model building" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/pdal5NB.png" alt="Tensorflow model building" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
@@ -232,11 +273,6 @@ This feature sends notifications to users about important updates and latest res
 
 <div style="page-break-after: always;"></div>
 
-### Forum Posts (Coming soon!)
-#### Description
-This upcoming feature will allow users to participate in discussions, share opinions, and engage with the community through forum posts.
-
-<div style="page-break-after: always;"></div>
 ---
 
 ## Overall Navigation Flow
@@ -290,7 +326,6 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
 ### Match predictions
 
 <div align="left" style="margin-right: 20px;">
-    <p>Access predicted match results by the model we produced or by other AI platforms under the predictions tab.</p>
     <img src="https://imgur.com/m9koacj.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
@@ -312,22 +347,20 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 
 3. **Code Reviews**: We conduct regular code reviews to ensure the quality of our codebase. By reviewing each other's code, we can identify potential issues, share knowledge, and maintain consistency across our project.
 
-4. **Testing**: We implement a comprehensive testing strategy, including unit tests, integration tests, and end-to-end tests. Testing helps us validate the functionality of our application, catch bugs early, and ensure a reliable user experience.
+4. **Testing**: We will implement a comprehensive testing strategy, including features such as end-to-end tests. Testing helps us validate the functionality of our application, catch bugs early, and ensure a reliable user experience.
 
-5. **Continuous Integration and Deployment (CI/CD)**: We set up CI/CD pipelines to automate our build, testing, and deployment processes. With CI/CD, we can streamline our development workflow, reduce manual errors, and deliver updates to our users faster.
-
-6. **Documentation**: We maintain thorough documentation throughout our development process. This includes README files, code comments, and user guides. Documentation helps us communicate effectively, onboard new team members, and ensure the long-term maintainability of our project.
+5. **Documentation**: We maintain thorough documentation throughout our development process. This includes README files, code comments, and user guides. Documentation helps us communicate effectively, onboard new team members, and ensure the long-term maintainability of our project.
 
 <div style="page-break-after: always;"></div>
 ---
 
 ## Tech Stack
 
-- **Python**: Backend development and data analysis
+- **Python**: Backend development and data processing
 - **React Native/Expo Go**: Mobile application development
-- **HTML/CSS/JavaScript/TypeScript**: Frontend development
+- **TypeScript**: Frontend development
 - **Firebase**: Database management
-- **Scikit-learn/TensorFlow**: Machine learning algorithms
+- **Scikit-learn, TensorFlow, Keras**: Machine learning algorithms
 
 <div style="page-break-after: always;"></div>
 ---
