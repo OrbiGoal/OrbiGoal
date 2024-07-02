@@ -266,9 +266,12 @@ This feature sends notifications to users about important updates and latest res
 - Ensuring timely delivery of notifications onto the notifications page, could be done with a cron job (in development!)
 - Allowing users to customize their notification preferences (various types of notifications in development)
 
+In Milestone 2, we created the notifications page to display the latest 30 days of match results from the top 5 leagues around the globe. These data are retrieved from a free online source. The notifications are arranged from the latest to the earliest, giving the user a brief summary of each match at one glance. Users are able to click a notification to view the match in detail (in development), a new tab created with parallax image. 
+
 #### Diagrams
 <div align="left" style="margin-right: 20px;">
     <img src="https://imgur.com/T26AayY.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/fR3kkPw.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
@@ -304,6 +307,7 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
 <div align="left" style="margin-right: 20px;">
     <p>View important updates and results from latest football matches.</p>
     <img src="https://imgur.com/T26AayY.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/fR3kkPw.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
