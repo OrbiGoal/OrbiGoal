@@ -162,7 +162,7 @@ This feature allows users to create accounts, log in, and manage their profiles 
 
 ### Teams & Players Search
 #### Description
-This feature allows users to search for detailed information about teams and players, including statistics, performance history, and other relevant data.
+This feature allows users to search for detailed information about teams and players, including statistics, performance history, and other relevant data. The filter option on the top right corner allows users to select a league to narrow down their search results.
 
 #### Implementation Challenges
 - Integrating dataset, uploading Kaggle data onto Firebase
@@ -190,6 +190,7 @@ In Milestone 2, we also implemented the filter for leagues and working search ba
 <div align="left" style="margin-right: 20px;">
     <img src="https://i.imgur.com/aqLAY5y.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
     <img src="https://i.imgur.com/3MJ0AAA.png" alt="Using search bar" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/AL49Fg4.png" alt="Players filter button" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
@@ -211,9 +212,9 @@ A dedicated page for displaying comprehensive details about a team to analyse hi
 
 <div style="page-break-after: always;"></div>
 
-### Match Predictions
+### Match Predictions (In development)
 #### Description
-This feature provides users with predictions for upcoming football matches based on historical data and performance metrics.
+This feature provides users with predictions for upcoming football matches based on historical data and performance metrics. This feature was implemented through the usage of artificial neural networks, and the TensorFlow package in python. The predictions were weighted against key performance indicators of a team's previous few games such as goals scored, red cards, yellow cards and possession.
 
 #### Implementation Challenges
 - Collecting and preprocessing large volumes of match data
@@ -238,7 +239,7 @@ While the entire process of building the model can be found in this repository â
 
 <div style="page-break-after: always;"></div>
 
-### Customize Dashboard
+### Customize Dashboard (In development)
 #### Description
 Users can customize their dashboard to display their preferred teams, players, and statistics, providing a personalized experience.
 
@@ -255,17 +256,19 @@ Users can customize their dashboard to display their preferred teams, players, a
 
 <div style="page-break-after: always;"></div>
 
-### Notifications
+### Notifications 
 #### Description
-This feature sends notifications to users about important updates, match results, and other relevant football news.
+This feature sends notifications to users about important updates and latest results of matches from top 5 leagues globally. The results of football matches are retrieved from API calls to https://www.football-data.org/.
 
 #### Implementation Challenges
-- Ensuring timely delivery of notifications
-- Allowing users to customize their notification preferences
+- Push notifications without an Apple Developer Account are not possible
+- Certain images retrieved are in .svg instead of .png and therefore experience problems rendering
+- Ensuring timely delivery of notifications onto the notifications page, could be done with a cron job (in development!)
+- Allowing users to customize their notification preferences (various types of notifications in development)
 
 #### Diagrams
 <div align="left" style="margin-right: 20px;">
-    <img src="https://imgur.com/W1jInyb.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/T26AayY.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
@@ -299,8 +302,8 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
 ### See notifications
 
 <div align="left" style="margin-right: 20px;">
-    <p>View your notifications.</p>
-    <img src="https://imgur.com/W1jInyb.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <p>View important updates and results from latest football matches.</p>
+    <img src="https://imgur.com/T26AayY.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
@@ -311,9 +314,11 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
     <p>Search for your favourite teams under the teams tab.</p>
     <img src="https://imgur.com/sd6J431.png" alt="Log in" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/CHaUb2i.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/x52j9iE.png" alt="Log in" width="400" style="margin-bottom: 20px;">
     <p>Search for your favourite players under the players tab.</p>
     <img src="https://imgur.com/rYde3M4.png" alt="Log in" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/BLDH8tT.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/AL49Fg4.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
