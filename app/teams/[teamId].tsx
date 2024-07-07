@@ -57,8 +57,6 @@ const TeamDetails: React.FC = () => {
         return <Text style={defaultStyles.heading1}>Error 404: Team details not found!</Text>;
     }
 
-    console.log('here:', teamDetails)
-
     const seasonItems = teamDetails.map((season: any, index: number) => ({
         label: `${season.season} season`,
         value: season.season,

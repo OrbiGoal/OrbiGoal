@@ -1,4 +1,4 @@
-import { SafeAreaView, ImageBackground, FlatList, AnimatableStringValue } from 'react-native';
+import { SafeAreaView, ImageBackground, FlatList } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, Stack } from 'expo-router';
 import ExploreHeader from '@/components/ExploreHeader';
