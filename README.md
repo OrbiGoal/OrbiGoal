@@ -477,4 +477,8 @@ git commit -m "Description of your changes"
 git push origin feature/your-feature-name
 ```
 
+<<<<<<< HEAD
 Step 6: Open a pull request and describe the changes
+=======
+Step 6: Open a pull request and describe the changes
+

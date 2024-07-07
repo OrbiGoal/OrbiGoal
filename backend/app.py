@@ -10,7 +10,7 @@ import datetime
 app = Flask(__name__)
 CORS(app)
 
-cred = credentials.Certificate('../firebase/service_account_key.json')
+cred = credentials.Certificate('../service_account_key.json')
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
