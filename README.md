@@ -144,12 +144,15 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 ---
 
 ## App Features
+## App Features
 
 ### User Account Authentication
 #### Description
 This feature allows users to create accounts, log in, and manage their profiles securely. It ensures that each user has a personalized experience navigating through the app. Users may also choose sign up or log in with their phone number and Google.
+This feature allows users to create accounts, log in, and manage their profiles securely. It ensures that each user has a personalized experience navigating through the app. Users may also choose sign up or log in with their phone number and Google.
 
 #### Implementation Challenges
+- Integrating with social login options, especially with Apple since that requires an Apple Developer account.
 - Integrating with social login options, especially with Apple since that requires an Apple Developer account.
 - Ensuring the security of user data
 
@@ -163,13 +166,18 @@ This feature allows users to create accounts, log in, and manage their profiles 
 ### Teams & Players Search
 #### Description
 This feature allows users to search for detailed information about teams and players, including statistics, performance history, and other relevant data. The filter option on the top right corner allows users to select a league to narrow down their search results.
+This feature allows users to search for detailed information about teams and players, including statistics, performance history, and other relevant data. The filter option on the top right corner allows users to select a league to narrow down their search results.
 
 #### Implementation Challenges
+- Integrating dataset, uploading Kaggle data onto Firebase
+  The raw data from Kaggle had issues displaying accented alphabets. We faced errors using encoding="utf" within read_csv(), the other encodings could not display them correctly either. To tackle the issue, we converted the csv into json and edited the characters manually to clean them before uploading them to Firebase.
 - Integrating dataset, uploading Kaggle data onto Firebase
   The raw data from Kaggle had issues displaying accented alphabets. We faced errors using encoding="utf" within read_csv(), the other encodings could not display them correctly either. To tackle the issue, we converted the csv into json and edited the characters manually to clean them before uploading them to Firebase.
 - Handling large datasets efficiently
 - Ensuring the accuracy and relevancy of search results
 - Providing a user-friendly search interface
+- Ensuring high performance and minimizing lags with the great number of teams and players
+- Difficulty in finding a dataset with both the relevant player information as well as player faces
 - Ensuring high performance and minimizing lags with the great number of teams and players
 - Difficulty in finding a dataset with both the relevant player information as well as player faces
 
@@ -208,18 +216,56 @@ A dedicated page for displaying comprehensive details about a team to analyse hi
 <div align="left" style="margin-right: 20px;">
     <img src="https://i.imgur.com/RE7F8BK.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
     <img src="https://i.imgur.com/mpLG9Nr.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/BLDH8tT.png" alt="Player Search" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/CHaUb2i.png" alt="Team Search" width="400" style="margin-bottom: 20px;">
+</div>
+
+After working on the team search page for Milestone 2, we managed to create a more intuitive and efficient team search page. Utilizing the `Flatlist` component, we were able to achieve greater performance as compared to the `ScrollView` component which we were using initially. We also implemented a league filter for the teams so users can filter for those teams in relevant leagues. We plan to integrate more filters in the future for teams and players alike. Due to the significantly expansive size of the players dataset, coupled with a lack of suitable dataset that mapped the player's faces to their statistics, we are unable to create the player's search page by Milestone 2. However, Milestone 2 allowed us to experiment with different types of the teams page and implementations, which will undoubtedly help us in expediting the process to build the player's page. This is our updated team search page.
+
+<div align="left" style="margin-right: 20px;">
+    <img src="https://i.imgur.com/urSELJv.png" alt="Updated Team Search" width="400" style="margin-bottom: 20px;">
+</div>
+
+In Milestone 2, we also implemented the filter for leagues and working search bar. 
+
+<div align="left" style="margin-right: 20px;">
+    <img src="https://i.imgur.com/aqLAY5y.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/3MJ0AAA.png" alt="Using search bar" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/AL49Fg4.png" alt="Players filter button" width="400" style="margin-bottom: 20px;">
+</div>
+
+<div style="page-break-after: always;"></div>
+
+### Team Details Page
+#### Description
+A dedicated page for displaying comprehensive details about a team to analyse historical trends and compare with teams in the same league. Users can also filter by season if there is enough information for both seasons.
+
+#### Implementation Challenges
+- Designing a detailed and informative layout
+- Fetching and displaying dynamic data efficiently
+- Ensuring the page is user-friendly and visually appealing
+
+#### Diagrams
+<div align="left" style="margin-right: 20px;">
+    <img src="https://i.imgur.com/RE7F8BK.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/mpLG9Nr.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
 
 ### Match Predictions (In development)
+### Match Predictions (In development)
 #### Description
+This feature provides users with predictions for upcoming football matches based on historical data and performance metrics. This feature was implemented through the usage of artificial neural networks, and the TensorFlow package in python. The predictions were weighted against key performance indicators of a team's previous few games such as goals scored, red cards, yellow cards and possession.
 This feature provides users with predictions for upcoming football matches based on historical data and performance metrics. This feature was implemented through the usage of artificial neural networks, and the TensorFlow package in python. The predictions were weighted against key performance indicators of a team's previous few games such as goals scored, red cards, yellow cards and possession.
 
 #### Implementation Challenges
 - Collecting and preprocessing large volumes of match data
 - Choosing and tuning the appropriate machine learning models
 - Continuously updating the prediction model with new data
+- Integrating predictions into actual application
+
+In Milestone 2, we created our working machine learning model which can make score predictions based on certain features of a match up that we deem important. Some of these features include the team formation, team scores, and team performance that is measured by each player's contribution to the match. To this end, we had to perform extensive data manipulation and data processing such as encoding categorical features. We also needed to create our own performance score layer to integrate into our model to account for various factors that may change in significance when the model learns from the dataset.
 - Integrating predictions into actual application
 
 In Milestone 2, we created our working machine learning model which can make score predictions based on certain features of a match up that we deem important. Some of these features include the team formation, team scores, and team performance that is measured by each player's contribution to the match. To this end, we had to perform extensive data manipulation and data processing such as encoding categorical features. We also needed to create our own performance score layer to integrate into our model to account for various factors that may change in significance when the model learns from the dataset.
@@ -237,8 +283,17 @@ While the entire process of building the model can be found in this repository â
     <img src="https://i.imgur.com/pdal5NB.png" alt="Tensorflow model building" width="400" style="margin-bottom: 20px;">
 </div>
 
+While the entire process of building the model can be found in this repository â€“ "Predictive Model.ipynb", we have outlined some steps that we took to build this model below.
+
+<div align="left" style="margin-right: 20px;">
+    <img src="https://i.imgur.com/igvRl9m.png" alt="Tensorflow model building" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/6LK8PSA.png" alt="Tensorflow model building" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/pdal5NB.png" alt="Tensorflow model building" width="400" style="margin-bottom: 20px;">
+</div>
+
 <div style="page-break-after: always;"></div>
 
+### Customize Dashboard (In development)
 ### Customize Dashboard (In development)
 #### Description
 Users can customize their dashboard to display their preferred teams, players, and statistics, providing a personalized experience.
@@ -257,7 +312,9 @@ Users can customize their dashboard to display their preferred teams, players, a
 <div style="page-break-after: always;"></div>
 
 ### Notifications 
+### Notifications 
 #### Description
+This feature sends notifications to users about important updates and latest results of matches from top 5 leagues globally. The results of football matches are retrieved from API calls to https://www.football-data.org/.
 This feature sends notifications to users about important updates and latest results of matches from top 5 leagues globally. The results of football matches are retrieved from API calls to https://www.football-data.org/.
 
 #### Implementation Challenges
@@ -319,9 +376,11 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
     <img src="https://imgur.com/sd6J431.png" alt="Log in" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/CHaUb2i.png" alt="Log in" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/x52j9iE.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/x52j9iE.png" alt="Log in" width="400" style="margin-bottom: 20px;">
     <p>Search for your favourite players under the players tab.</p>
     <img src="https://imgur.com/rYde3M4.png" alt="Log in" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/BLDH8tT.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/AL49Fg4.png" alt="Log in" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/AL49Fg4.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
@@ -352,7 +411,9 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 3. **Code Reviews**: We conduct regular code reviews to ensure the quality of our codebase. By reviewing each other's code, we can identify potential issues, share knowledge, and maintain consistency across our project.
 
 4. **Testing**: We will implement a comprehensive testing strategy, including features such as end-to-end tests. Testing helps us validate the functionality of our application, catch bugs early, and ensure a reliable user experience.
+4. **Testing**: We will implement a comprehensive testing strategy, including features such as end-to-end tests. Testing helps us validate the functionality of our application, catch bugs early, and ensure a reliable user experience.
 
+5. **Documentation**: We maintain thorough documentation throughout our development process. This includes README files, code comments, and user guides. Documentation helps us communicate effectively, onboard new team members, and ensure the long-term maintainability of our project.
 5. **Documentation**: We maintain thorough documentation throughout our development process. This includes README files, code comments, and user guides. Documentation helps us communicate effectively, onboard new team members, and ensure the long-term maintainability of our project.
 
 <div style="page-break-after: always;"></div>
@@ -361,9 +422,12 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 ## Tech Stack
 
 - **Python**: Backend development and data processing
+- **Python**: Backend development and data processing
 - **React Native/Expo Go**: Mobile application development
 - **TypeScript**: Frontend development
+- **TypeScript**: Frontend development
 - **Firebase**: Database management
+- **Scikit-learn, TensorFlow, Keras**: Machine learning algorithms
 - **Scikit-learn, TensorFlow, Keras**: Machine learning algorithms
 
 <div style="page-break-after: always;"></div>
@@ -413,4 +477,8 @@ git commit -m "Description of your changes"
 git push origin feature/your-feature-name
 ```
 
+<<<<<<< HEAD
 Step 6: Open a pull request and describe the changes
+=======
+Step 6: Open a pull request and describe the changes
+

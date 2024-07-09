@@ -1,16 +1,18 @@
-import { SafeAreaView, ImageBackground, FlatList, AnimatableStringValue } from 'react-native';
+import { SafeAreaView, ImageBackground, FlatList } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, Stack } from 'expo-router';
 import ExploreHeader from '@/components/ExploreHeader';
 import { defaultStyles } from '@/constants/Styles';
 import axios from 'axios';
 import TeamCard from '@/components/TeamCard';
+import { useUser } from '@clerk/clerk-expo';
 
 const Teams: React.FC = () => {
   const [teams, setTeams] = useState<any>([]);
   const [selectedLeague, setSelectedLeague] = useState<string | undefined>();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const listRef = useRef<FlatList<Team>>(null);
+  const user = useUser();
 
   useEffect(() => {
     axios.get('http://127.0.0.1:5000/get-team-names')
