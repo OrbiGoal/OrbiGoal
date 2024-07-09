@@ -1,5 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy # To create database for player favourited teams/players
 import firebase_admin
 from firebase_admin import credentials, firestore
 import pandas as pd
@@ -9,10 +10,14 @@ import datetime
 
 app = Flask(__name__)
 CORS(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///favorites.db'
+favouritesDB = SQLAlchemy(app)
 
-cred = credentials.Certificate('../service_account_key.json')
+cred = credentials.Certificate('service_account_key.json')
 firebase_admin.initialize_app(cred)
 db = firestore.client()
+
+# ===== HELPER FUNCTIONS ====
 
 teams2122collection = 'Football Team Stats 2021-2022'
 teams2223collection = 'Football Team Stats 2022-2023'
@@ -166,6 +171,7 @@ def get_teams_detailed_df():
     return df
 
 
+# ==== ROUTES ====
 @app.route('/get-teams-detailed', methods=['GET'])
 def get_teams_detailed():
     teams_detailed_df = get_teams_detailed_df()
@@ -180,6 +186,7 @@ def get_team_details(teamID):
 
     # Filter the dataframe to get details for the specific team
     team_details = teams_detailed_df[teams_detailed_df['team_id'] == int(teamID)]
+    team_details = team_details.copy(deep=True)
 
     # Data transformation
     team_details["Top Team Scorer"] = team_details["Top Team Scorer"].apply(
@@ -329,6 +336,80 @@ squad_to_filename = {
     'Venezia': 'IT1/Venezia.png',
     'Watford': 'GB1/Watford%20FC.png'
 }
+
+
+# ==== DATABASE ====
+class FavoriteTeam(favouritesDB.Model):
+    id = favouritesDB.Column(favouritesDB.Integer, primary_key=True)
+    user_id = favouritesDB.Column(favouritesDB.String(100), nullable=False)
+    team_id = favouritesDB.Column(favouritesDB.Integer, nullable=False)
+
+class FavoritePlayer(favouritesDB.Model):
+    id = favouritesDB.Column(favouritesDB.Integer, primary_key=True)
+    user_id = favouritesDB.Column(favouritesDB.String(100), nullable=False)
+    player_id = favouritesDB.Column(favouritesDB.Integer, nullable=False)
+
+@app.route('/api/addFavoriteTeam', methods=['POST'])
+def add_favorite_team():
+    data = request.get_json()
+    user_id = data['userId']
+    team_id = data['teamId']
+
+    new_favorite = FavoriteTeam(user_id=user_id, team_id=team_id)
+    favouritesDB.session.add(new_favorite)
+    favouritesDB.session.commit()
+
+    return jsonify({"message": "Team added to favorites"}), 200
+
+@app.route('/api/removeFavoriteTeam', methods=['POST'])
+def remove_favorite_team():
+    data = request.get_json()
+    user_id = data['userId']
+    team_id = data['teamId']
+
+    favorite = FavoriteTeam.query.filter_by(user_id=user_id, team_id=team_id).first()
+    if favorite:
+        favouritesDB.session.delete(favorite)
+        favouritesDB.session.commit()
+        return jsonify({"message": "Team removed from favorites"}), 200
+    return jsonify({"message": "Favorite team not found"}), 404
+
+@app.route('/api/getFavoriteTeams/<user_id>', methods=['GET'])
+def get_favorite_teams(user_id):
+    favorites = FavoriteTeam.query.filter_by(user_id=user_id).all()
+    teams = [{'team_id': favorite.team_id} for favorite in favorites]
+    return jsonify(teams), 200
+
+@app.route('/api/addFavoritePlayer', methods=['POST'])
+def add_favorite_player():
+    data = request.get_json()
+    user_id = data['userId']
+    player_id = data['playerId']
+
+    new_favorite = FavoritePlayer(user_id=user_id, player_id=player_id)
+    favouritesDB.session.add(new_favorite)
+    favouritesDB.session.commit()
+
+    return jsonify({"message": "Player added to favorites"}), 200
+
+@app.route('/api/removeFavoritePlayer', methods=['POST'])
+def remove_favorite_player():
+    data = request.get_json()
+    user_id = data['userId']
+    player_id = data['playerId']
+
+    favorite = FavoritePlayer.query.filter_by(user_id=user_id, player_id=player_id).first()
+    if favorite:
+        favouritesDB.session.delete(favorite)
+        favouritesDB.session.commit()
+        return jsonify({"message": "Player removed from favorites"}), 200
+    return jsonify({"message": "Favorite player not found"}), 404
+
+@app.route('/api/getFavoritePlayers/<user_id>', methods=['GET'])
+def get_favorite_players(user_id):
+    favorites = FavoritePlayer.query.filter_by(user_id=user_id).all()
+    players = [{'player_id': favorite.player_id} for favorite in favorites]
+    return jsonify(players), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

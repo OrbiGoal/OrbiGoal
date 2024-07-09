@@ -10,11 +10,11 @@ import Stat from '@/components/Stat';
 const TeamDetails: React.FC = () => {
     const local = useLocalSearchParams();
     const teamId = local.teamId;
-    const [teamDetails, setTeamDetails] = useState<any>([null]);
+    const [teamDetails, setTeamDetails] = useState<any>([]);
     const [allTeamDetails, setAllTeamDetails] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [selectedSeason, setSelectedSeason] = useState('');
-    const [filteredDetails, setFilteredDetails] = useState<any>(null);
+    const [filteredDetails, setFilteredDetails] = useState<any>([]);
 
     useEffect(() => {
         axios.get(`http://127.0.0.1:5000/get-teams-detailed`)
@@ -41,7 +41,7 @@ const TeamDetails: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        if (selectedSeason !== '' && teamDetails) {
+        if (selectedSeason && teamDetails.length > 0) {
             const filtered = teamDetails.filter((detail: any) => detail.season === selectedSeason);
             setFilteredDetails(filtered);
         } else {
@@ -49,18 +49,21 @@ const TeamDetails: React.FC = () => {
         }
     }, [selectedSeason, teamDetails]);
 
+
     if (loading) {
         return <ActivityIndicator size="large" color="white" />;
     }
 
-    if (!teamDetails || !allTeamDetails) {
+    if (!teamDetails.length || !allTeamDetails || !filteredDetails.length) {
         return <Text style={defaultStyles.heading1}>Error 404: Team details not found!</Text>;
     }
 
-    const seasonItems = teamDetails.map((season: any, index: number) => ({
-        label: `${season.season} season`,
-        value: season.season,
+    const seasonItems = teamDetails.map((details: any, index: number) => ({
+        label: `${details.season} season`,
+        value: details.season,
     }));
+
+    console.log(teamDetails)
 
     return (
         <GestureHandlerRootView style={defaultStyles.container}>

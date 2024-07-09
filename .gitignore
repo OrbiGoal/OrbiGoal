@@ -46,5 +46,8 @@ expo-env.d.ts
 # others
 firebase/
 /backend/venv/
+/backend/__pycache__
+/backend/instance
 /backend/cache/*
 /backend/service_account_key.json
+/backend/cache
