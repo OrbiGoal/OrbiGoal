@@ -51,3 +51,4 @@ firebase/
 /backend/cache/*
 /backend/service_account_key.json
 /backend/cache
+/components/Notifications (redacted).tsx

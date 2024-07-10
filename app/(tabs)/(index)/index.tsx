@@ -1,15 +1,17 @@
 import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
 import { View, Text, Button, SafeAreaView, ImageBackground } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'expo-router';
 import Matches from '@/components/Matches';
-import { SignedIn, SignedOut, useAuth } from '@clerk/clerk-expo';
+import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/clerk-expo';
 import { defaultStyles } from '@/constants/Styles';
+import { getClerkInstance } from '@clerk/clerk-expo/dist/singleton';
 
 const Index = () => {
     const { signOut, isSignedIn } = useAuth();
-    <Button title='Log out' onPress={() => signOut()} />
     const router = useRouter();
+    const clerk = getClerkInstance();
+
     const handleLogin = () => {
         router.push('/(modals)/login');
     };
@@ -26,7 +28,7 @@ const Index = () => {
                             </SignedIn>
 
                             <SignedOut>
-                                <Text style={[defaultStyles.heading1, { paddingTop: 10 }]}>No user data</Text>
+                                <Text style={[defaultStyles.heading1]}>Welcome! You are not logged in.</Text>
                                 {!isSignedIn && (
                                     <Button title="Log in" onPress={() => handleLogin()} />
                                 )}

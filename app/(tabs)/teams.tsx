@@ -44,9 +44,7 @@ const Teams: React.FC = () => {
     return filteredTeams;
   };
 
-  const handlePress = (teamId: string) => {
-    // TODO: Navigation logic
-  };
+  const handlePress = (teamId: string) => { };
 
   const renderItem = ({ item }: { item: Team }) => (
     <Link href={`/teams/${item.team_id.toString()}`} asChild>

@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { View, Text, Image, ImageBackground, SafeAreaView, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ImageBackground, SafeAreaView, ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 import { defaultStyles } from '@/constants/Styles';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRouter } from 'expo-router';
+import NotificationCard from '@/components/NotificationCard';
 
-const API_URL = 'https://api.football-data.org/v4/competitions';
-const API_KEY = '083c7a6bcfef42dda05c626dda61be90';
+const API_URL = process.env.EXPO_PUBLIC_FOOTBALL_API_URL;
+const API_KEY = process.env.EXPO_PUBLIC_FOOTBALL_API_KEY;
 
 // League IDs for top 5 leagues
 const TOP_5_LEAGUES = ['PL', 'PD', 'FL1', 'SA', 'BL1']; // Premier League, La Liga, Ligue 1, Serie A, Bundesliga
@@ -17,10 +18,12 @@ const getFormattedDate = (date: Date): string => {
 
 const Notifications = () => {
     const [matches, setMatches] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
         const fetchMatches = async () => {
+            setLoading(true);
             try {
                 const currentDate = new Date();
                 const thirtyDaysAgo = new Date();
@@ -47,6 +50,23 @@ const Notifications = () => {
                 setMatches(finishedMatches);
             } catch (error) {
                 console.error('Error fetching match data:', error);
+
+                if (axios.isAxiosError(error)) {
+                    console.error('Axios Error:', error.message);
+                    if (error.response) {
+                        console.error('Response Data:', error.response.data);
+                        console.error('Response Status:', error.response.status);
+                        console.error('Response Headers:', error.response.headers);
+                    } else if (error.request) {
+                        console.error('Request made but no response received:', error.request);
+                    } else {
+                        console.error('Error setting up the request:', error.message);
+                    }
+                } else {
+                    console.error('Unexpected Error:', error);
+                }
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -62,37 +82,16 @@ const Notifications = () => {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <SafeAreaView style={[defaultStyles.container, { backgroundColor: '#1C1C1C' }]}>
                 <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
-                    <ScrollView>
-                        <View style={defaultStyles.container2}>
-                            <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>Latest Game Results!</Text>
-                            {matches.length > 0 ? (
-                                matches.map(match => (
-                                    <TouchableOpacity key={match.id} onPress={() => handlePress(match.id.toString())}>
-                                        <View style={styles.card}>
-                                            <View style={styles.headingContainer}>
-                                                <Text style={styles.competitionName}>{match.competition.name}</Text>
-                                                <Image source={{ uri: match.competition.emblem }} style={styles.competitionEmblem} />
-                                            </View>
-                                            <View style={styles.matchContainer}>
-                                                <Text style={styles.matchDetails}>{match.homeTeam.name} vs {match.awayTeam.name}</Text>
-                                            </View>
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
-                                                <Image source={{ uri: match.homeTeam.crest }} style={styles.teamLogo} />
-                                                <Text style={styles.score}>
-                                                    Score: {match.score && match.score.fullTime && typeof match.score.fullTime.home !== 'undefined' && typeof match.score.fullTime.away !== 'undefined' ? 
-                                                            `${match.score.fullTime.home} - ${match.score.fullTime.away}` : 'N/A'}
-                                                </Text>
-                                                <Image source={{ uri: match.awayTeam.crest }} style={styles.teamLogo} />
-                                            </View>
-                                            <Text style={styles.date}>Date: {new Date(match.utcDate).toLocaleString()}</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                ))
-                            ) : (
-                                <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>No match results available</Text>
-                            )}
-                        </View>
-                    </ScrollView>
+                    {loading ? (
+                        <ActivityIndicator size="large" color="#FFFFFF" style={styles.loadingIndicator} />
+                    ) : (
+                        <FlatList
+                            data={matches}
+                            renderItem={({ item }) => <NotificationCard notification={item} onPress={handlePress} />}
+                            keyExtractor={(item) => item.id.toString()}
+                            contentContainerStyle={defaultStyles.container2}
+                        />
+                    )}
                 </ImageBackground>
             </SafeAreaView>
         </GestureHandlerRootView>
@@ -142,6 +141,11 @@ const styles = StyleSheet.create({
     date: {
         fontSize: 14,
         color: '#FFFFFF',
+    },
+    loadingIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
 

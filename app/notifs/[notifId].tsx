@@ -13,22 +13,20 @@ const NotificationDetails: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        console.log(`useLocalSearchParams returned:`, local);
-        console.log(`Fetching details for notification with id: ${id}`);
         if (id) {
             axios.get(`https://api.football-data.org/v4/matches/${id}`, {
                 headers: { 'X-Auth-Token': '083c7a6bcfef42dda05c626dda61be90' }
             })
-            .then(response => {
-                console.log(`Received data for notification with id: ${id}`, response.data);
-                setNotification(response.data);
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error(`Error fetching details for match of id ${id}:`, error);
-                setError(`Error fetching details for match of id ${id}`);
-                setLoading(false);
-            });
+                .then(response => {
+                    console.log(`Received data for notification with id: ${id}`, response.data);
+                    setNotification(response.data);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error(`Error fetching details for match of id ${id}:`, error);
+                    setError(`Error fetching details for match of id ${id}`);
+                    setLoading(false);
+                });
         }
     }, [id]);
 
