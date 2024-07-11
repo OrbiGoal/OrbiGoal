@@ -87,5 +87,9 @@ export const defaultStyles = StyleSheet.create({
         flexGrow: 1,
         padding: 10,
         backgroundColor: 'transparent',
+    },
+    favouriteBtn: {
+        paddingVertical: 4,
+        paddingRight: 8,
     }
 })

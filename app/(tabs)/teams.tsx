@@ -12,7 +12,8 @@ const Teams: React.FC = () => {
   const [selectedLeague, setSelectedLeague] = useState<string | undefined>();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const listRef = useRef<FlatList<Team>>(null);
-  const user = useUser();
+  const [favoriteTeams, setFavoriteTeams] = useState<Team[]>([]);
+  const { isLoaded, isSignedIn, user } = useUser();
 
   useEffect(() => {
     axios.get('http://127.0.0.1:5000/get-team-names')
@@ -27,6 +28,20 @@ const Teams: React.FC = () => {
         console.error('Error fetching team names:', error);
       });
   }, []);
+
+  // Get signed in data
+  useEffect(() => {
+    if (isSignedIn) {
+      fetch(`http://127.0.0.1:5000/api/getFavoriteTeams/${user.id}`)
+        .then(response => response.json())
+        .then(data => {
+          setFavoriteTeams(data);
+        })
+        .catch(error => {
+          console.error('Error fetching favorite teams:', error);
+        });
+    }
+  }, [user]);
 
   const filterTeams = (teams: Team[]): Team[] => {
     let filteredTeams = teams;
@@ -44,13 +59,11 @@ const Teams: React.FC = () => {
     return filteredTeams;
   };
 
-  const handlePress = (teamId: string) => {
-    // TODO: Navigation logic
-  };
+  const handlePress = (teamId: string) => { };
 
   const renderItem = ({ item }: { item: Team }) => (
     <Link href={`/teams/${item.team_id.toString()}`} asChild>
-      <TeamCard team={item} onPress={() => handlePress(item.team_id.toString())} />
+      <TeamCard team={item} favoriteTeams={favoriteTeams} onPress={() => handlePress(item.team_id.toString())} />
     </Link>
   );
 
