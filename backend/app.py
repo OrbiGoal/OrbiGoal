@@ -335,18 +335,28 @@ squad_to_filename = {
 }
 
 # ==== DATABASE ====
-# Add favorite team
+# TOP_5_LEAGUES = {
+#     "ESP": ,
+#     "GER": 2002,
+#     "ENG": ,
+#     "FRA" ,
+#     "ITA": 2019,
+# }
+
+# Add favorite teami
 @app.route('/api/addFavoriteTeam', methods=['POST'])
 def add_favorite_team():
     data = request.get_json()
     user_id = data['userId']
     team_id = data['teamId']
     team_name = data['teamName']
+    country = data['country']
 
     # Add favorite team to Firestore
     db.collection('users').document(user_id).collection('favorite_teams').document(str(team_id)).set({
         'team_id': team_id,
-        'team_name': team_name
+        'team_name': team_name,
+        'country': country,
     })
 
     return jsonify({"message": "Team added to favorites"}), 200
@@ -367,8 +377,13 @@ def remove_favorite_team():
 @app.route('/api/getFavoriteTeams/<user_id>', methods=['GET'])
 def get_favorite_teams(user_id):
     favorite_teams = db.collection('users').document(user_id).collection('favorite_teams').stream()
-    teams = [{'team_id': team.id} for team in favorite_teams]
+
+    teams = []
+    for team in favorite_teams:
+        t = team.to_dict()
+        teams.append(t)
+
     return jsonify(teams), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

@@ -7,6 +7,8 @@ import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler
 import RNPickerSelect from 'react-native-picker-select';
 import Stat from '@/components/Stat';
 
+const IP_ADDRESS = process.env.EXPO_PUBLIC_IP_ADDRESS
+
 const TeamDetails: React.FC = () => {
     const local = useLocalSearchParams();
     const teamId = local.teamId;
@@ -17,7 +19,7 @@ const TeamDetails: React.FC = () => {
     const [filteredDetails, setFilteredDetails] = useState<any>([]);
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/get-teams-detailed`)
+        axios.get(`http://${IP_ADDRESS}:5000/get-teams-detailed`)
             .then(response => {
                 setAllTeamDetails(response.data);
                 setLoading(false);
@@ -29,7 +31,7 @@ const TeamDetails: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/get-team-details/${teamId}`)
+        axios.get(`http://${IP_ADDRESS}:5000/get-team-details/${teamId}`)
             .then(response => {
                 setTeamDetails(response.data);
                 setLoading(false);

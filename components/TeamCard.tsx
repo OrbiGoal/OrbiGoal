@@ -10,6 +10,8 @@ interface TeamCardProps {
     favoriteTeams: Team[];
 }
 
+const IP_ADDRESS = process.env.EXPO_PUBLIC_IP_ADDRESS
+
 const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTeams, onPress }, ref) => {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
     const [isFavorite, setIsFavorite] = useState(false);
@@ -18,23 +20,6 @@ const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTe
         const isFav = favoriteTeams.some(favorite => Number(favorite.team_id) === team.team_id);
         setIsFavorite(isFav);
     }, [favoriteTeams, team.team_id]);
-
-    // useEffect(() => {
-    //     const checkFavoriteStatus = async () => {
-    //         if (userId) {
-    //             try {
-    //                 const response = await fetch(`http://127.0.0.1:5000/api/getFavoriteTeams/${userId}`);
-    //                 const favorites = await response.json();
-    //                 const isFav = favorites.some((favorite: Team) => favorite.team_id === team.team_id);
-    //                 setIsFavorite(isFav);
-    //             } catch (error) {
-    //                 console.error('Error checking favorite status:', error);
-    //             }
-    //         }
-    //     };
-
-    //     checkFavoriteStatus();
-    // }, [userId, team.team_id]);
 
     const handleFavoriteToggle = async () => {
         if (userId) {
@@ -47,24 +32,32 @@ const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTe
 
                 if (isFavorite) {
                     console.log(userId + " deleting " + team.full_name);
-                    await fetch('http://127.0.0.1:5000/api/removeFavoriteTeam', {
+                    await fetch('http://${IP_ADDRESS}:5000/api/removeFavoriteTeam', {
                         method: 'DELETE',
                         headers,
                         body: JSON.stringify({
                             userId,
                             teamId: team.team_id,
                             teamName: team.full_name,
+                            country: team.Country,
+                            Logo: team.Logo,
+                            shortName: team.Squad,
+                            season: team.season,
                         }),
                     });
                 } else {
                     console.log(userId + " favouriting " + team.full_name);
-                    await fetch('http://127.0.0.1:5000/api/addFavoriteTeam', {
+                    await fetch('http://${IP_ADDRESS}:5000/api/addFavoriteTeam', {
                         method: 'POST',
                         headers,
                         body: JSON.stringify({
                             userId,
                             teamId: team.team_id,
                             teamName: team.full_name,
+                            country: team.Country,
+                            Logo: team.Logo,
+                            shortName: team.Squad,
+                            season: team.season,
                         }),
                     });
                 }
