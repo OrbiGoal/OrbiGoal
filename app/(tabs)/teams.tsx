@@ -7,6 +7,8 @@ import axios from 'axios';
 import TeamCard from '@/components/TeamCard';
 import { useUser } from '@clerk/clerk-expo';
 
+const IP_ADDRESS = process.env.EXPO_PUBLIC_IP_ADDRESS
+
 const Teams: React.FC = () => {
   const [teams, setTeams] = useState<any>([]);
   const [selectedLeague, setSelectedLeague] = useState<string | undefined>();
@@ -16,7 +18,7 @@ const Teams: React.FC = () => {
   const { isLoaded, isSignedIn, user } = useUser();
 
   useEffect(() => {
-    axios.get('http://192.168.1.81:5000/get-team-names')
+    axios.get(`http://${IP_ADDRESS}:5000/get-team-names`)
       .then(response => {
         if (Array.isArray(response.data) && response.data.length > 0) {
           setTeams(response.data);
@@ -32,7 +34,7 @@ const Teams: React.FC = () => {
   // Get signed in data
   useEffect(() => {
     if (isSignedIn) {
-      fetch(`http://192.168.1.81:5000/api/getFavoriteTeams/${user.id}`)
+      fetch(`http://${IP_ADDRESS}:5000/api/getFavoriteTeams/${user.id}`)
         .then(response => response.json())
         .then(data => {
           setFavoriteTeams(data);

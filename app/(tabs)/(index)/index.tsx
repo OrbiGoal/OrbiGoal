@@ -6,6 +6,8 @@ import Matches from '@/components/Matches';
 import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/clerk-expo';
 import { defaultStyles } from '@/constants/Styles';
 
+const IP_ADDRESS = process.env.EXPO_PUBLIC_IP_ADDRESS
+
 const Index = () => {
     const { signOut, isSignedIn: isAuthSignedIn } = useAuth();
     const { isLoaded, isSignedIn: isUserSignedIn, user } = useUser();
@@ -22,7 +24,7 @@ const Index = () => {
         if (isUserSignedIn) {
             const fetchFavoriteTeams = async () => {
                 try {
-                    const response = await fetch(`http://192.168.1.81:5000/api/getFavoriteTeams/${user.id}`);
+                    const response = await fetch(`http://${IP_ADDRESS}:5000/api/getFavoriteTeams/${user.id}`);
                     const data = await response.json();
                     setFavoriteTeams(data);
                 } catch (error) {
@@ -63,7 +65,7 @@ const Index = () => {
                                 {user &&
                                     <Text style={defaultStyles.heading1}>Welcome, {user.firstName}!</Text>
                                 }
-                                <Matches />
+                                <Matches favoriteTeams={favoriteTeams} />
                             </SignedIn>
 
                             <SignedOut>

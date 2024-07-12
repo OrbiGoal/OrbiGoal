@@ -10,6 +10,8 @@ interface TeamCardProps {
     favoriteTeams: Team[];
 }
 
+const IP_ADDRESS = process.env.EXPO_PUBLIC_IP_ADDRESS
+
 const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTeams, onPress }, ref) => {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
     const [isFavorite, setIsFavorite] = useState(false);
@@ -30,7 +32,7 @@ const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTe
 
                 if (isFavorite) {
                     console.log(userId + " deleting " + team.full_name);
-                    await fetch('http://192.168.1.81:5000/api/removeFavoriteTeam', {
+                    await fetch('http://${IP_ADDRESS}:5000/api/removeFavoriteTeam', {
                         method: 'DELETE',
                         headers,
                         body: JSON.stringify({
@@ -38,11 +40,14 @@ const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTe
                             teamId: team.team_id,
                             teamName: team.full_name,
                             country: team.Country,
+                            Logo: team.Logo,
+                            shortName: team.Squad,
+                            season: team.season,
                         }),
                     });
                 } else {
                     console.log(userId + " favouriting " + team.full_name);
-                    await fetch('http://192.168.1.81:5000/api/addFavoriteTeam', {
+                    await fetch('http://${IP_ADDRESS}:5000/api/addFavoriteTeam', {
                         method: 'POST',
                         headers,
                         body: JSON.stringify({
@@ -50,6 +55,9 @@ const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTe
                             teamId: team.team_id,
                             teamName: team.full_name,
                             country: team.Country,
+                            Logo: team.Logo,
+                            shortName: team.Squad,
+                            season: team.season,
                         }),
                     });
                 }
