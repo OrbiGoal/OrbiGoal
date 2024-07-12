@@ -1,9 +1,10 @@
-import { ScrollView, Text, Button, SafeAreaView, View, ImageBackground } from 'react-native'
+import { ScrollView, Text, Button, SafeAreaView, View, ImageBackground, Image } from 'react-native'
 import React from 'react'
 import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/clerk-expo'
 import { useRouter } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { defaultStyles } from '@/constants/Styles';
+import TeamCard from '@/components/TeamCard';
 
 const Profile = () => {
     const { isLoaded: isUserLoaded, isSignedIn, user } = useUser();

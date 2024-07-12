@@ -17,7 +17,7 @@ const TeamDetails: React.FC = () => {
     const [filteredDetails, setFilteredDetails] = useState<any>([]);
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/get-teams-detailed`)
+        axios.get(`http://192.168.1.81:5000/get-teams-detailed`)
             .then(response => {
                 setAllTeamDetails(response.data);
                 setLoading(false);
@@ -29,7 +29,7 @@ const TeamDetails: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:5000/get-team-details/${teamId}`)
+        axios.get(`http://192.168.1.81:5000/get-team-details/${teamId}`)
             .then(response => {
                 setTeamDetails(response.data);
                 setLoading(false);

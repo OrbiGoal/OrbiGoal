@@ -1,20 +1,57 @@
 import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
 import { View, Text, Button, SafeAreaView, ImageBackground } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
 import Matches from '@/components/Matches';
 import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/clerk-expo';
 import { defaultStyles } from '@/constants/Styles';
-import { getClerkInstance } from '@clerk/clerk-expo/dist/singleton';
 
 const Index = () => {
-    const { signOut, isSignedIn } = useAuth();
+    const { signOut, isSignedIn: isAuthSignedIn } = useAuth();
+    const { isLoaded, isSignedIn: isUserSignedIn, user } = useUser();
+    const [favoriteTeams, setFavoriteTeams] = useState<Team[]>([]);
     const router = useRouter();
-    const clerk = getClerkInstance();
 
+    // If not logged in, push the log in page to the user
     const handleLogin = () => {
         router.push('/(modals)/login');
     };
+
+    // Get signed in data
+    useEffect(() => {
+        if (isUserSignedIn) {
+            const fetchFavoriteTeams = async () => {
+                try {
+                    const response = await fetch(`http://192.168.1.81:5000/api/getFavoriteTeams/${user.id}`);
+                    const data = await response.json();
+                    setFavoriteTeams(data);
+                } catch (error) {
+                    console.error('Error fetching favorite teams:', error);
+                }
+            };
+            fetchFavoriteTeams();
+        }
+    }, [isUserSignedIn, user]);
+
+    // In case the user signs out while on the page.
+    if (!isLoaded || !isAuthSignedIn) {
+        return (
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <SafeAreaView style={defaultStyles.container}>
+                    <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
+                        <ScrollView>
+                            <View style={defaultStyles.container2}>
+                                <Text style={[defaultStyles.heading1, { paddingTop: 10 }]}>You are signed out.</Text>
+                                {!isUserSignedIn && (
+                                    <Button title="Log in" onPress={() => handleLogin()} />
+                                )}
+                            </View>
+                        </ScrollView>
+                    </ImageBackground>
+                </SafeAreaView>
+            </GestureHandlerRootView>
+        )
+    }
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
@@ -23,13 +60,15 @@ const Index = () => {
                     <ScrollView>
                         <View style={defaultStyles.container2}>
                             <SignedIn>
-                                <Text style={defaultStyles.heading1}>Welcome!</Text>
+                                {user &&
+                                    <Text style={defaultStyles.heading1}>Welcome, {user.firstName}!</Text>
+                                }
                                 <Matches />
                             </SignedIn>
 
                             <SignedOut>
                                 <Text style={[defaultStyles.heading1]}>Welcome! You are not logged in.</Text>
-                                {!isSignedIn && (
+                                {!isAuthSignedIn && (
                                     <Button title="Log in" onPress={() => handleLogin()} />
                                 )}
                             </SignedOut>

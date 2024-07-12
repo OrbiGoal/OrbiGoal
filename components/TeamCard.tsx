@@ -19,23 +19,6 @@ const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTe
         setIsFavorite(isFav);
     }, [favoriteTeams, team.team_id]);
 
-    // useEffect(() => {
-    //     const checkFavoriteStatus = async () => {
-    //         if (userId) {
-    //             try {
-    //                 const response = await fetch(`http://127.0.0.1:5000/api/getFavoriteTeams/${userId}`);
-    //                 const favorites = await response.json();
-    //                 const isFav = favorites.some((favorite: Team) => favorite.team_id === team.team_id);
-    //                 setIsFavorite(isFav);
-    //             } catch (error) {
-    //                 console.error('Error checking favorite status:', error);
-    //             }
-    //         }
-    //     };
-
-    //     checkFavoriteStatus();
-    // }, [userId, team.team_id]);
-
     const handleFavoriteToggle = async () => {
         if (userId) {
             try {
@@ -47,24 +30,26 @@ const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTe
 
                 if (isFavorite) {
                     console.log(userId + " deleting " + team.full_name);
-                    await fetch('http://127.0.0.1:5000/api/removeFavoriteTeam', {
+                    await fetch('http://192.168.1.81:5000/api/removeFavoriteTeam', {
                         method: 'DELETE',
                         headers,
                         body: JSON.stringify({
                             userId,
                             teamId: team.team_id,
                             teamName: team.full_name,
+                            country: team.Country,
                         }),
                     });
                 } else {
                     console.log(userId + " favouriting " + team.full_name);
-                    await fetch('http://127.0.0.1:5000/api/addFavoriteTeam', {
+                    await fetch('http://192.168.1.81:5000/api/addFavoriteTeam', {
                         method: 'POST',
                         headers,
                         body: JSON.stringify({
                             userId,
                             teamId: team.team_id,
                             teamName: team.full_name,
+                            country: team.Country,
                         }),
                     });
                 }

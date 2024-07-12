@@ -16,7 +16,7 @@ const Teams: React.FC = () => {
   const { isLoaded, isSignedIn, user } = useUser();
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:5000/get-team-names')
+    axios.get('http://192.168.1.81:5000/get-team-names')
       .then(response => {
         if (Array.isArray(response.data) && response.data.length > 0) {
           setTeams(response.data);
@@ -32,7 +32,7 @@ const Teams: React.FC = () => {
   // Get signed in data
   useEffect(() => {
     if (isSignedIn) {
-      fetch(`http://127.0.0.1:5000/api/getFavoriteTeams/${user.id}`)
+      fetch(`http://192.168.1.81:5000/api/getFavoriteTeams/${user.id}`)
         .then(response => response.json())
         .then(data => {
           setFavoriteTeams(data);
