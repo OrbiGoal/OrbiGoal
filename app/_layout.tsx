@@ -104,23 +104,12 @@ const RootLayoutNav = () => {
             presentation: 'modal'
           }} />
 
-        <Stack.Screen // For card pop-up when user clicks on matches
+        <Stack.Screen // For card pop-up when user clicks on notifications
           name="notifs/[notifId]"
           options={{
-            headerTitle: '', headerTransparent: true, headerBackTitle: '', // Empty header to do parallax effect
-          }}
-        /> 
-
-        <Stack.Screen // For matches card interface on home screen
-          name="(modals)/match"
-          options={{
-            presentation: 'transparentModal',
-            animation: 'fade',
-            headerLeft: () => ( // 'X' button to close card pop-up page
-              <TouchableOpacity onPress={() => router.back()}>
-                <Ionicons name='close-outline' size={28} color={"white"} />
-              </TouchableOpacity>
-            ),
+            headerTitle: '',
+            headerTransparent: true,
+            headerBackTitle: '',
           }}
         />
 

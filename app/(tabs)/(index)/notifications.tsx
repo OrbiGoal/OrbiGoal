@@ -43,7 +43,7 @@ const Notifications = () => {
                         }
                     });
                     responses.push(response.data.matches);
-                    await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay between requests
+                    await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay between requests to prevent error 429
                 }
 
                 const finishedMatches = responses.flat().reverse();  // Reverse the order of matches
@@ -74,7 +74,6 @@ const Notifications = () => {
     }, []);
 
     const handlePress = (id: string) => {
-        console.log(`Navigating to /notifs/${id}`);
         router.push(`/notifs/${id}`);
     }
 

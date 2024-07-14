@@ -6,3 +6,7 @@ interface Team {
     full_name: string;
     season: string;
 }
+
+interface FavoriteTeam {
+    apiLeague: string | null;
+}

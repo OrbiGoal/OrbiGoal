@@ -5,10 +5,10 @@ import { defaultStyles } from '@/constants/Styles';
 import { useLocalSearchParams } from 'expo-router';
 import axios from 'axios';
 
-const NotificationDetails: React.FC = () => {
+const MatchDetails: React.FC = () => {
     const local = useLocalSearchParams();
-    const id = local.notifId;
-    const [notification, setNotification] = useState<any>(null);
+    const id = local.matchId;
+    const [match, setMatch] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -18,8 +18,8 @@ const NotificationDetails: React.FC = () => {
                 headers: { 'X-Auth-Token': '083c7a6bcfef42dda05c626dda61be90' }
             })
                 .then(response => {
-                    console.log(`Received data for notification with id: ${id}`, response.data);
-                    setNotification(response.data);
+                    console.log(`Received data for match with id: ${id}`, response.data);
+                    setMatch(response.data);
                     setLoading(false);
                 })
                 .catch(error => {
@@ -38,11 +38,10 @@ const NotificationDetails: React.FC = () => {
         return <Text style={defaultStyles.heading1}>{error}</Text>;
     }
 
-    if (!notification) {
-        return <Text style={defaultStyles.heading1}>Notification not found!</Text>;
+    if (!match) {
+        return <Text style={defaultStyles.heading1}>Match not found!</Text>;
     }
 
-    const match = notification;
     const homeTeam = match.homeTeam;
     const awayTeam = match.awayTeam;
 
@@ -143,4 +142,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default NotificationDetails;
+export default MatchDetails;

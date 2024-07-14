@@ -32,7 +32,7 @@ const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTe
 
                 if (isFavorite) {
                     console.log(userId + " deleting " + team.full_name);
-                    await fetch('http://${IP_ADDRESS}:5000/api/removeFavoriteTeam', {
+                    await fetch(`http://${IP_ADDRESS}:5000/api/removeFavoriteTeam`, {
                         method: 'DELETE',
                         headers,
                         body: JSON.stringify({
@@ -47,7 +47,7 @@ const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTe
                     });
                 } else {
                     console.log(userId + " favouriting " + team.full_name);
-                    await fetch('http://${IP_ADDRESS}:5000/api/addFavoriteTeam', {
+                    await fetch(`http://${IP_ADDRESS}:5000/api/addFavoriteTeam`, {
                         method: 'POST',
                         headers,
                         body: JSON.stringify({

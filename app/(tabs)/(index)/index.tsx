@@ -2,7 +2,7 @@ import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler
 import { View, Text, Button, SafeAreaView, ImageBackground } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'expo-router';
-import Matches from '@/components/Matches';
+import Matches from '../../../components/Matches';
 import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/clerk-expo';
 import { defaultStyles } from '@/constants/Styles';
 
@@ -11,7 +11,7 @@ const IP_ADDRESS = process.env.EXPO_PUBLIC_IP_ADDRESS
 const Index = () => {
     const { signOut, isSignedIn: isAuthSignedIn } = useAuth();
     const { isLoaded, isSignedIn: isUserSignedIn, user } = useUser();
-    const [favoriteTeams, setFavoriteTeams] = useState<Team[]>([]);
+    const [favoriteTeams, setFavoriteTeams] = useState<FavoriteTeam[]>([]);
     const router = useRouter();
 
     // If not logged in, push the log in page to the user
@@ -59,23 +59,19 @@ const Index = () => {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <SafeAreaView style={defaultStyles.container}>
                 <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
-                    <ScrollView>
-                        <View style={defaultStyles.container2}>
-                            <SignedIn>
-                                {user &&
-                                    <Text style={defaultStyles.heading1}>Welcome, {user.firstName}!</Text>
-                                }
-                                <Matches favoriteTeams={favoriteTeams} />
-                            </SignedIn>
+                    <SignedIn>
+                        {user &&
+                            <Text style={[defaultStyles.heading1, { paddingVertical: 20, paddingHorizontal: 30 }]}>Welcome, {user.firstName}!</Text>
+                        }
+                        <Matches favoriteTeams={favoriteTeams} />
+                    </SignedIn>
 
-                            <SignedOut>
-                                <Text style={[defaultStyles.heading1]}>Welcome! You are not logged in.</Text>
-                                {!isAuthSignedIn && (
-                                    <Button title="Log in" onPress={() => handleLogin()} />
-                                )}
-                            </SignedOut>
-                        </View>
-                    </ScrollView>
+                    <SignedOut>
+                        <Text style={[defaultStyles.heading1]}>Welcome! You are not logged in.</Text>
+                        {!isAuthSignedIn && (
+                            <Button title="Log in" onPress={() => handleLogin()} />
+                        )}
+                    </SignedOut>
                 </ImageBackground>
             </SafeAreaView>
         </GestureHandlerRootView >
