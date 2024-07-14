@@ -335,15 +335,15 @@ squad_to_filename = {
 }
 
 # ==== DATABASE ====
-# TOP_5_LEAGUES = {
-#     "ESP": ,
-#     "GER": 2002,
-#     "ENG": ,
-#     "FRA" ,
-#     "ITA": 2019,
-# }
+TOP_5_LEAGUES = {
+    "ESP": "PD",
+    "GER": "BL1",
+    "ENG": "PL",
+    "FRA": "FL1",
+    "ITA": "SA",
+}
 
-# Add favorite teami
+# Add favorite team
 @app.route('/api/addFavoriteTeam', methods=['POST'])
 def add_favorite_team():
     data = request.get_json()
@@ -381,6 +381,9 @@ def get_favorite_teams(user_id):
     teams = []
     for team in favorite_teams:
         t = team.to_dict()
+        if t['country'] in TOP_5_LEAGUES:
+            t['apiLeague'] = TOP_5_LEAGUES[t['country']]
+            
         teams.append(t)
 
     return jsonify(teams), 200
