@@ -7,7 +7,7 @@ import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler
 import RNPickerSelect from 'react-native-picker-select';
 import Stat from '@/components/Stat';
 
-const IP_ADDRESS = process.env.EXPO_PUBLIC_IP_ADDRESS
+const FIREBASE_API_URL = process.env.EXPO_PUBLIC_FIREBASE_API_URL
 
 const TeamDetails: React.FC = () => {
     const local = useLocalSearchParams();
@@ -19,7 +19,7 @@ const TeamDetails: React.FC = () => {
     const [filteredDetails, setFilteredDetails] = useState<any>([]);
 
     useEffect(() => {
-        axios.get(`http://${IP_ADDRESS}:5000/get-teams-detailed`)
+        axios.get(`${FIREBASE_API_URL}/get-teams-detailed`)
             .then(response => {
                 setAllTeamDetails(response.data);
                 setLoading(false);
@@ -31,7 +31,7 @@ const TeamDetails: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        axios.get(`http://${IP_ADDRESS}:5000/get-team-details/${teamId}`)
+        axios.get(`${FIREBASE_API_URL}/get-team-details/${teamId}`)
             .then(response => {
                 setTeamDetails(response.data);
                 setLoading(false);
