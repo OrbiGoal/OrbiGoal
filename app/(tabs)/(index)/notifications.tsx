@@ -42,6 +42,7 @@ const Notifications = () => {
                             status: 'FINISHED',
                         }
                     });
+                    
                     responses.push(response.data.matches);
                     await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay between requests to prevent error 429
                 }
