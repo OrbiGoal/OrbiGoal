@@ -10,7 +10,7 @@ interface TeamCardProps {
     favoriteTeams: Team[];
 }
 
-const IP_ADDRESS = process.env.EXPO_PUBLIC_IP_ADDRESS
+const FIREBASE_API_URL = process.env.EXPO_PUBLIC_FIREBASE_API_URL
 
 const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTeams, onPress }, ref) => {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
@@ -32,7 +32,7 @@ const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTe
 
                 if (isFavorite) {
                     console.log(userId + " deleting " + team.full_name);
-                    await fetch(`http://${IP_ADDRESS}:5000/api/removeFavoriteTeam`, {
+                    await fetch(`${FIREBASE_API_URL}/api/removeFavoriteTeam`, {
                         method: 'DELETE',
                         headers,
                         body: JSON.stringify({
@@ -47,7 +47,7 @@ const TeamCard = forwardRef<TouchableOpacity, TeamCardProps>(({ team, favoriteTe
                     });
                 } else {
                     console.log(userId + " favouriting " + team.full_name);
-                    await fetch(`http://${IP_ADDRESS}:5000/api/addFavoriteTeam`, {
+                    await fetch(`${FIREBASE_API_URL}/api/addFavoriteTeam`, {
                         method: 'POST',
                         headers,
                         body: JSON.stringify({

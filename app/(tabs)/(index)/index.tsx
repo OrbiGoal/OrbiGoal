@@ -6,7 +6,7 @@ import Matches from '../../../components/Matches';
 import { SignedIn, SignedOut, useAuth, useUser } from '@clerk/clerk-expo';
 import { defaultStyles } from '@/constants/Styles';
 
-const IP_ADDRESS = process.env.EXPO_PUBLIC_IP_ADDRESS
+const FIREBASE_API_URL = process.env.EXPO_PUBLIC_FIREBASE_API_URL
 
 const Index = () => {
     const { signOut, isSignedIn: isAuthSignedIn } = useAuth();
@@ -24,7 +24,7 @@ const Index = () => {
         if (isUserSignedIn) {
             const fetchFavoriteTeams = async () => {
                 try {
-                    const response = await fetch(`http://${IP_ADDRESS}:5000/api/getFavoriteTeams/${user.id}`);
+                    const response = await fetch(`${FIREBASE_API_URL}/api/getFavoriteTeams/${user.id}`);
                     const data = await response.json();
                     setFavoriteTeams(data);
                 } catch (error) {

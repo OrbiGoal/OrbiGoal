@@ -18,7 +18,6 @@ const NotificationDetails: React.FC = () => {
                 headers: { 'X-Auth-Token': '083c7a6bcfef42dda05c626dda61be90' }
             })
                 .then(response => {
-                    console.log(`Received data for notification with id: ${id}`, response.data);
                     setNotification(response.data);
                     setLoading(false);
                 })
