@@ -76,6 +76,7 @@ const MatchDetails: React.FC = () => {
                 <Animated.ScrollView contentContainerStyle={styles.contentContainer}>
                     <Stack.Screen
                         options={{
+                            title: `${homeTeam} vs ${awayTeam}`,
                             headerBackTitle: "Back",
                         }}
                     />

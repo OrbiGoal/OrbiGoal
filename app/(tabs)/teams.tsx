@@ -1,4 +1,4 @@
-import { SafeAreaView, ImageBackground, FlatList } from 'react-native';
+import { SafeAreaView, ImageBackground, FlatList, ActivityIndicator, View } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, Stack } from 'expo-router';
 import ExploreHeader from '@/components/ExploreHeader';
@@ -7,7 +7,7 @@ import axios from 'axios';
 import TeamCard from '@/components/TeamCard';
 import { useUser } from '@clerk/clerk-expo';
 
-const IP_ADDRESS = process.env.EXPO_PUBLIC_IP_ADDRESS
+const FIREBASE_API_URL = process.env.EXPO_PUBLIC_FIREBASE_API_URL
 
 const Teams: React.FC = () => {
   const [teams, setTeams] = useState<any>([]);
@@ -16,9 +16,11 @@ const Teams: React.FC = () => {
   const listRef = useRef<FlatList<Team>>(null);
   const [favoriteTeams, setFavoriteTeams] = useState<Team[]>([]);
   const { isLoaded, isSignedIn, user } = useUser();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://${IP_ADDRESS}:5000/get-team-names`)
+    setLoading(true);
+    axios.get(`${FIREBASE_API_URL}/get-team-names`)
       .then(response => {
         if (Array.isArray(response.data) && response.data.length > 0) {
           setTeams(response.data);
@@ -28,22 +30,29 @@ const Teams: React.FC = () => {
       })
       .catch(error => {
         console.error('Error fetching team names:', error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
   // Get signed in data
   useEffect(() => {
     if (isSignedIn) {
-      fetch(`http://${IP_ADDRESS}:5000/api/getFavoriteTeams/${user.id}`)
+      setLoading(true);
+      fetch(`${FIREBASE_API_URL}/api/getFavoriteTeams/${user.id}`)
         .then(response => response.json())
         .then(data => {
           setFavoriteTeams(data);
         })
         .catch(error => {
           console.error('Error fetching favorite teams:', error);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
-  }, [user]);
+  }, [isSignedIn, user]);
 
   const filterTeams = (teams: Team[]): Team[] => {
     let filteredTeams = teams;
@@ -84,14 +93,20 @@ const Teams: React.FC = () => {
               />
           }}
         />
-        <FlatList
-          ref={listRef}
-          data={filterTeams(teams)}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={defaultStyles.searchPage}
-        />
+        {loading ? (
+          <View style={[defaultStyles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+            <ActivityIndicator size="large" color="#ffffff" />
+          </View>
+        ) : (
+          <FlatList
+            ref={listRef}
+            data={filterTeams(teams)}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={defaultStyles.searchPage}
+          />
+        )}
       </ImageBackground>
     </SafeAreaView>
   );

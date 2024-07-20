@@ -4,6 +4,7 @@
     "slug": "OrbiGoal",
     "version": "1.0.0",
     "orientation": "portrait",
+    "description": "Football analytics app",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
@@ -20,12 +21,16 @@
         "UIBackgroundModes": [
           "fetch"
         ]
-      }
+      },
+      "runtimeVersion": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "runtimeVersion": {
+        "policy": "appVersion"
       }
     },
     "web": {
@@ -40,6 +45,17 @@
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "382ccdf0-068e-450d-8ebd-24742a7c926e"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/382ccdf0-068e-450d-8ebd-24742a7c926e"
     }
   }
 }

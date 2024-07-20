@@ -56,7 +56,6 @@ const Matches = ({ favoriteTeams }: MatchProps) => {
     }, [favoriteTeams]);
 
     const handlePress = (id: string) => {
-        console.log(`Navigating to /matches/${id}`);
         router.push(`/matches/${id}`);
     };
 
