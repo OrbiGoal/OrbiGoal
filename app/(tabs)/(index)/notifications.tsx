@@ -1,16 +1,22 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ImageBackground, SafeAreaView, ActivityIndicator, FlatList, StyleSheet } from 'react-native';
 import { defaultStyles } from '@/constants/Styles';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRouter } from 'expo-router';
+import RNPickerSelect from 'react-native-picker-select';
 import NotificationCard from '@/components/NotificationCard';
 
 const API_URL = process.env.EXPO_PUBLIC_FOOTBALL_API_URL;
 const API_KEY = process.env.EXPO_PUBLIC_FOOTBALL_API_KEY;
 
-// League IDs for top 5 leagues
-const TOP_5_LEAGUES = ['PL', 'PD', 'FL1', 'SA', 'BL1']; // Premier League, La Liga, Ligue 1, Serie A, Bundesliga
+const TOP_5_LEAGUES = [
+    { label: 'Premier League', value: 'PL' },
+    { label: 'La Liga', value: 'PD' },
+    { label: 'Ligue 1', value: 'FL1' },
+    { label: 'Serie A', value: 'SA' },
+    { label: 'Bundesliga', value: 'BL1' }
+];
 
 const getFormattedDate = (date: Date): string => {
     return date.toISOString().split('T')[0];
@@ -19,6 +25,7 @@ const getFormattedDate = (date: Date): string => {
 const Notifications = () => {
     const [matches, setMatches] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
+    const [selectedLeague, setSelectedLeague] = useState<string | null>(TOP_5_LEAGUES[0].value);
     const router = useRouter();
 
     useEffect(() => {
@@ -26,15 +33,14 @@ const Notifications = () => {
             setLoading(true);
             try {
                 const currentDate = new Date();
-                const thirtyDaysAgo = new Date();
-                thirtyDaysAgo.setDate(currentDate.getDate() - 40);
+                const ninetyDaysAgo = new Date();
+                ninetyDaysAgo.setDate(currentDate.getDate() - 90);
 
                 const dateTo = getFormattedDate(currentDate);
-                const dateFrom = getFormattedDate(thirtyDaysAgo);
+                const dateFrom = getFormattedDate(ninetyDaysAgo);
 
-                const responses: any[] = [];
-                for (const leagueId of TOP_5_LEAGUES) {
-                    const response = await axios.get(`${API_URL}/${leagueId}/matches`, {
+                if (selectedLeague) {
+                    const response = await axios.get(`${API_URL}/${selectedLeague}/matches`, {
                         headers: { 'X-Auth-Token': API_KEY },
                         params: {
                             dateFrom,
@@ -42,13 +48,10 @@ const Notifications = () => {
                             status: 'FINISHED',
                         }
                     });
-                    
-                    responses.push(response.data.matches);
-                    await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay between requests to prevent error 429
-                }
 
-                const finishedMatches = responses.flat().reverse();  // Reverse the order of matches
-                setMatches(finishedMatches);
+                    const finishedMatches = response.data.matches.sort((a: any, b: any) => new Date(b.utcDate).getTime() - new Date(a.utcDate).getTime());  // Sort matches by date
+                    setMatches(finishedMatches);
+                }
             } catch (error) {
                 console.error('Error fetching match data:', error);
 
@@ -72,7 +75,7 @@ const Notifications = () => {
         };
 
         fetchMatches();
-    }, []);
+    }, [selectedLeague]);
 
     const handlePress = (id: string) => {
         router.push(`/notifs/${id}`);
@@ -82,6 +85,15 @@ const Notifications = () => {
         <GestureHandlerRootView style={{ flex: 1 }}>
             <SafeAreaView style={[defaultStyles.container, { backgroundColor: '#1C1C1C' }]}>
                 <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
+                    <View style={styles.pickerContainer}>
+                        <RNPickerSelect
+                            onValueChange={(value) => setSelectedLeague(value)}
+                            items={TOP_5_LEAGUES}
+                            placeholder={{ label: 'Select League', value: null }}
+                            style={pickerSelectStyles}
+                            value={selectedLeague}
+                        />
+                    </View>
                     {loading ? (
                         <ActivityIndicator size="large" color="#FFFFFF" style={styles.loadingIndicator} />
                     ) : (
@@ -99,54 +111,39 @@ const Notifications = () => {
 }
 
 const styles = StyleSheet.create({
-    card: {
-        marginVertical: 10,
-        padding: 15,
-        backgroundColor: '#333333',
-        borderRadius: 10,
-    },
-    headingContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10,
-    },
-    competitionName: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#FFFFFF',
-        marginRight: 5,
-    },
-    competitionEmblem: {
-        width: 30,
-        height: 30,
-        marginLeft: 10,
-    },
-    matchContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    matchDetails: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#FFFFFF',
-    },
-    teamLogo: {
-        width: 50,
-        height: 50,
-    },
-    score: {
-        fontSize: 16,
-        color: '#FFFFFF',
-    },
-    date: {
-        fontSize: 14,
-        color: '#FFFFFF',
+    pickerContainer: {
+        margin: 10,
     },
     loadingIndicator: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     }
+});
+
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 4,
+        color: 'white',
+        paddingRight: 30, // to ensure the text is never behind the icon
+        backgroundColor: '#333333',
+    },
+    inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        borderColor: 'purple',
+        borderRadius: 8,
+        color: 'white',
+        paddingRight: 30, // to ensure the text is never behind the icon
+        backgroundColor: '#333333',
+    },
 });
 
 export default Notifications;

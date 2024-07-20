@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { SvgUri } from 'react-native-svg';
 
 interface NotificationCardProps {
     notification: Notification;
@@ -7,6 +8,16 @@ interface NotificationCardProps {
 }
 
 const NotificationCard = forwardRef<TouchableOpacity, NotificationCardProps>(({ notification, onPress }, ref) => {
+    // Render the team logo, either an SVG or an image
+    const renderTeamLogo = (uri: string) => {
+        const isSvg = uri.endsWith('.svg');
+        if (isSvg) {
+            return <SvgUri width="50" height="50" uri={uri} />;
+        } else {
+            return <Image source={{ uri }} style={styles.teamLogo} />;
+        }
+    };
+
     return (
         <TouchableOpacity key={notification.id} onPress={() => onPress(notification.id.toString())}>
             <View style={styles.card}>
@@ -18,12 +29,12 @@ const NotificationCard = forwardRef<TouchableOpacity, NotificationCardProps>(({ 
                     <Text style={styles.matchDetails}>{notification.homeTeam.name} vs {notification.awayTeam.name}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
-                    <Image source={{ uri: notification.homeTeam.crest }} style={styles.teamLogo} />
+                    {renderTeamLogo(notification.homeTeam.crest)}
                     <Text style={styles.score}>
                         Score: {notification.score && notification.score.fullTime && typeof notification.score.fullTime.home !== 'undefined' && typeof notification.score.fullTime.away !== 'undefined' ?
                             `${notification.score.fullTime.home} - ${notification.score.fullTime.away}` : 'N/A'}
                     </Text>
-                    <Image source={{ uri: notification.awayTeam.crest }} style={styles.teamLogo} />
+                    {renderTeamLogo(notification.awayTeam.crest)}
                 </View>
                 <Text style={styles.date}>Date: {new Date(notification.utcDate).toLocaleString()}</Text>
             </View>
