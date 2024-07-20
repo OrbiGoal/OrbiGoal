@@ -55,6 +55,9 @@ const DrawerLayout = () => {
                 <Drawer.Screen
                     name='profile'
                     options={{
+                        drawerHideStatusBarOnOpen: true,
+                        drawerActiveBackgroundColor: '#bfafc9',
+                        drawerActiveTintColor: 'black',
                         headerTitle: 'Profile',
                         drawerLabel: 'Profile',
                         headerLeft: (props) => (<HeaderLeft {...props} />),
@@ -67,6 +70,9 @@ const DrawerLayout = () => {
                 <Drawer.Screen
                     name='notifications'
                     options={{
+                        drawerHideStatusBarOnOpen: true,
+                        drawerActiveBackgroundColor: '#bfafc9',
+                        drawerActiveTintColor: 'black',
                         headerTitle: 'Notifications',
                         drawerLabel: 'Notifications',
                         headerLeft: (props) => (<HeaderLeft {...props} />),

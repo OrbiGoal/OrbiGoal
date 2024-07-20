@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import React, { forwardRef } from 'react'
+import { SvgUri } from 'react-native-svg'
 
 interface MatchCardProps {
     match: Match;
@@ -7,19 +8,29 @@ interface MatchCardProps {
 }
 
 const MatchCard = forwardRef<TouchableOpacity, MatchCardProps>(({ match, onPress }, ref) => {
+    // Render the team logo, either an SVG or an image
+    const renderTeamLogo = (uri: string) => {
+        const isSvg = uri.endsWith('.svg');
+        if (isSvg) {
+            return <SvgUri width="50" height="50" uri={uri} />;
+        } else {
+            return <Image source={{ uri }} style={styles.teamLogo} />;
+        }
+    };
+
     return (
         <TouchableOpacity key={match.id} onPress={() => onPress(match.id.toString())}>
             <View style={styles.card}>
                 <View style={styles.headingContainer}>
-                    <Text style={styles.competitionName}>{match.competition.name}</Text>
                     <Image source={{ uri: match.competition.emblem }} style={styles.competitionEmblem} />
+                    <Text style={styles.competitionName}>{match.competition.name}</Text>
                 </View>
                 <View style={styles.matchContainer}>
                     <Text style={styles.matchDetails}>{match.homeTeam.name} vs {match.awayTeam.name}</Text>
                 </View>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 10 }}>
-                    <Image source={{ uri: match.homeTeam.crest }} style={styles.teamLogo} />
-                    <Image source={{ uri: match.awayTeam.crest }} style={styles.teamLogo} />
+                    {renderTeamLogo(match.homeTeam.crest)}
+                    {renderTeamLogo(match.awayTeam.crest)}
                 </View>
                 <Text style={styles.date}>Date: {new Date(match.utcDate).toLocaleString()}</Text>
             </View>

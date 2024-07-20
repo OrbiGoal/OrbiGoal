@@ -34,7 +34,7 @@ const Matches = ({ favoriteTeams }: MatchProps) => {
                 const leagueIds = [...new Set(favoriteTeams.map(team => team.apiLeague))];
 
                 for (const leagueId of leagueIds) {
-                    const response = await axios.get(`${API_URL}/${leagueId}/matches`, {
+                    const response = await axios.get(`${API_URL}/competitions/${leagueId}/matches`, {
                         headers: { 'X-Auth-Token': API_KEY },
                         params: {
                             status: 'SCHEDULED',

@@ -9,8 +9,8 @@ import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import { SvgUri } from 'react-native-svg';
 
-const API_URL = process.env.EXPO_PUBLIC_FOOTBALL_API_URL
-const API_KEY = process.env.EXPO_PUBLIC_FOOTBALL_API_KEY
+const API_URL = process.env.EXPO_PUBLIC_FOOTBALL_API_URL;
+const API_KEY = process.env.EXPO_PUBLIC_FOOTBALL_API_KEY;
 
 const TOP_5_LEAGUES = ['PL', 'PD', 'FL1', 'SA', 'BL1'];
 const TOP_CLUBS = [
@@ -198,7 +198,7 @@ const Predictions = () => {
                 // Fetch the matches for the top 5 leagues
                 const responses: any[] = [];
                 for (const leagueId of TOP_5_LEAGUES) {
-                    const response = await axios.get(`${API_URL}/${leagueId}/matches`, {
+                    const response = await axios.get(`${API_URL}/competitions/${leagueId}/matches`, {
                         headers: { 'X-Auth-Token': API_KEY },
                         params: {
                             dateFrom,
@@ -304,7 +304,7 @@ const Predictions = () => {
                             <ActivityIndicator size="large" color="#FFFFFF" style={styles.loadingIndicator} />
                         ) : error ? (
                             <View style={styles.centeredContainer}>
-                                <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>{`Error: ${error}`}</Text>
+                                <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>{`${error}`}</Text>
                             </View>
                         ) : (
                             <ScrollView>
@@ -473,19 +473,24 @@ const pickerSelectStyles = StyleSheet.create({
         paddingHorizontal: 10,
         borderWidth: 1,
         borderColor: 'gray',
-        borderRadius: 4,
+        borderRadius: 24,
         color: 'white',
         paddingRight: 30, // to ensure the text is never behind the icon
+        backgroundColor: '#222232',
+        width: 360,
+        height: 50,
     },
     inputAndroid: {
-        fontSize: 16,
-        paddingHorizontal: 10,
-        paddingVertical: 8,
-        borderWidth: 0.5,
-        borderColor: 'purple',
-        borderRadius: 8,
         color: 'white',
-        paddingRight: 30, // to ensure the text is never behind the icon
+        padding: 18,
+        backgroundColor: '#222232',
+        borderRadius: 24,
+        width: 360,
+        height: 50,
+    },
+    placeholder: {
+        color: 'white',
+        fontSize: 18,
     },
 });
 
