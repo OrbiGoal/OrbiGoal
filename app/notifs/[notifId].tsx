@@ -2,7 +2,7 @@ import { View, StyleSheet, Text, ImageBackground, SafeAreaView, Image } from 're
 import Animated from 'react-native-reanimated';
 import React, { useEffect, useState } from 'react';
 import { defaultStyles } from '@/constants/Styles';
-import { useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import axios from 'axios';
 
 const NotificationDetails: React.FC = () => {
@@ -50,6 +50,11 @@ const NotificationDetails: React.FC = () => {
         <SafeAreaView style={defaultStyles.container}>
             <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
                 <Animated.ScrollView contentContainerStyle={styles.contentContainer}>
+                <Stack.Screen
+                        options={{
+                            headerBackTitle: "Back",
+                        }}
+                    />
                     <View style={styles.headerContainer}>
                         <Image source={{ uri: match.competition.emblem }} style={styles.competitionEmblem} />
                         <Text style={styles.competitionName}>{match.competition.name}</Text>

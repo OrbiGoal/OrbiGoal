@@ -1,15 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Alert, ActivityIndicator} from 'react-native';
 import { defaultStyles } from '@/constants/Styles';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import * as tf from '@tensorflow/tfjs';
 import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import { SvgUri } from 'react-native-svg';
 
-const API_URL = 'https://api.football-data.org/v4/competitions';
-const API_KEY = '083c7a6bcfef42dda05c626dda61be90';
+const API_URL = process.env.EXPO_PUBLIC_FOOTBALL_API_URL
+const API_KEY = process.env.EXPO_PUBLIC_FOOTBALL_API_KEY
 
 const TOP_5_LEAGUES = ['PL', 'PD', 'FL1', 'SA', 'BL1'];
 const TOP_CLUBS = [
@@ -97,7 +98,7 @@ const loadModels = async () => {
         const modelAway = await tf.loadLayersModel(bundleResourceIO(modelAwayJson, modelAwayWeights));
 
         return { modelHome, modelAway };
-    } catch (error) {
+    } catch (error : any) {
         console.error('Error loading models:', error.message);
         console.error('Stack trace:', error.stack);
         throw error; // Re-throw the error after logging it
@@ -129,7 +130,7 @@ const calculateAverages = (data: any[]): number[] => {
     return averages;
 };
 
-const transformData = (data, means, stds) => {
+const transformData = (data: number[][], means: number[], stds: number[]): number[][] => {
     // Normalize the data
     return data.map((row, index) => {
         return row.map((value, colIndex) => {
@@ -138,7 +139,8 @@ const transformData = (data, means, stds) => {
     });
 };
 
-const fetchAndPredict = async (homeTeam, awayTeam, jsonData, models) => {
+const fetchAndPredict = async (homeTeam: string, awayTeam: string, jsonData: any[],
+    models: { modelHome: tf.LayersModel, modelAway: tf.LayersModel }) => {
     // Get the last 5 encounters between the two teams
     const homeEncounters = jsonData.filter(row => row.home_club_name === homeTeam && row.away_club_name === awayTeam).slice(0, 5);
     const awayEncounters = jsonData.filter(row => row.home_club_name === awayTeam && row.away_club_name === homeTeam).slice(0, 5);
@@ -157,8 +159,8 @@ const fetchAndPredict = async (homeTeam, awayTeam, jsonData, models) => {
         const transformedAwayAverages = transformData([awayAverages], means, stds);
 
         // Predict the scores
-        const homePredictionTensor = models.modelHome.predict(tf.tensor2d(transformedHomeAverages));
-        const awayPredictionTensor = models.modelAway.predict(tf.tensor2d(transformedAwayAverages));
+        const homePredictionTensor = models.modelHome.predict(tf.tensor2d(transformedHomeAverages)) as tf.Tensor;
+        const awayPredictionTensor = models.modelAway.predict(tf.tensor2d(transformedAwayAverages)) as tf.Tensor;
 
         // Get the predicted scores
         const homeScore = homePredictionTensor.dataSync()[0];
@@ -253,7 +255,7 @@ const Predictions = () => {
         loadModel();
         }, []);
         
-        const handlePrediction = async (homeTeam, awayTeam) => {
+        const handlePrediction = async (homeTeam: string, awayTeam: string) => {
             if (jsonData.length > 0 && models.modelHome && models.modelAway) {
                 const predictedScore = await fetchAndPredict(homeTeam, awayTeam, jsonData, models);
                 setPredictedScores({
@@ -274,14 +276,6 @@ const Predictions = () => {
             });
         }, [navigation]);
         
-        if (loading) {
-            return (
-                <View style={styles.centeredContainer}>
-                    <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>Loading...</Text>
-                </View>
-            );
-        }
-        
         if (error) {
             return (
                 <View style={styles.centeredContainer}>
@@ -291,84 +285,102 @@ const Predictions = () => {
         }
         
         const teams = Object.values(TOP_CLUBS_ALTERNATE_NAMES).map(team => ({ label: team, value: team }));
+
+        // Render the team logo, either an SVG or an image
+        const renderTeamLogo = (uri: string) => {
+            const isSvg = uri.endsWith('.svg');
+            if (isSvg) {
+                return <SvgUri width="50" height="50" uri={uri} />;
+            } else {
+                return <Image source={{ uri }} style={styles.teamLogo} />;
+            }
+        };
         
         return (
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <SafeAreaView style={[defaultStyles.container, { backgroundColor: '#1C1C1C' }]}>
                     <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
-                        <ScrollView>
-                            <View style={defaultStyles.container2}>
-                                <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>Upcoming Match Predictions!</Text>
-                                
-                                <View style={styles.pickerContainer}>
-                                    <View style={styles.picker}>
-                                        <Text style={{ color: '#FFFFFF', marginBottom: 5 }}>Home</Text>
-                                        <RNPickerSelect // Drop down menu for selecting the home team
-                                            onValueChange={(value) => setSelectedHomeTeam(value)}
-                                            items={teams}
-                                            placeholder={{ label: 'Select Home Team', value: null }}
-                                            style={pickerSelectStyles}
-                                        />
+                        {loading ? (
+                            <ActivityIndicator size="large" color="#FFFFFF" style={styles.loadingIndicator} />
+                        ) : error ? (
+                            <View style={styles.centeredContainer}>
+                                <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>{`Error: ${error}`}</Text>
+                            </View>
+                        ) : (
+                            <ScrollView>
+                                <View style={defaultStyles.container2}>
+                                    <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>Upcoming Match Predictions!</Text>
+        
+                                    <View style={styles.pickerContainer}>
+                                        <View style={styles.picker}>
+                                            <Text style={{ color: '#FFFFFF', marginBottom: 5 }}>Home</Text>
+                                            <RNPickerSelect
+                                                onValueChange={(value) => setSelectedHomeTeam(value)}
+                                                items={teams}
+                                                placeholder={{ label: 'Select Home Team', value: null }}
+                                                style={pickerSelectStyles}
+                                            />
+                                        </View>
+                                        <View style={styles.picker}>
+                                            <Text style={{ color: '#FFFFFF', marginBottom: 5, marginTop: 15 }}>Away</Text>
+                                            <RNPickerSelect
+                                                onValueChange={(value) => setSelectedAwayTeam(value)}
+                                                items={teams}
+                                                placeholder={{ label: 'Select Away Team', value: null }}
+                                                style={pickerSelectStyles}
+                                            />
+                                        </View>
                                     </View>
-                                    <View style={styles.picker}>
-                                        <Text style={{ color: '#FFFFFF', marginBottom: 5, marginTop: 15 }}>Away</Text>
-                                        <RNPickerSelect // Drop down menu for selecting the away team
-                                            onValueChange={(value) => setSelectedAwayTeam(value)}
-                                            items={teams}
-                                            placeholder={{ label: 'Select Away Team', value: null }}
-                                            style={pickerSelectStyles}
-                                        />
-                                    </View>
-                                </View> 
-                                
-                                {selectedHomeTeam && selectedAwayTeam && (
-                                    <>
-                                        {selectedHomeTeam === selectedAwayTeam ? (
-                                            Alert.alert("Invalid Selection", "A team cannot play against itself!") // Alert if the same team is selected for both home and away
-                                        ) : (
-                                            matches.filter(match => 
-                                                (getAlternateName(match.homeTeam.name) === selectedHomeTeam || match.homeTeam.name === selectedHomeTeam) &&
-                                                (getAlternateName(match.awayTeam.name) === selectedAwayTeam || match.awayTeam.name === selectedAwayTeam)
-                                            ).length === 0 ? (
-                                                Alert.alert("Match Not Found", "The match is not in the next 3 months") // Alert if the match is not found in the next 3 months
+        
+                                    {selectedHomeTeam && selectedAwayTeam && (
+                                        <>
+                                            {selectedHomeTeam === selectedAwayTeam ? (
+                                                Alert.alert("Invalid Selection", "A team cannot play against itself!")
                                             ) : (
                                                 matches.filter(match => 
                                                     (getAlternateName(match.homeTeam.name) === selectedHomeTeam || match.homeTeam.name === selectedHomeTeam) &&
                                                     (getAlternateName(match.awayTeam.name) === selectedAwayTeam || match.awayTeam.name === selectedAwayTeam)
-                                                ).map(match => ( // Display the matches that match the selected home and away teams
-                                                    <TouchableOpacity key={match.id} onPress={() => handlePrediction(selectedHomeTeam, selectedAwayTeam)}> 
-                                                        <View style={styles.card}>
-                                                            <View style={styles.headingContainer}>
-                                                                <Text style={styles.competitionName}>{match.competition.name}</Text>
-                                                                <Image source={{ uri: match.competition.emblem }} style={styles.competitionEmblem} />
+                                                ).length === 0 ? (
+                                                    Alert.alert("Match Not Found", "The match is not in the next 3 months")
+                                                ) : (
+                                                    matches.filter(match => 
+                                                        (getAlternateName(match.homeTeam.name) === selectedHomeTeam || match.homeTeam.name === selectedHomeTeam) &&
+                                                        (getAlternateName(match.awayTeam.name) === selectedAwayTeam || match.awayTeam.name === selectedAwayTeam)
+                                                    ).map(match => (
+                                                        <TouchableOpacity key={match.id} onPress={() => handlePrediction(selectedHomeTeam, selectedAwayTeam)}>
+                                                            <View style={styles.card}>
+                                                                <View style={styles.headingContainer}>
+                                                                    <Text style={styles.competitionName}>{match.competition.name}</Text>
+                                                                    <Image source={{ uri: match.competition.emblem }} style={styles.competitionEmblem} />
+                                                                </View>
+                                                                <View style={styles.matchContainer}>
+                                                                    <Text style={styles.matchDetails}>{match.homeTeam.name} vs {match.awayTeam.name}</Text>
+                                                                </View>
+                                                                <View style={styles.logoContainer}>
+                                                                    {renderTeamLogo(match.homeTeam.crest)}
+                                                                    <Text style={styles.score}>
+                                                                        {predictedScores[`${selectedHomeTeam}-${selectedAwayTeam}`] ? 
+                                                                            `Predicted Score: ${predictedScores[`${selectedHomeTeam}-${selectedAwayTeam}`]}` : 
+                                                                            `Click to predict`}
+                                                                    </Text>
+                                                                    {renderTeamLogo(match.awayTeam.crest)}
+                                                                </View>
+                                                                <Text style={styles.date}>Date: {new Date(match.utcDate).toLocaleString()}</Text>
                                                             </View>
-                                                            <View style={styles.matchContainer}>
-                                                                <Text style={styles.matchDetails}>{match.homeTeam.name} vs {match.awayTeam.name}</Text>
-                                                            </View>
-                                                            <View style={styles.logoContainer}>
-                                                                <Image source={{ uri: match.homeTeam.crest }} style={styles.teamLogo} />
-                                                                <Text style={styles.score}>
-                                                                    {predictedScores[`${selectedHomeTeam}-${selectedAwayTeam}`] ? 
-                                                                        `Predicted Score: ${predictedScores[`${selectedHomeTeam}-${selectedAwayTeam}`]}` : 
-                                                                        `Click to predict`}
-                                                                </Text>
-                                                                <Image source={{ uri: match.awayTeam.crest }} style={styles.teamLogo} />
-                                                            </View>
-                                                            <Text style={styles.date}>Date: {new Date(match.utcDate).toLocaleString()}</Text>
-                                                        </View>
-                                                    </TouchableOpacity>
-                                                ))
-                                            )
-                                        )}
-                                    </>
-                                )}
-                            </View>
-                        </ScrollView>
+                                                        </TouchableOpacity>
+                                                    ))
+                                                )
+                                            )}
+                                        </>
+                                    )}
+                                </View>
+                            </ScrollView>
+                        )}
                     </ImageBackground>
                 </SafeAreaView>
             </GestureHandlerRootView>
-        );        
-    };               
+        );
+};        
         
 const styles = StyleSheet.create({
     centeredContainer: {
@@ -387,6 +399,10 @@ const styles = StyleSheet.create({
     },
     pickerContainer: {
         marginBottom: 20,
+    },
+    picker: {
+        flex: 1,
+        marginHorizontal: 5,
     },
     drawerLabel: {
         fontFamily: 'pop-sb',
@@ -442,6 +458,11 @@ const styles = StyleSheet.create({
     date: {
         fontSize: 14,
         color: '#FFFFFF',
+    },
+    loadingIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
         
