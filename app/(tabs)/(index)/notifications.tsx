@@ -25,7 +25,8 @@ const getFormattedDate = (date: Date): string => {
 const Notifications = () => {
     const [matches, setMatches] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
-    const [selectedLeague, setSelectedLeague] = useState<string | null>(TOP_5_LEAGUES[0].value);
+    const [selectedLeague, setSelectedLeague] = useState<string | null>(null);
+    const [previousLeague, setPreviousLeague] = useState<string | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -39,8 +40,10 @@ const Notifications = () => {
                 const dateTo = getFormattedDate(currentDate);
                 const dateFrom = getFormattedDate(ninetyDaysAgo);
 
+                const responses: any[] = [];
+
                 if (selectedLeague) {
-                    const response = await axios.get(`${API_URL}/${selectedLeague}/matches`, {
+                    const response = await axios.get(`${API_URL}/competitions/${selectedLeague}/matches`, {
                         headers: { 'X-Auth-Token': API_KEY },
                         params: {
                             dateFrom,
@@ -48,10 +51,24 @@ const Notifications = () => {
                             status: 'FINISHED',
                         }
                     });
-
-                    const finishedMatches = response.data.matches.sort((a: any, b: any) => new Date(b.utcDate).getTime() - new Date(a.utcDate).getTime());  // Sort matches by date
-                    setMatches(finishedMatches);
+                    responses.push(response.data.matches);
+                } else {
+                    for (const league of TOP_5_LEAGUES) {
+                        const response = await axios.get(`${API_URL}/competitions/${league.value}/matches`, {
+                            headers: { 'X-Auth-Token': API_KEY },
+                            params: {
+                                dateFrom,
+                                dateTo,
+                                status: 'FINISHED',
+                            }
+                        });
+                        responses.push(response.data.matches);
+                        await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay between requests to prevent error 429
+                    }
                 }
+
+                const finishedMatches = responses.flat().sort((a: any, b: any) => new Date(b.utcDate).getTime() - new Date(a.utcDate).getTime());  // Sort matches by date
+                setMatches(finishedMatches);
             } catch (error) {
                 console.error('Error fetching match data:', error);
 
@@ -77,6 +94,15 @@ const Notifications = () => {
         fetchMatches();
     }, [selectedLeague]);
 
+    const handleLeagueChange = (value: string | null) => {
+        if (value === null) {
+            setSelectedLeague(previousLeague); // Revert to the previous league if "Select League" is chosen
+        } else {
+            setPreviousLeague(selectedLeague);
+            setSelectedLeague(value);
+        }
+    };
+
     const handlePress = (id: string) => {
         router.push(`/notifs/${id}`);
     }
@@ -86,10 +112,10 @@ const Notifications = () => {
             <SafeAreaView style={[defaultStyles.container, { backgroundColor: '#1C1C1C' }]}>
                 <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
                     <View style={styles.pickerContainer}>
-                        <RNPickerSelect
-                            onValueChange={(value) => setSelectedLeague(value)}
+                        <RNPickerSelect 
+                            onValueChange={handleLeagueChange}
                             items={TOP_5_LEAGUES}
-                            placeholder={{ label: 'Select League', value: null }}
+                            placeholder={{ label: 'Select League', value: previousLeague }}
                             style={pickerSelectStyles}
                             value={selectedLeague}
                         />
@@ -113,6 +139,7 @@ const Notifications = () => {
 const styles = StyleSheet.create({
     pickerContainer: {
         margin: 10,
+        paddingTop: 10,
     },
     loadingIndicator: {
         flex: 1,
@@ -128,21 +155,24 @@ const pickerSelectStyles = StyleSheet.create({
         paddingHorizontal: 10,
         borderWidth: 1,
         borderColor: 'gray',
-        borderRadius: 4,
+        borderRadius: 24,
         color: 'white',
         paddingRight: 30, // to ensure the text is never behind the icon
-        backgroundColor: '#333333',
+        backgroundColor: '#222232',
+        width: 410,
+        height: 50,
     },
     inputAndroid: {
-        fontSize: 16,
-        paddingHorizontal: 10,
-        paddingVertical: 8,
-        borderWidth: 0.5,
-        borderColor: 'purple',
-        borderRadius: 8,
         color: 'white',
-        paddingRight: 30, // to ensure the text is never behind the icon
-        backgroundColor: '#333333',
+        padding: 18,
+        backgroundColor: '#222232',
+        borderRadius: 24,
+        width: 410,
+        height: 50,
+    },
+    placeholder: {
+        color: 'white',
+        fontSize: 18,
     },
 });
 

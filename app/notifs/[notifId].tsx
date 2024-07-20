@@ -1,9 +1,13 @@
-import { View, StyleSheet, Text, ImageBackground, SafeAreaView, Image } from 'react-native';
+import { View, StyleSheet, Text, ImageBackground, SafeAreaView, ActivityIndicator, Image } from 'react-native';
 import Animated from 'react-native-reanimated';
 import React, { useEffect, useState } from 'react';
 import { defaultStyles } from '@/constants/Styles';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import axios from 'axios';
+import { SvgUri } from 'react-native-svg';
+
+const API_URL = process.env.EXPO_PUBLIC_FOOTBALL_API_URL;
+const API_KEY = process.env.EXPO_PUBLIC_FOOTBALL_API_KEY;
 
 const NotificationDetails: React.FC = () => {
     const local = useLocalSearchParams();
@@ -14,8 +18,8 @@ const NotificationDetails: React.FC = () => {
 
     useEffect(() => {
         if (id) {
-            axios.get(`https://api.football-data.org/v4/matches/${id}`, {
-                headers: { 'X-Auth-Token': '083c7a6bcfef42dda05c626dda61be90' }
+            axios.get(`${API_URL}/matches/${id}`, {
+                headers: { 'X-Auth-Token': `${API_KEY}` }
             })
                 .then(response => {
                     setNotification(response.data);
@@ -30,7 +34,16 @@ const NotificationDetails: React.FC = () => {
     }, [id]);
 
     if (loading) {
-        return <Text style={defaultStyles.heading1}>Loading...</Text>;
+        return (
+            <SafeAreaView style={defaultStyles.container}>
+                <Stack.Screen
+                        options={{
+                            headerBackTitle: "Back",
+                        }}
+                    />
+                <ActivityIndicator size="large" color="#FFFFFF" style={styles.loadingIndicator} />
+            </SafeAreaView>
+        );
     }
 
     if (error) {
@@ -44,31 +57,63 @@ const NotificationDetails: React.FC = () => {
     const match = notification;
     const homeTeam = match.homeTeam;
     const awayTeam = match.awayTeam;
+    const referee = match.referees && match.referees[0];
+    const { competition, score, utcDate, venue, stage, area } = match;
+
+    // Render the team logo, either an SVG or an image
+    const renderTeamLogo = (uri: string) => {
+        const isSvg = uri.endsWith('.svg');
+        if (isSvg) {
+            return <SvgUri width="70" height="70" uri={uri} />;
+        } else {
+            return <Image source={{ uri }} style={styles.teamLogo} />;
+        }
+    };
 
     return (
         <SafeAreaView style={defaultStyles.container}>
             <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
                 <Animated.ScrollView contentContainerStyle={styles.contentContainer}>
-                <Stack.Screen
+                    <Stack.Screen
                         options={{
                             headerBackTitle: "Back",
                         }}
                     />
                     <View style={styles.headerContainer}>
-                        <Image source={{ uri: match.competition.emblem }} style={styles.competitionEmblem} />
-                        <Text style={styles.competitionName}>{match.competition.name}</Text>
+                        {renderTeamLogo(competition.emblem)}
+                        <View style={styles.headerTextContainer}>
+                            <Text style={styles.competitionName}>{competition.name}</Text>
+                            <Text style={styles.stage}>{stage}</Text>
+                        </View>
+                        {renderTeamLogo(area.flag)}
                     </View>
-                    <View style={styles.matchContainer}>
-                        <Text style={styles.matchDetails}>{homeTeam.name} vs {awayTeam.name}</Text>
+                    <View style={styles.dateTimeContainer}>
+                        <Text style={styles.date}>{new Date(utcDate).toLocaleDateString()}</Text>
+                        <Text style={styles.time}>{new Date(utcDate).toLocaleTimeString()}</Text>
                     </View>
                     <View style={styles.detailsContainer}>
-                        <Image source={{ uri: homeTeam.crest }} style={styles.teamLogo} />
-                        <Text style={styles.score}>
-                            Score: {match.score.fullTime.home} - {match.score.fullTime.away}
-                        </Text>
-                        <Image source={{ uri: awayTeam.crest }} style={styles.teamLogo} />
+                        <View style={styles.teamContainer}>
+                            {renderTeamLogo(homeTeam.crest)}
+                            <Text style={styles.teamName}>{homeTeam.name}</Text>
+                        </View>
+                        <View style={styles.scoreContainer}>
+                            <Text style={styles.score}>
+                                {score.fullTime.home} - {score.fullTime.away}
+                            </Text>
+                            <Text style={styles.halfTimeScore}>
+                                (Half Time: {score.halfTime.home} - {score.halfTime.away})
+                            </Text>
+                        </View>
+                        <View style={styles.teamContainer}>
+                            {renderTeamLogo(awayTeam.crest)}
+                            <Text style={styles.teamName}>{awayTeam.name}</Text>
+                        </View>
                     </View>
-                    <Text style={styles.date}>Date: {new Date(match.utcDate).toLocaleString()}</Text>
+                    <Text style={styles.additionalInfo}>Venue: {venue}</Text>
+                    <Text style={styles.additionalInfo}>Competition Area: {area.name}</Text>
+                    <Text style={styles.additionalInfo}>
+                        Referee: {referee ? `${referee.name} (${referee.nationality})` : 'Not available'}
+                    </Text>
                 </Animated.ScrollView>
             </ImageBackground>
         </SafeAreaView>
@@ -90,6 +135,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 10,
     },
+    headerTextContainer: {
+        flex: 1,
+        marginLeft: 10,
+    },
     competitionEmblem: {
         width: 50,
         height: 50,
@@ -98,6 +147,10 @@ const styles = StyleSheet.create({
     competitionName: {
         fontSize: 24,
         fontWeight: 'bold',
+        color: '#FFFFFF',
+    },
+    stage: {
+        fontSize: 16,
         color: '#FFFFFF',
     },
     matchContainer: {
@@ -114,37 +167,61 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '100%',
+        width: '95%',
         marginVertical: 20,
+    },
+    teamContainer: {
+        alignItems: 'center',
     },
     teamLogo: {
         width: 70,
         height: 70,
+    },
+    teamName: {
+        fontSize: 16,
+        color: '#FFFFFF',
+        marginTop: 5,
     },
     score: {
         fontSize: 36,
         fontWeight: 'bold',
         color: '#FFFFFF',
     },
-    statsContainer: {
+    scoreContainer: {
         alignItems: 'center',
-        marginBottom: 20,
     },
-    statText: {
-        fontSize: 18,
+    halfTimeScore: {
+        fontSize: 14,
         color: '#FFFFFF',
     },
-    penalties: {
-        fontSize: 20,
-        color: '#FFFF00',
-        fontWeight: 'bold',
-        marginVertical: 5,
+    additionalInfo: {
+        fontSize: 16,
+        color: '#FFFFFF',
+        marginTop: 10,
     },
     date: {
         fontSize: 16,
         color: '#FFFFFF',
-        marginTop: 10,
-    }
+        fontWeight: 'bold',
+        textDecorationLine: 'underline',
+        marginRight: 10,
+    },
+    time: {
+        fontSize: 16,
+        color: '#FFFFFF',
+        fontWeight: 'bold',
+        textDecorationLine: 'underline',
+    },
+    dateTimeContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    loadingIndicator: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 export default NotificationDetails;
