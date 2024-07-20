@@ -2,7 +2,7 @@ import { View, StyleSheet, Text, ImageBackground, SafeAreaView, Image } from 're
 import Animated from 'react-native-reanimated';
 import React, { useEffect, useState } from 'react';
 import { defaultStyles } from '@/constants/Styles';
-import { useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import axios from 'axios';
 
 const MatchDetails: React.FC = () => {
@@ -18,7 +18,6 @@ const MatchDetails: React.FC = () => {
                 headers: { 'X-Auth-Token': '083c7a6bcfef42dda05c626dda61be90' }
             })
                 .then(response => {
-                    console.log(`Received data for match with id: ${id}`, response.data);
                     setMatch(response.data);
                     setLoading(false);
                 })
@@ -49,6 +48,12 @@ const MatchDetails: React.FC = () => {
         <SafeAreaView style={defaultStyles.container}>
             <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
                 <Animated.ScrollView contentContainerStyle={styles.contentContainer}>
+                    <Stack.Screen
+                        options={{
+                            title: `${homeTeam} vs ${awayTeam}`,
+                            headerBackTitle: "Back",
+                        }}
+                    />
                     <View style={styles.headerContainer}>
                         <Image source={{ uri: match.competition.emblem }} style={styles.competitionEmblem} />
                         <Text style={styles.competitionName}>{match.competition.name}</Text>
