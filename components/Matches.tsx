@@ -20,6 +20,7 @@ const getFormattedDate = (date: Date): string => {
 const Matches = ({ favoriteTeams }: MatchProps) => {
     const [upcomingMatches, setUpcomingMatches] = useState<Match[]>([]);
     const [loading, setLoading] = useState(false);
+    const [dataLoaded, setDataLoaded] = useState(false);  // Add a state variable to track if data is loaded
     const listRef = useRef<FlatList<Match>>(null);
 
     useEffect(() => {
@@ -49,6 +50,7 @@ const Matches = ({ favoriteTeams }: MatchProps) => {
                 console.error('Error fetching upcoming match data:', error);
             } finally {
                 setLoading(false);
+                setDataLoaded(true);  // Set dataLoaded to true once the data fetching is complete
             }
         };
 
@@ -65,30 +67,36 @@ const Matches = ({ favoriteTeams }: MatchProps) => {
         </Link>
     );
 
-    if (!upcomingMatches.length) {
+    // Show loading indicator while fetching data
+    if (loading) {
+        return (
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <ActivityIndicator size="large" color="white" style={{ padding: 10 }} />
+            </GestureHandlerRootView>
+        );
+    }
+
+    // Show "No upcoming matches" if data is loaded and there are no upcoming matches
+    if (dataLoaded && !upcomingMatches.length) {
         return (
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <Text style={[defaultStyles.heading2, { paddingHorizontal: 30 }]}>No upcoming matches</Text>
             </GestureHandlerRootView>
-        )
+        );
     }
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
             <Text style={[defaultStyles.heading2, { paddingHorizontal: 30 }]}>Upcoming Matches</Text>
             <View style={{ height: 10 }}></View>
-            {loading ? (
-                <ActivityIndicator size="large" color="white" style={{ padding: 10 }} />
-            ) : (
-                <FlatList
-                    data={upcomingMatches}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={defaultStyles.container2}
-                    ref={listRef}
-                />
-            )}
+            <FlatList
+                data={upcomingMatches}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id.toString()}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={defaultStyles.container2}
+                ref={listRef}
+            />
         </GestureHandlerRootView>
     );
 };

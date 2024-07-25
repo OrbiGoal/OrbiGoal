@@ -33,7 +33,7 @@
     "axios": "^1.7.2",
     "body-parser": "^1.20.2",
     "expo": "~51.0.20",
-    "expo-camera": "^15.0.13",
+    "expo-camera": "^15.0.14",
     "expo-constants": "~16.0.2",
     "expo-crypto": "^13.0.2",
     "expo-file-system": "^17.0.1",

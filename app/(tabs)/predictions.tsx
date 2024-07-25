@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Alert, ActivityIndicator} from 'react-native';
+import { View, Text, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { defaultStyles } from '@/constants/Styles';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
@@ -92,13 +92,13 @@ const loadModels = async () => {
         const modelHomeWeights = require('../../assets/models/home/group1-shard1of1.bin');
         const modelAwayJson = require('../../assets/models/away/model.json');
         const modelAwayWeights = require('../../assets/models/away/group1-shard1of1.bin');
-        
+
         // Load the models
         const modelHome = await tf.loadLayersModel(bundleResourceIO(modelHomeJson, modelHomeWeights));
         const modelAway = await tf.loadLayersModel(bundleResourceIO(modelAwayJson, modelAwayWeights));
 
         return { modelHome, modelAway };
-    } catch (error : any) {
+    } catch (error: any) {
         console.error('Error loading models:', error.message);
         console.error('Stack trace:', error.stack);
         throw error; // Re-throw the error after logging it
@@ -209,7 +209,7 @@ const Predictions = () => {
                     responses.push(response.data.matches);
                     await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay between requests
                 }
-                
+
                 // Flatten the responses and sort the matches by date in chronological order
                 const scheduledMatches = responses.flat().sort((a, b) => new Date(a.utcDate).getTime() - new Date(b.utcDate).getTime());
 
@@ -240,7 +240,7 @@ const Predictions = () => {
                 console.error('Error loading JSON data:', error);
             }
         };
-        
+
         const loadModel = async () => {
             try {
                 const loadedModels = await loadModels();
@@ -249,139 +249,139 @@ const Predictions = () => {
                 console.error('Error loading models:', error);
             }
         };
-        
+
         fetchMatches();
         loadData();
         loadModel();
-        }, []);
-        
-        const handlePrediction = async (homeTeam: string, awayTeam: string) => {
-            if (jsonData.length > 0 && models.modelHome && models.modelAway) {
-                const predictedScore = await fetchAndPredict(homeTeam, awayTeam, jsonData, models);
-                setPredictedScores({
-                    ...predictedScores,
-                    [`${homeTeam}-${awayTeam}`]: predictedScore
-                });
-            }
-        };
-        
-        const renderHeaderTitle = () => {
-            return <Text style={styles.headerTitle}>Predictions</Text>;
-        };
-        
-        useEffect(() => {
-            navigation.setOptions({
-                headerTitle: renderHeaderTitle,
-                headerStyle: styles.header,
-            });
-        }, [navigation]);
-        
-        if (error) {
-            return (
-                <View style={styles.centeredContainer}>
-                    <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>{`Error: ${error}`}</Text>
-                </View>
-            );
-        }
-        
-        const teams = Object.values(TOP_CLUBS_ALTERNATE_NAMES).map(team => ({ label: team, value: team }));
+    }, []);
 
-        // Render the team logo, either an SVG or an image
-        const renderTeamLogo = (uri: string) => {
-            const isSvg = uri.endsWith('.svg');
-            if (isSvg) {
-                return <SvgUri width="50" height="50" uri={uri} />;
-            } else {
-                return <Image source={{ uri }} style={styles.teamLogo} />;
-            }
-        };
-        
+    const handlePrediction = async (homeTeam: string, awayTeam: string) => {
+        if (jsonData.length > 0 && models.modelHome && models.modelAway) {
+            const predictedScore = await fetchAndPredict(homeTeam, awayTeam, jsonData, models);
+            setPredictedScores({
+                ...predictedScores,
+                [`${homeTeam}-${awayTeam}`]: predictedScore
+            });
+        }
+    };
+
+    const renderHeaderTitle = () => {
+        return <Text style={styles.headerTitle}>Predictions</Text>;
+    };
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerTitle: renderHeaderTitle,
+            headerStyle: styles.header,
+        });
+    }, [navigation]);
+
+    if (error) {
         return (
-            <GestureHandlerRootView style={{ flex: 1 }}>
-                <SafeAreaView style={[defaultStyles.container, { backgroundColor: '#1C1C1C' }]}>
-                    <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
-                        {loading ? (
-                            <ActivityIndicator size="large" color="#FFFFFF" style={styles.loadingIndicator} />
-                        ) : error ? (
-                            <View style={styles.centeredContainer}>
-                                <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>{`${error}`}</Text>
-                            </View>
-                        ) : (
-                            <ScrollView>
-                                <View style={defaultStyles.container2}>
-                                    <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>Upcoming Match Predictions!</Text>
-        
-                                    <View style={styles.pickerContainer}>
-                                        <View style={styles.picker}>
-                                            <Text style={{ color: '#FFFFFF', marginBottom: 5 }}>Home</Text>
-                                            <RNPickerSelect
-                                                onValueChange={(value) => setSelectedHomeTeam(value)}
-                                                items={teams}
-                                                placeholder={{ label: 'Select Home Team', value: null }}
-                                                style={pickerSelectStyles}
-                                            />
-                                        </View>
-                                        <View style={styles.picker}>
-                                            <Text style={{ color: '#FFFFFF', marginBottom: 5, marginTop: 15 }}>Away</Text>
-                                            <RNPickerSelect
-                                                onValueChange={(value) => setSelectedAwayTeam(value)}
-                                                items={teams}
-                                                placeholder={{ label: 'Select Away Team', value: null }}
-                                                style={pickerSelectStyles}
-                                            />
-                                        </View>
+            <View style={styles.centeredContainer}>
+                <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>{`Error: ${error}`}</Text>
+            </View>
+        );
+    }
+
+    const teams = Object.values(TOP_CLUBS_ALTERNATE_NAMES).map(team => ({ label: team, value: team }));
+
+    // Render the team logo, either an SVG or an image
+    const renderTeamLogo = (uri: string) => {
+        const isSvg = uri.endsWith('.svg');
+        if (isSvg) {
+            return <SvgUri width="50" height="50" uri={uri} />;
+        } else {
+            return <Image source={{ uri }} style={styles.teamLogo} />;
+        }
+    };
+
+    return (
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <SafeAreaView style={[defaultStyles.container, { backgroundColor: '#1C1C1C' }]}>
+                <ImageBackground source={require('@/assets/screen-background.jpeg')} style={defaultStyles.backgroundImageContainer} imageStyle={defaultStyles.backgroundImage}>
+                    {loading ? (
+                        <ActivityIndicator size="large" color="#FFFFFF" style={styles.loadingIndicator} />
+                    ) : error ? (
+                        <View style={styles.centeredContainer}>
+                            <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>{`${error}`}</Text>
+                        </View>
+                    ) : (
+                        <ScrollView>
+                            <View style={defaultStyles.container2}>
+                                <Text style={[defaultStyles.heading1, { color: '#FFFFFF' }]}>Upcoming Match Predictions!</Text>
+
+                                <View style={styles.pickerContainer}>
+                                    <View style={styles.picker}>
+                                        <Text style={{ color: '#FFFFFF', marginBottom: 5 }}>Home</Text>
+                                        <RNPickerSelect
+                                            onValueChange={(value) => setSelectedHomeTeam(value)}
+                                            items={teams}
+                                            placeholder={{ label: 'Select Home Team', value: null }}
+                                            style={pickerSelectStyles}
+                                        />
                                     </View>
-        
-                                    {selectedHomeTeam && selectedAwayTeam && (
-                                        <>
-                                            {selectedHomeTeam === selectedAwayTeam ? (
-                                                Alert.alert("Invalid Selection", "A team cannot play against itself!")
+                                    <View style={styles.picker}>
+                                        <Text style={{ color: '#FFFFFF', marginBottom: 5, marginTop: 15 }}>Away</Text>
+                                        <RNPickerSelect
+                                            onValueChange={(value) => setSelectedAwayTeam(value)}
+                                            items={teams}
+                                            placeholder={{ label: 'Select Away Team', value: null }}
+                                            style={pickerSelectStyles}
+                                        />
+                                    </View>
+                                </View>
+
+                                {selectedHomeTeam && selectedAwayTeam && (
+                                    <>
+                                        {selectedHomeTeam === selectedAwayTeam ? (
+                                            Alert.alert("Invalid Selection", "A team cannot play against itself!")
+                                        ) : (
+                                            matches.filter(match =>
+                                                (getAlternateName(match.homeTeam.name) === selectedHomeTeam || match.homeTeam.name === selectedHomeTeam) &&
+                                                (getAlternateName(match.awayTeam.name) === selectedAwayTeam || match.awayTeam.name === selectedAwayTeam)
+                                            ).length === 0 ? (
+                                                Alert.alert("Match Not Found", "The match is not in the next 3 months")
                                             ) : (
-                                                matches.filter(match => 
+                                                matches.filter(match =>
                                                     (getAlternateName(match.homeTeam.name) === selectedHomeTeam || match.homeTeam.name === selectedHomeTeam) &&
                                                     (getAlternateName(match.awayTeam.name) === selectedAwayTeam || match.awayTeam.name === selectedAwayTeam)
-                                                ).length === 0 ? (
-                                                    Alert.alert("Match Not Found", "The match is not in the next 3 months")
-                                                ) : (
-                                                    matches.filter(match => 
-                                                        (getAlternateName(match.homeTeam.name) === selectedHomeTeam || match.homeTeam.name === selectedHomeTeam) &&
-                                                        (getAlternateName(match.awayTeam.name) === selectedAwayTeam || match.awayTeam.name === selectedAwayTeam)
-                                                    ).map(match => (
-                                                        <TouchableOpacity key={match.id} onPress={() => handlePrediction(selectedHomeTeam, selectedAwayTeam)}>
-                                                            <View style={styles.card}>
-                                                                <View style={styles.headingContainer}>
-                                                                    <Text style={styles.competitionName}>{match.competition.name}</Text>
-                                                                    <Image source={{ uri: match.competition.emblem }} style={styles.competitionEmblem} />
-                                                                </View>
-                                                                <View style={styles.matchContainer}>
-                                                                    <Text style={styles.matchDetails}>{match.homeTeam.name} vs {match.awayTeam.name}</Text>
-                                                                </View>
-                                                                <View style={styles.logoContainer}>
-                                                                    {renderTeamLogo(match.homeTeam.crest)}
-                                                                    <Text style={styles.score}>
-                                                                        {predictedScores[`${selectedHomeTeam}-${selectedAwayTeam}`] ? 
-                                                                            `Predicted Score: ${predictedScores[`${selectedHomeTeam}-${selectedAwayTeam}`]}` : 
-                                                                            `Click to predict`}
-                                                                    </Text>
-                                                                    {renderTeamLogo(match.awayTeam.crest)}
-                                                                </View>
-                                                                <Text style={styles.date}>Date: {new Date(match.utcDate).toLocaleString()}</Text>
+                                                ).map(match => (
+                                                    <TouchableOpacity key={match.id} onPress={() => handlePrediction(selectedHomeTeam, selectedAwayTeam)}>
+                                                        <View style={styles.card}>
+                                                            <View style={styles.headingContainer}>
+                                                                <Text style={styles.competitionName}>{match.competition.name}</Text>
+                                                                <Image source={{ uri: match.competition.emblem }} style={styles.competitionEmblem} />
                                                             </View>
-                                                        </TouchableOpacity>
-                                                    ))
-                                                )
-                                            )}
-                                        </>
-                                    )}
-                                </View>
-                            </ScrollView>
-                        )}
-                    </ImageBackground>
-                </SafeAreaView>
-            </GestureHandlerRootView>
-        );
-};        
-        
+                                                            <View style={styles.matchContainer}>
+                                                                <Text style={styles.matchDetails}>{match.homeTeam.name} vs {match.awayTeam.name}</Text>
+                                                            </View>
+                                                            <View style={styles.logoContainer}>
+                                                                {renderTeamLogo(match.homeTeam.crest)}
+                                                                <Text style={styles.score}>
+                                                                    {predictedScores[`${selectedHomeTeam}-${selectedAwayTeam}`] ?
+                                                                        `Predicted Score: ${predictedScores[`${selectedHomeTeam}-${selectedAwayTeam}`]}` :
+                                                                        `Click to predict`}
+                                                                </Text>
+                                                                {renderTeamLogo(match.awayTeam.crest)}
+                                                            </View>
+                                                            <Text style={styles.date}>Date: {new Date(match.utcDate).toLocaleString()}</Text>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                ))
+                                            )
+                                        )}
+                                    </>
+                                )}
+                            </View>
+                        </ScrollView>
+                    )}
+                </ImageBackground>
+            </SafeAreaView>
+        </GestureHandlerRootView>
+    );
+};
+
 const styles = StyleSheet.create({
     centeredContainer: {
         flex: 1,
@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     }
 });
-        
+
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
         fontSize: 16,
