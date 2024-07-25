@@ -52,3 +52,6 @@ firebase/
 /backend/service_account_key.json
 /backend/cache
 /components/Notifications (redacted).tsx
+Untitled.ipynb
+.ipynb_checkpoints
+/backend/assets/*
