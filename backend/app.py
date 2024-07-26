@@ -3,6 +3,7 @@ from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, firestore
 import pandas as pd
+import numpy as np
 import pickle
 import os
 import datetime
@@ -18,8 +19,7 @@ db = firestore.client()
 
 teams2122collection = 'Football Team Stats 2021-2022'
 teams2223collection = 'Football Team Stats 2022-2023'
-players2122collection = 'Football Player Stats 2021-2022'
-players2223collection = 'Football Player Stats 2022-2023'
+playersCollection = 'Football Player Data'
 
 # Function to map the team to the url of its logo
 def generate_logo(squad_name, season):
@@ -44,8 +44,7 @@ players_data_fetched = False
 CACHE_DIR = 'cache'
 teams_2122_cache = os.path.join(CACHE_DIR, 'teams_2122.pkl')
 teams_2223_cache = os.path.join(CACHE_DIR, 'teams_2223.pkl')
-players_2122_cache = os.path.join(CACHE_DIR, 'players_2122.pkl')
-players_2223_cache = os.path.join(CACHE_DIR, 'players_2223.pkl')
+players_cache = os.path.join(CACHE_DIR, 'players.pkl')
 
 # Initialise expiry date on cached data so it doesn't use old cached data
 cache_timestamp_file = os.path.join(CACHE_DIR, 'cache_timestamp.txt')
@@ -69,7 +68,7 @@ def update_cache_timestamp():
 
 def fetch_data():
     global teams_data_fetched, players_data_fetched
-    global df_teams_2122, df_teams_2223, df_players_2122, df_players_2223
+    global df_teams_2122, df_teams_2223, df_players
 
     os.makedirs(CACHE_DIR, exist_ok=True)
 
@@ -79,10 +78,8 @@ def fetch_data():
             os.remove(teams_2122_cache)
         if os.path.exists(teams_2223_cache):
             os.remove(teams_2223_cache)
-        if os.path.exists(players_2122_cache):
-            os.remove(players_2122_cache)
-        if os.path.exists(players_2223_cache):
-            os.remove(players_2223_cache)
+        if os.path.exists(players_cache):
+            os.remove(players_cache)
         update_cache_timestamp()
         teams_data_fetched = False
         players_data_fetched = False
@@ -107,25 +104,19 @@ def fetch_data():
         teams_data_fetched = True
 
     if not players_data_fetched:
-        if os.path.exists(players_2122_cache) and os.path.exists(players_2223_cache):
-            with open(players_2122_cache, 'rb') as f:
-                df_players_2122 = pickle.load(f)
-            with open(players_2223_cache, 'rb') as f:
-                df_players_2223 = pickle.load(f)
+        if os.path.exists(players_cache):
+            with open(players_cache, 'rb') as f:
+                df_players = pickle.load(f)
             print('Loaded Players data from cache')
         else:
-            df_players_2122 = get_from_collection(players2122collection)
-            df_players_2122['season'] = '2122'
-            df_players_2223 = get_from_collection(players2223collection)
-            df_players_2223['season'] = '2223'
-            with open(players_2122_cache, 'wb') as f:
-                pickle.dump(df_players_2122, f)
-            with open(players_2223_cache, 'wb') as f:
-                pickle.dump(df_players_2223, f)
+            df_players = get_from_collection(playersCollection)
+            with open(players_cache, 'wb') as f:
+                pickle.dump(df_players, f)
             print('Loaded Players data from API and cached it')
         players_data_fetched = True
 
 
+# ==== FUNCTIONS TO PROCESS DATA ====
 def get_team_names_df():
 
     fetch_data()
@@ -168,7 +159,57 @@ def get_teams_detailed_df():
     return df
 
 
-# ==== ROUTES ====
+def get_player_names_df():
+
+    fetch_data()
+
+    # Data processing
+    LEAGUE_TO_COUNTRY = { # Map player league to country for top 5 leagues
+        "English Premier League": "ENG",
+        "French Ligue 1": "FRA",
+        "Bundesliga": "GER",
+        "Spain Primera Division": "ESP",
+        "Italian Serie A": "ITA"
+    }
+
+    df_players['LeagueNation'] = df_players['LeagueName'].map(LEAGUE_TO_COUNTRY).fillna('OTHER')
+
+    # Fetch only the required data for the search page
+    df = df_players[[
+        'id', 
+        'Player',
+        'SquadName',
+        'LeagueNation',
+        'SquadFlagURL', 
+        'SquadLogoURL',
+        'PlayerFaceURL',
+        'NationalityFlagURL'
+    ]]
+
+    # df = df.fillna('')
+
+    return df
+
+
+def get_players_detailed_df():
+
+    fetch_data()
+
+    # Data processing
+    LEAGUE_TO_COUNTRY = { # Map player league to country for top 5 leagues
+        "English Premier League": "ENG",
+        "French Ligue 1": "FRA",
+        "Bundesliga": "GER",
+        "Spain Primera Division": "ESP",
+        "Italian Serie A": "ITA"
+    }
+
+    df_players['LeagueNation'] = df_players['LeagueName'].map(LEAGUE_TO_COUNTRY).fillna('OTHER')
+
+    return df_players
+
+
+# ==== GET FROM FIREBASE ====
 @app.route('/get-teams-detailed', methods=['GET'])
 def get_teams_detailed():
     teams_detailed_df = get_teams_detailed_df()
@@ -200,22 +241,41 @@ def get_team_details(teamID):
 
 @app.route('/get-team-names', methods=['GET'])
 def get_team_names():
+
     all_team_names = get_team_names_df()
 
-    # Return the JSON array
     return jsonify(all_team_names.to_dict(orient="records"))
 
 
 @app.route('/get-players-detailed', methods=['GET'])
 def get_players_detailed():
 
-    fetch_data()
-
-    # Process data
-    df = pd.concat([df_players_2122, df_players_2223], ignore_index=True)
-    df = df.sort_values(by="Player")
+    df = get_players_detailed_df()
+    df.fillna('', inplace=True)
     
     return jsonify(df.to_dict(orient="records"))
+
+
+@app.route('/get-player-details/<playerID>', methods=['GET'])
+def get_player_details(playerID):
+
+    players = get_players_detailed_df()
+
+    # Filter the dataframe to get details for the specific player
+    player_details = players[players['id'] == int(playerID)]
+
+    if player_details.empty:
+        return jsonify({"error": "Player not found"}), 404
+
+    return jsonify(player_details.to_dict(orient='records'))
+
+
+@app.route('/get-player-names', methods=['GET'])
+def get_player_names():
+
+    all_player_names = get_player_names_df()
+
+    return jsonify(all_player_names.to_dict(orient='records'))
 
 
 # Map squad to logo file
@@ -334,7 +394,7 @@ squad_to_filename = {
     'Watford': 'GB1/Watford%20FC.png'
 }
 
-# ==== DATABASE ====
+# ==== WRITE TO FIREBASE ====
 TOP_5_LEAGUES = {
     "ESP": "PD",
     "GER": "BL1",
@@ -361,6 +421,7 @@ def add_favorite_team():
 
     return jsonify({"message": "Team added to favorites"}), 200
 
+
 # Remove favorite team
 @app.route('/api/removeFavoriteTeam', methods=['DELETE'])
 def remove_favorite_team():
@@ -372,6 +433,7 @@ def remove_favorite_team():
     db.collection('users').document(user_id).collection('favorite_teams').document(str(team_id)).delete()
 
     return jsonify({"message": "Team removed from favorites"}), 200
+
 
 # Get favorite teams
 @app.route('/api/getFavoriteTeams/<user_id>', methods=['GET'])
@@ -387,6 +449,16 @@ def get_favorite_teams(user_id):
         teams.append(t)
 
     return jsonify(teams), 200
+
+
+# Add favorite player
+
+
+# Get favorite players
+
+
+# Remove favorite players
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

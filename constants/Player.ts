@@ -1,7 +1,10 @@
 interface Player {
-    player_id: number;
-    country: string;
-    league: string;
-    team: string;
-    position: string;
+    id: number;
+    Player: string;
+    SquadName: string;
+    LeagueNation: string;
+    SquadFlagURL: string;
+    SquadLogoURL: string;
+    PlayerFaceURL: string;
+    NationalityFlagURL: string;
 }
