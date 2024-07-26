@@ -18,6 +18,7 @@ const Teams: React.FC = () => {
   const { isLoaded, isSignedIn, user } = useUser();
   const [loading, setLoading] = useState(false);
 
+  // Get team data from data base 
   useEffect(() => {
     setLoading(true);
     axios.get(`${FIREBASE_API_URL}/get-team-names`)
@@ -36,7 +37,7 @@ const Teams: React.FC = () => {
       });
   }, []);
 
-  // Get signed in data
+  // Get signed in data for favorited teams
   useEffect(() => {
     if (isSignedIn) {
       setLoading(true);
