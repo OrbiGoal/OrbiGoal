@@ -147,7 +147,7 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 
 ## App Design
 
-### Interface/Activity Diagram
+### Architecture/Activity Diagram
 <img width="1500" alt="image" src="https://github.com/user-attachments/assets/a83b8751-2132-4d58-86fc-3da6e1a49cac">
 
 An alternative implementation of profile and notifications would be to implement all within the same drawer as teams, players and predictions. However, that would cause the drawer to look cluttered and is against our principle of keeping the application user friendly. 
