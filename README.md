@@ -149,17 +149,23 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 
 ### Interface/Activity Diagram
 <img width="1500" alt="image" src="https://github.com/user-attachments/assets/a83b8751-2132-4d58-86fc-3da6e1a49cac">
+
+An alternative implementation of profile and notifications would be to implement all within the same drawer as teams, players and predictions. However, that would cause the drawer to look cluttered and is against our principle of keeping the application user friendly. 
+An alternative implementation of the landing page would be to remove the log in prompt and allow users to log in only in the profile tab. However, without logging in, favourited teams and players would not be kept track. Users may find it frustrating to realise they cannot favourite teams and players, and see their followed leagues in the home page. Therefore, we thought it would be more user friendly to prompt the users to log in as soon as they open up the application.
+
 <img width="1500" alt="image" src="https://github.com/user-attachments/assets/a0cd0290-1475-4134-81d7-6e247156ed88">
 <img width="1500" alt="image" src="https://github.com/user-attachments/assets/9d12cb9e-97a6-4a37-84f1-df33f68f0e49">
+
+While the search bar should function just as well independently, adding a filter option would smoothen the process and declutter the teams that pop up in the search in case the team that the user is looking for is far below in the search.
+
 <img width="1500" alt="image" src="https://github.com/user-attachments/assets/e8090e40-768f-4f39-b281-da3d90e1c38d">
+
+An alternative explored previously was to predict the match score on the teams' next encounter regardless of home and away. However, in real life scenarios, teams tend to do better in their home stadium. Therefore, the model is split between home and away, making use of home and away data separately to make fairer predictions.
+Another alternative explored was to build the predictive model on the spot, after users have selected two teams. However, training the model takes up significant time. If the user wants to make multiple predictions across multiple teams, doing so would significantly impact the user's experience.
 
 ### Design Principles
 
-Modularity: The app was developed with a modular design approach, breaking down the application into smaller, manageable, and independent modules. This makes it easier to manage, test, and maintain the codebase. Each feature, such as user authentication, search functionality, and match predictions, was developed as separate modules.
-
-Encapsulation: By encapsulating data and functionality within modules, we ensured that each module's internal workings were hidden from the rest of the application. This promotes separation of concerns and reduces the risk of unintended interactions between different parts of the application.
-
-Abstraction: Abstraction was used to simplify complex systems by providing a clear interface and hiding the implementation details. For example, we used high-level APIs to interact with the Firebase database, making the data retrieval and manipulation processes simpler and more understandable.
+Encapsulation: By encapsulating data and certain functionality within modules, we ensured that each module's internal workings were hidden from the rest of the application. This promotes separation of concerns and reduces the risk of unintended interactions between different parts of the application.
 
 Scalability and Performance Optimization: We designed the app with scalability in mind, ensuring that it can handle a growing number of users and data. Performance optimization techniques, such as efficient data fetching and caching, were implemented to provide a smooth user experience.
 
@@ -273,6 +279,9 @@ While the entire process of building the model can be found in this repository â
 
 <div style="page-break-after: always;"></div>
 
+A limitation faced was fully integrating the usage of Firebase to store the data used for predictions. As the model is trained using features such as goal counts and yellow card counts, it only makes sense to make predictions using such features. Since such data would never be available before the match, averages of such data are taken from the past encounters of the two teams selected. To make a fair prediction, large amounts of such data would be required. However, Firebase only allows 20,000 writes into the collections per day on a free subscription. Therefore, we decided to store such data locally, although it would cause the application to be of a bigger size. This limitation could be overcame with a paid subscription to Firebase.
+
+Additionally, there are limited free football data APIs available online. Footballorg was the best we found as it offered unlimited fetches for free. However, data from Footballorg would not merge well with the kaggle dataset we used to train our model and make predictions, as the only candidate key that was somewhat similar was the team names. Mapping each team name from one dataset to another would have to be done manually and would have taken up too much time. Moreover, making such a substantial number of API calls would either have resulted in AxiosError 429 or, with sufficient timeout implemented to avoid the error, cause the user to wait for too long before making a prediction. As such, we decided to only map the top teams in the top 5 leagues available to make predictions. This limitation could be potentially overcame with a paid football data API if its data would merge better with the kaggle dataset used to make predictions.
 
 ### Notifications 
 #### Description
