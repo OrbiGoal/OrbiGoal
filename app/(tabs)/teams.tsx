@@ -18,41 +18,36 @@ const Teams: React.FC = () => {
   const { isLoaded, isSignedIn, user } = useUser();
   const [loading, setLoading] = useState(false);
 
-  // Get team data from data base 
   useEffect(() => {
     setLoading(true);
-    axios.get(`${FIREBASE_API_URL}/get-team-names`)
-      .then(response => {
-        if (Array.isArray(response.data) && response.data.length > 0) {
-          setTeams(response.data);
-        } else {
-          console.error('Expected an array but got:', response.data);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching team names:', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    const fetchTeams = async () => {
+      try {
+        // Get team data and favorited teams data if user is signed in
+        const [allTeamsResponse, favoriteTeamsResponse] = await Promise.all([
+          axios.get(`${FIREBASE_API_URL}/get-team-names`),
+          isSignedIn ? axios.get(`${FIREBASE_API_URL}/api/getFavoriteTeams/${user.id}`) : Promise.resolve({ data: [] })
+        ]);
 
-  // Get signed in data for favorited teams
-  useEffect(() => {
-    if (isSignedIn) {
-      setLoading(true);
-      fetch(`${FIREBASE_API_URL}/api/getFavoriteTeams/${user.id}`)
-        .then(response => response.json())
-        .then(data => {
-          setFavoriteTeams(data);
-        })
-        .catch(error => {
-          console.error('Error fetching favorite teams:', error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
+        const allTeams = allTeamsResponse.data;
+        const favoriteTeams = favoriteTeamsResponse.data;
+
+        // Sort favorited teams data and put favorited teams data at the start of the page (if any)
+        const favoriteTeamIds = new Set(favoriteTeams.map((team: Team) => team.team_id));
+        const sortedTeams = allTeams.map((team: Team) => ({
+          ...team,
+          isFavorite: favoriteTeamIds.has(team.team_id),
+        })).sort((a: Team, b: Team) => Number(b.isFavorite) - Number(a.isFavorite));
+
+        setTeams(sortedTeams);
+        setFavoriteTeams(favoriteTeams);
+      } catch (error) {
+        console.error('Error fetching team names or favorite teams:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeams();
   }, [isSignedIn, user]);
 
   const filterTeams = (teams: Team[]): Team[] => {

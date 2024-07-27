@@ -18,6 +18,7 @@ const TeamDetails: React.FC = () => {
     const [selectedSeason, setSelectedSeason] = useState('');
     const [filteredDetails, setFilteredDetails] = useState<any>([]);
 
+    // Fetch all teams detailed data
     useEffect(() => {
         axios.get(`${FIREBASE_API_URL}/get-teams-detailed`)
             .then(response => {
@@ -30,6 +31,7 @@ const TeamDetails: React.FC = () => {
             });
     }, []);
 
+    // Fetch individual teams details
     useEffect(() => {
         axios.get(`${FIREBASE_API_URL}/get-team-details/${teamId}`)
             .then(response => {
@@ -42,6 +44,7 @@ const TeamDetails: React.FC = () => {
             });
     }, []);
 
+    // Filter team details based on season chosen
     useEffect(() => {
         if (selectedSeason && teamDetails.length > 0) {
             const filtered = teamDetails.filter((detail: any) => detail.season === selectedSeason);
@@ -64,8 +67,6 @@ const TeamDetails: React.FC = () => {
         label: `${details.season} season`,
         value: details.season,
     }));
-
-    console.log(teamDetails)
 
     return (
         <GestureHandlerRootView style={defaultStyles.container}>
@@ -145,7 +146,6 @@ const styles = StyleSheet.create({
     footContainer: {
         marginVertical: 20,
         marginHorizontal: 30,
-        backgroundColor: 'rgba(0, 100, 255, 0.3)' // DELETE WHEN DONE
     },
     logo: {
         height: 100,

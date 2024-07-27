@@ -7,4 +7,6 @@ interface Player {
     SquadLogoURL: string;
     PlayerFaceURL: string;
     NationalityFlagURL: string;
+    Nationality: string;
+    isFavorite: boolean;
 }
