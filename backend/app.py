@@ -200,7 +200,7 @@ def get_players_detailed_df():
     LEAGUE_TO_COUNTRY = { # Map player league to country for top 5 leagues
         "English Premier League": "ENG",
         "French Ligue 1": "FRA",
-        "Bundesliga": "GER",
+        "German 1. Bundesliga": "GER",
         "Spain Primera Division": "ESP",
         "Italian Serie A": "ITA"
     }
