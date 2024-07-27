@@ -153,16 +153,30 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 <img width="1500" alt="image" src="https://github.com/user-attachments/assets/9d12cb9e-97a6-4a37-84f1-df33f68f0e49">
 <img width="1500" alt="image" src="https://github.com/user-attachments/assets/e8090e40-768f-4f39-b281-da3d90e1c38d">
 
+### Design Principles
+
+Modularity: The app was developed with a modular design approach, breaking down the application into smaller, manageable, and independent modules. This makes it easier to manage, test, and maintain the codebase. Each feature, such as user authentication, search functionality, and match predictions, was developed as separate modules.
+
+Encapsulation: By encapsulating data and functionality within modules, we ensured that each module's internal workings were hidden from the rest of the application. This promotes separation of concerns and reduces the risk of unintended interactions between different parts of the application.
+
+Abstraction: Abstraction was used to simplify complex systems by providing a clear interface and hiding the implementation details. For example, we used high-level APIs to interact with the Firebase database, making the data retrieval and manipulation processes simpler and more understandable.
+
+Scalability and Performance Optimization: We designed the app with scalability in mind, ensuring that it can handle a growing number of users and data. Performance optimization techniques, such as efficient data fetching and caching, were implemented to provide a smooth user experience.
+
+User-Centered Design: The app is designed with the user in mind, focusing on providing an intuitive and engaging experience. The interface is kept clean and straightforward to avoid overwhelming the users.
+
+Error Prevention and Handling: Reducing the chance of user errors and providing clear instructions when errors occur. Alerts implemented provided descriptive error messages to guide users on how to correct their actions.
+
+<div style="page-break-after: always;"></div>
+---
 
 ## App Features
 
 ### User Account Authentication
 #### Description
 This feature allows users to create accounts, log in, and manage their profiles securely. It ensures that each user has a personalized experience navigating through the app. Users may also choose sign up or log in with their phone number and Google.
-This feature allows users to create accounts, log in, and manage their profiles securely. It ensures that each user has a personalized experience navigating through the app. Users may also choose sign up or log in with their phone number and Google.
 
 #### Implementation Challenges
-- Integrating with social login options, especially with Apple since that requires an Apple Developer account.
 - Integrating with social login options, especially with Apple since that requires an Apple Developer account.
 - Ensuring the security of user data
 
@@ -195,34 +209,18 @@ This feature allows users to search for detailed information about teams and pla
 After working on the team search page for Milestone 2, we managed to create a more intuitive and efficient team search page. Utilizing the `Flatlist` component, we were able to achieve greater performance as compared to the `ScrollView` component which we were using initially. We also implemented a league filter for the teams so users can filter for those teams in relevant leagues. We plan to integrate more filters in the future for teams and players alike. Due to the significantly expansive size of the players dataset, coupled with a lack of suitable dataset that mapped the player's faces to their statistics, we are unable to create the player's search page by Milestone 2. However, Milestone 2 allowed us to experiment with different types of the teams page and implementations, which will undoubtedly help us in expediting the process to build the player's page. This is our updated team search page.
 
 <div align="left" style="margin-right: 20px;">
-    <img src="https://i.imgur.com/urSELJv.png" alt="Updated Team Search" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/iW3l43v.png" alt="Updated Team Search" width="400" style="margin-bottom: 20px;">
 </div>
 
 In Milestone 2, we also implemented the filter for leagues and working search bar. 
 
 <div align="left" style="margin-right: 20px;">
-    <img src="https://i.imgur.com/aqLAY5y.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
-    <img src="https://i.imgur.com/3MJ0AAA.png" alt="Using search bar" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/AL49Fg4.png" alt="Players filter button" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/6mi8aEd.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/jWnGUBw.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/jr2ofZ0.png" alt="Using search bar" width="400" style="margin-bottom: 20px;">
 </div>
 
-<div style="page-break-after: always;"></div>
-
-### Team Details Page
-#### Description
-A dedicated page for displaying comprehensive details about a team to analyse historical trends and compare with teams in the same league. Users can also filter by season if there is enough information for both seasons.
-
-#### Implementation Challenges
-- Designing a detailed and informative layout
-- Fetching and displaying dynamic data efficiently
-- Ensuring the page is user-friendly and visually appealing
-
-#### Diagrams
-<div align="left" style="margin-right: 20px;">
-    <img src="https://imgur.com/iW3l43v.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
-    <img src="https://i.imgur.com/RE7F8BK.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
-    <img src="https://i.imgur.com/mpLG9Nr.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
-    
+<div style="page-break-after: always;"></div>  
 
 ### Team Details Page
 #### Description
@@ -245,14 +243,16 @@ A dedicated page for displaying comprehensive details about a team to analyse hi
 #### Description
 This feature provides users with predictions for upcoming football matches based on historical data and performance metrics. This feature was implemented through the usage of artificial neural networks, and the TensorFlow package in python. The predictions were weighted against key performance indicators of a team's previous few games such as goals scored, red cards, yellow cards and possession.
 
-
 #### Implementation Challenges
 - Collecting and preprocessing large volumes of match data
 - Choosing and tuning the appropriate machine learning models
 - Continuously updating the prediction model with new data
 - Integrating predictions into actual application
 
-In Milestone 2, we created our working machine learning model which can make score predictions based on certain features of a match up that we deem important. Some of these features include the team formation, team scores, and team performance that is measured by each player's contribution to the match. To this end, we had to perform extensive data manipulation and data processing such as encoding categorical features. We also needed to create our own performance score layer to integrate into our model to account for various factors that may change in significance when the model learns from the dataset.
+In Milestone 2, we created our working machine learning model which can make score predictions based on certain features of a match up that we deem important. Some of these features include the team scores and team yellow card that is measured by each player's performance in the match. To this end, we had to perform extensive data manipulation and data processing such as encoding categorical features. 
+
+In Milestone 3, the models are further updated and exported as .h5. The models are then converted to .json and .bin using tensorflowjs's converter to be used in our typescript code. Drop pickers were added to select Home and Away teams to find their next encounter. Alerts were also implemented to deal with invalid matches to warn users to eliminate the possibility for an error. The prediction card, onPress, makes a prediction of the match score using the predictive model.
+
 
 #### Diagrams
 <div align="left" style="margin-right: 20px;">
@@ -261,10 +261,9 @@ In Milestone 2, we created our working machine learning model which can make sco
     <img src="https://imgur.com/zdiIUJu.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/K2CDWeP.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/wOFzXgx.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/m9koacj.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
 </div>
 
-While the entire process of building the model can be found in this repository – "Predictive Model.ipynb", we have outlined some steps that we took to build this model below.
+While the entire process of building the model can be found in this repository – "PredictiveModel.ipynb", we have outlined some steps that we took to build this model below.
 
 <div align="left" style="margin-right: 20px;">
     <img src="https://i.imgur.com/igvRl9m.png" alt="Tensorflow model building" width="400" style="margin-bottom: 20px;">
@@ -274,18 +273,6 @@ While the entire process of building the model can be found in this repository �
 
 <div style="page-break-after: always;"></div>
 
-#### Implementation Challenges
-- Designing a flexible and intuitive user interface
-- Ensuring the customization options are comprehensive and easy to use
-- Maintaining performance while rendering customized content
-- Introducing a favouriting option to display favourited teams and players on the homepage
-
-#### Diagrams
-<div align="left" style="margin-right: 20px;">
-    <img src="https://imgur.com/k5tV3Sx.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-</div>
-
-<div style="page-break-after: always;"></div>
 
 ### Notifications 
 #### Description
@@ -294,18 +281,16 @@ This feature sends notifications to users about important updates and latest res
 #### Implementation Challenges
 - Push notifications without an Apple Developer Account are not possible
 - Certain images retrieved are in .svg instead of .png and therefore experience problems rendering
-- Ensuring timely delivery of notifications onto the notifications page, could be done with a cron job (in development!)
-- Allowing users to customize their notification preferences (various types of notifications in development)
 
 In Milestone 2, we created the notifications page to display the latest 30 days of match results from the top 5 leagues around the globe. These data are retrieved from a free online source. The notifications are arranged from the latest to the earliest, giving the user a brief summary of each match at one glance. Users are able to click a notification to view the match in detail (in development), a new tab created with parallax image. 
+
+In Milestone 3, the notifications page was updated to retrieve the latest 90 days of match results from the top 5 leagues. A drop picker was added to filter the leagues further to only display the matches of a specific league. Users are now able to click into a notification card to view further details such as the referee, the stadium used and the stage of the league. Images that were previously in .svg are now handled by react native's svg package, alongside tweaks to metro.config.js to render images which could not render properly previously.
 
 #### Diagrams
 <div align="left" style="margin-right: 20px;">
     <img src="https://imgur.com/oyZZoNh.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/LO4BpHK.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/fDNWGWC.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/T26AayY.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/fR3kkPw.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
@@ -330,7 +315,7 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
 ### View profile
 
 <div align="left" style="margin-right: 20px;">
-    <p>Click on the hamburger icon on the top-left corner to access your profile and manage your settings.</p>
+    <p>Click on the hamburger icon on the top-left corner to access your profile.</p>
     <img src="https://imgur.com/y9Kj3sN.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
@@ -340,8 +325,9 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
 
 <div align="left" style="margin-right: 20px;">
     <p>View important updates and results from latest football matches.</p>
-    <img src="https://imgur.com/T26AayY.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/fR3kkPw.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/oyZZoNh.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/LO4BpHK.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/fDNWGWC.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
@@ -350,10 +336,10 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
 
 <div align="left" style="margin-right: 20px;">
     <p>Search for your favourite teams under the teams tab.</p>
-    <img src="https://imgur.com/sd6J431.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/CHaUb2i.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/x52j9iE.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/x52j9iE.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/iW3l43v.png" alt="Updated Team Search" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/6mi8aEd.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/jWnGUBw.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/jr2ofZ0.png" alt="Using search bar" width="400" style="margin-bottom: 20px;">
     <p>Search for your favourite players under the players tab.</p>
     <img src="https://imgur.com/rYde3M4.png" alt="Log in" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/BLDH8tT.png" alt="Log in" width="400" style="margin-bottom: 20px;">
@@ -366,7 +352,13 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
 ### Match predictions
 
 <div align="left" style="margin-right: 20px;">
-    <img src="https://imgur.com/m9koacj.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <p>Select valid Home and Away teams to perform a prediction on their next encounter.</p>
+    <img src="https://imgur.com/gHHrUKR.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/PGw96uA.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/zdiIUJu.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/K2CDWeP.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
+    <p>Predict!</p>
+    <img src="https://imgur.com/wOFzXgx.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
@@ -394,6 +386,9 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
   1. User noticed that prediction card is pressed, the predicted score would sometimes display NaN - NaN. This was because the user selected the same team for home and away. As such, an alert was implemented to pop up when the user attempts to select the same team for home and away, and the prediction card would not be rendered so as to tackle the bug.
   2. As the predictions page also used the same API as the notifications page, user experienced the same issue rendering images in .svg format. The same package and logic was implemented to render images properly.
   3. User would sometimes experience AxiosError 429 when clicking navigating around the page too quickly. This was because the page retrieves all scheduled matches in the next 3 months first then filter down to the top 5 leagues. To tackle this, the filter was implemented during the fetching of scheduled matches in the initial fetch with the API, such that only matches in the top 5 leagues are fetched. A delay of 1 second was also implemented after fetching data of one league before moving on to the next (so in total, 4 seconds delay as there are 5 leagues) so as to eliminate other potential reasons of getting AxiosError 429, sacrificing a little performance speed for a better experience overall.
+ 
+<div style="page-break-after: always;"></div>
+---
 
 ## Software Engineering Practices
 
