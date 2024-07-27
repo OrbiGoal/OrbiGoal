@@ -427,7 +427,7 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
   <img width="839" alt="image" src="https://github.com/user-attachments/assets/af653dd0-19db-4652-b284-924ae334a64b"> <br />
 
 
-- **React Native/Expo Go**: Mobile application development
+- **React Native/Expo Go**: Mobile application development <br />
 <img width="173" alt="image" src="https://github.com/user-attachments/assets/b46fed3b-0630-4535-b793-6707633c7770"> <br />
 
 
@@ -458,7 +458,7 @@ User data used for favouriting and home page <br />
 
 - **Scikit-learn, TensorFlow, Keras**: Machine learning algorithms
 <img width="845" alt="image" src="https://github.com/user-attachments/assets/c7480cd3-0f64-491e-814f-1652efb527fb"> <br />
-<img width="845" alt="image" src="https://github.com/user-attachments/assets/adf5664a-c3a5-48c0-9987-80a94994ce6a">
+<img width="845" alt="image" src="https://github.com/user-attachments/assets/adf5664a-c3a5-48c0-9987-80a94994ce6a"> <br />
 
 <div style="page-break-after: always;"></div>
 ---
