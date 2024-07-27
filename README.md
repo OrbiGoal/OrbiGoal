@@ -15,11 +15,12 @@
 1. [**Project Overview**](#project-overview)
 2. [**Foreword**](#foreword)
 3. [**Getting Started**](#getting-started)
-4. [**App Features**](#app-features)
-5. [**Overall Navigation Flow**](#overall-navigation-flow)
-6. [**User Interface Design**](#user-interface-design)
-7. [**User Testinig**](#user-testing)
-8. [**Software Engineering Practices**](#software-engineering-practices)
+4. [**App Design**](#app-design)
+5. [**App Features**](#app-features)
+6. [**Overall Navigation Flow**](#overall-navigation-flow)
+7. [**User Interface Design**](#user-interface-design)
+8. [**User Testing**](#user-testing)
+9. [**Software Engineering Practices**](#software-engineering-practices)
 10. [**Tech Stack**](#tech-stack)
 13. [**Project Log**](#project-log)
 14. [**Contact**](#contact)
@@ -144,6 +145,15 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 <div style="page-break-after: always;"></div>
 ---
 
+## App Design
+
+### Interface/Activity Diagram
+<img width="1500" alt="image" src="https://github.com/user-attachments/assets/a83b8751-2132-4d58-86fc-3da6e1a49cac">
+<img width="1500" alt="image" src="https://github.com/user-attachments/assets/a0cd0290-1475-4134-81d7-6e247156ed88">
+<img width="1500" alt="image" src="https://github.com/user-attachments/assets/9d12cb9e-97a6-4a37-84f1-df33f68f0e49">
+<img width="1500" alt="image" src="https://github.com/user-attachments/assets/e8090e40-768f-4f39-b281-da3d90e1c38d">
+
+
 ## App Features
 
 ### User Account Authentication
@@ -166,11 +176,8 @@ This feature allows users to create accounts, log in, and manage their profiles 
 ### Teams & Players Search
 #### Description
 This feature allows users to search for detailed information about teams and players, including statistics, performance history, and other relevant data. The filter option on the top right corner allows users to select a league to narrow down their search results.
-This feature allows users to search for detailed information about teams and players, including statistics, performance history, and other relevant data. The filter option on the top right corner allows users to select a league to narrow down their search results.
 
 #### Implementation Challenges
-- Integrating dataset, uploading Kaggle data onto Firebase
-  The raw data from Kaggle had issues displaying accented alphabets. We faced errors using encoding="utf" within read_csv(), the other encodings could not display them correctly either. To tackle the issue, we converted the csv into json and edited the characters manually to clean them before uploading them to Firebase.
 - Integrating dataset, uploading Kaggle data onto Firebase
   The raw data from Kaggle had issues displaying accented alphabets. We faced errors using encoding="utf" within read_csv(), the other encodings could not display them correctly either. To tackle the issue, we converted the csv into json and edited the characters manually to clean them before uploading them to Firebase.
 - Handling large datasets efficiently
@@ -178,8 +185,6 @@ This feature allows users to search for detailed information about teams and pla
 - Providing a user-friendly search interface
 - Ensuring high performance and minimizing lags with the great number of teams and players
 - Difficulty in finding a dataset with both the relevant player information as well as player faces
-- Ensuring high performance and minimizing lags with the great number of teams and players
-- Difficulty in finding a dataset with both the relevant player information as well as player faces
 
 #### Diagrams
 <div align="left" style="margin-right: 20px;">
@@ -214,27 +219,10 @@ A dedicated page for displaying comprehensive details about a team to analyse hi
 
 #### Diagrams
 <div align="left" style="margin-right: 20px;">
+    <img src="https://imgur.com/iW3l43v.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
     <img src="https://i.imgur.com/RE7F8BK.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
     <img src="https://i.imgur.com/mpLG9Nr.png" alt="Team Details Page" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/BLDH8tT.png" alt="Player Search" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/CHaUb2i.png" alt="Team Search" width="400" style="margin-bottom: 20px;">
-</div>
-
-After working on the team search page for Milestone 2, we managed to create a more intuitive and efficient team search page. Utilizing the `Flatlist` component, we were able to achieve greater performance as compared to the `ScrollView` component which we were using initially. We also implemented a league filter for the teams so users can filter for those teams in relevant leagues. We plan to integrate more filters in the future for teams and players alike. Due to the significantly expansive size of the players dataset, coupled with a lack of suitable dataset that mapped the player's faces to their statistics, we are unable to create the player's search page by Milestone 2. However, Milestone 2 allowed us to experiment with different types of the teams page and implementations, which will undoubtedly help us in expediting the process to build the player's page. This is our updated team search page.
-
-<div align="left" style="margin-right: 20px;">
-    <img src="https://i.imgur.com/urSELJv.png" alt="Updated Team Search" width="400" style="margin-bottom: 20px;">
-</div>
-
-In Milestone 2, we also implemented the filter for leagues and working search bar. 
-
-<div align="left" style="margin-right: 20px;">
-    <img src="https://i.imgur.com/aqLAY5y.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
-    <img src="https://i.imgur.com/3MJ0AAA.png" alt="Using search bar" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/AL49Fg4.png" alt="Players filter button" width="400" style="margin-bottom: 20px;">
-</div>
-
-<div style="page-break-after: always;"></div>
+    
 
 ### Team Details Page
 #### Description
@@ -253,10 +241,10 @@ A dedicated page for displaying comprehensive details about a team to analyse hi
 
 <div style="page-break-after: always;"></div>
 
-### Match Predictions (In development)
+### Match Predictions
 #### Description
 This feature provides users with predictions for upcoming football matches based on historical data and performance metrics. This feature was implemented through the usage of artificial neural networks, and the TensorFlow package in python. The predictions were weighted against key performance indicators of a team's previous few games such as goals scored, red cards, yellow cards and possession.
-This feature provides users with predictions for upcoming football matches based on historical data and performance metrics. This feature was implemented through the usage of artificial neural networks, and the TensorFlow package in python. The predictions were weighted against key performance indicators of a team's previous few games such as goals scored, red cards, yellow cards and possession.
+
 
 #### Implementation Challenges
 - Collecting and preprocessing large volumes of match data
@@ -265,21 +253,15 @@ This feature provides users with predictions for upcoming football matches based
 - Integrating predictions into actual application
 
 In Milestone 2, we created our working machine learning model which can make score predictions based on certain features of a match up that we deem important. Some of these features include the team formation, team scores, and team performance that is measured by each player's contribution to the match. To this end, we had to perform extensive data manipulation and data processing such as encoding categorical features. We also needed to create our own performance score layer to integrate into our model to account for various factors that may change in significance when the model learns from the dataset.
-- Integrating predictions into actual application
-
-In Milestone 2, we created our working machine learning model which can make score predictions based on certain features of a match up that we deem important. Some of these features include the team formation, team scores, and team performance that is measured by each player's contribution to the match. To this end, we had to perform extensive data manipulation and data processing such as encoding categorical features. We also needed to create our own performance score layer to integrate into our model to account for various factors that may change in significance when the model learns from the dataset.
 
 #### Diagrams
 <div align="left" style="margin-right: 20px;">
-    <img src="https://imgur.com/m9koacj.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-</div>
-
-While the entire process of building the model can be found in this repository – "Predictive Model.ipynb", we have outlined some steps that we took to build this model below.
-
-<div align="left" style="margin-right: 20px;">
-    <img src="https://i.imgur.com/igvRl9m.png" alt="Tensorflow model building" width="400" style="margin-bottom: 20px;">
-    <img src="https://i.imgur.com/6LK8PSA.png" alt="Tensorflow model building" width="400" style="margin-bottom: 20px;">
-    <img src="https://i.imgur.com/pdal5NB.png" alt="Tensorflow model building" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/gHHrUKR.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/PGw96uA.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/zdiIUJu.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/K2CDWeP.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/wOFzXgx.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/m9koacj.png" alt="Predictions" width="400" style="margin-bottom: 20px;">
 </div>
 
 While the entire process of building the model can be found in this repository – "Predictive Model.ipynb", we have outlined some steps that we took to build this model below.
@@ -291,10 +273,6 @@ While the entire process of building the model can be found in this repository �
 </div>
 
 <div style="page-break-after: always;"></div>
-
-### Customize Dashboard (In development)
-#### Description
-Users can customize their dashboard to display their preferred teams, players, and statistics, providing a personalized experience.
 
 #### Implementation Challenges
 - Designing a flexible and intuitive user interface
@@ -312,7 +290,6 @@ Users can customize their dashboard to display their preferred teams, players, a
 ### Notifications 
 #### Description
 This feature sends notifications to users about important updates and latest results of matches from top 5 leagues globally. The results of football matches are retrieved from API calls to https://www.football-data.org/.
-This feature sends notifications to users about important updates and latest results of matches from top 5 leagues globally. The results of football matches are retrieved from API calls to https://www.football-data.org/.
 
 #### Implementation Challenges
 - Push notifications without an Apple Developer Account are not possible
@@ -324,8 +301,11 @@ In Milestone 2, we created the notifications page to display the latest 30 days 
 
 #### Diagrams
 <div align="left" style="margin-right: 20px;">
-    <img src="https://imgur.com/T26AayY.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/fR3kkPw.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/oyZZoNh.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/LO4BpHK.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/fDNWGWC.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/T26AayY.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
+    <img src="https://imgur.com/fR3kkPw.png" alt="Notifications" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>
@@ -402,9 +382,10 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 ## User Testing
 - Landing Page:
   1. Landing page initially wanted to put all the matches available for the player's liked teams, but realised that users of the app said it made the loading times very slow and it was unnecessary. As such, we only limited to showing the top 8 most recent matches.
-  2. Landing page initially displayed "No upcoming matches" even though the page was still loading the data from our API. After it finished loading, it will suddenly change from "No upcoming matches" to a list of upcoming matches which made the user quite confused. As such, we implemented an activity indicator to indicate to the user that the information is still loading and will only display "No upcoming matches" if user has not favorited a team
+  2. Landing page initially displayed "No upcoming matches" even though the page was still loading the data from our API. After it finished loading, it will suddenly change from "No upcoming matches" to a list of upcoming matches which made the user quite confused. As such, we implemented an activity indicator to indicate to the user that the information is still loading and will only display "No upcoming matches" if user has not favorited a team.
 - Team Page:
-  1. User thought that there was a bug with the app because the information took some time to load and nothing was displaying on the search page. As such, we implemented an activity indicator to indicate that the information from our database was still loading
+  1. User thought that there was a bug with the app because the information took some time to load and nothing was displaying on the search page. As such, we implemented an activity indicator to indicate that the information from our database was still loading.
+  2. Users have commented that it was troublesome to see which teams they have liked on the search page if the favorited teams are at the bottom. As such, we have bubbled the favorited teams at the top of the search page before displaying the rest of the team data.
 - Notifications Page:
   1. User noticed that the league selection drop picker does not render with the proper size on their devices (the bar would go beyond the screen). This was later identified to be due to the fact that the notifications page was developed on an iPhone 15 Pro Max simulator. The size of the drop picker was designed to fit the screen of a bigger iPhone model. As such, the size of the drop picker was adjusted in the stylesheet to match those of a regular iPhone size. 
   2. The notifications page would initially display all recent matches in the top 5 leagues. After selecting a league from the drop picker, the page would filter the matches to only display matches of the selected league. However, user noticed that after selecting a league, if the user were to selected the default "Select League" option of the drop picker, an error would show and the page would not render properly again when selecting another league. To tackle this, the "Select League" option in the drop picker was "invalidated" after selecting an actual league, such that when the user attempts to select it manually, the drop picker would automatically change to select the previously selected league, ensuring "Select League" can never be selected manually and therefore fixing the bug, using an if else statement in the function that handles league change.
@@ -452,7 +433,7 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 
 
 - **React Native/Expo Go**: Mobile application development
-<img width="173" alt="image" src="https://github.com/user-attachments/assets/b46fed3b-0630-4535-b793-6707633c7770">
+<img width="173" alt="image" src="https://github.com/user-attachments/assets/b46fed3b-0630-4535-b793-6707633c7770"> <br />
 
 
 - **TypeScript**: Frontend development
