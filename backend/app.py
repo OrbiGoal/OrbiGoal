@@ -183,7 +183,8 @@ def get_player_names_df():
         'SquadFlagURL', 
         'SquadLogoURL',
         'PlayerFaceURL',
-        'NationalityFlagURL'
+        'NationalityFlagURL',
+        'Nationality'
     ]]
 
     # df = df.fillna('')
@@ -199,14 +200,30 @@ def get_players_detailed_df():
     LEAGUE_TO_COUNTRY = { # Map player league to country for top 5 leagues
         "English Premier League": "ENG",
         "French Ligue 1": "FRA",
-        "Bundesliga": "GER",
+        "German 1. Bundesliga": "GER",
         "Spain Primera Division": "ESP",
         "Italian Serie A": "ITA"
     }
 
-    df_players['LeagueNation'] = df_players['LeagueName'].map(LEAGUE_TO_COUNTRY).fillna('OTHER')
+    POSITION_MAP = {
+        'DF': 'DF', 
+        'GK': 'GK', 
+        'MF': 'MF',
+        'FW': 'FW',
+        'DFMF': 'MF',
+        'FWMF': 'MF',
+        'MFFW': 'FW',
+        'DFFW': 'FW',
+        'MFDF': 'DF',
+        'FWDF': 'DF'
+    }
 
-    return df_players
+    df = df_players.copy(deep=True)
+    df['LeagueNation'] = df['LeagueName'].map(LEAGUE_TO_COUNTRY).fillna('OTHER')
+    df['generalPosition'] = df['Position'].map(POSITION_MAP) # Create the 'generalPosition' column using map
+    df = df.fillna('')
+
+    return df
 
 
 # ==== GET FROM FIREBASE ====
@@ -452,12 +469,60 @@ def get_favorite_teams(user_id):
 
 
 # Add favorite player
+@app.route('/api/addFavoritePlayer', methods=['POST'])
+def add_favorite_player():
+    data = request.get_json()
+    user_id = data['userId']
+    playerId = data['id']
+    player = data['Player']
+    squadName = data['SquadName']
+    leagueNation = data['LeagueNation']
+    squadFlagURL = data['SquadFlagURL']
+    squadLogoURL = data['SquadLogoURL']
+    playerFaceURL = data['PlayerFaceURL']
+    nationalityFlagURL = data['NationalityFlagURL']
+    nationality = data['Nationality']
 
+    # Add favorite team to Firestore
+    db.collection('users').document(user_id).collection('favorite_players').document(str(playerId)).set({
+        'id': playerId,
+        'Player': player,
+        'SquadName': squadName,
+        'LeagueNation': leagueNation,
+        'SquadFlagURL': squadFlagURL,
+        'SquadLogoURL': squadLogoURL,
+        'PlayerFaceURL': playerFaceURL,
+        'NationalityFlagURL': nationalityFlagURL,
+        'Nationality': nationality
+    })
 
-# Get favorite players
+    return jsonify({"message": "Player added to favorites"}), 200
 
 
 # Remove favorite players
+@app.route('/api/removeFavoritePlayer', methods=['POST'])
+def remove_favorite_player():
+    data = request.get_json()
+    user_id = data['userId']
+    playerId = data['id']
+
+    # Remove favorite team from Firestore
+    db.collection('users').document(user_id).collection('favorite_teams').document(str(playerId)).delete()
+
+    return jsonify({"message": "Player removed from favorites"}), 200
+
+
+# Get favorite players
+@app.route('/api/getFavoritePlayers/<user_id>', methods=['GET'])
+def get_favorite_players(user_id):
+    favorite_players_stream = db.collection('users').document(user_id).collection('favorite_players').stream()
+
+    # Change generator object into dict
+    favorite_players = []
+    for doc in favorite_players_stream:
+        favorite_players.append(doc.to_dict())
+
+    return jsonify(favorite_players), 200
 
 
 if __name__ == '__main__':

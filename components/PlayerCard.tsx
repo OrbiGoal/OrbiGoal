@@ -11,7 +11,6 @@ interface PlayerCardProps {
 }
 
 const FIREBASE_API_URL = process.env.EXPO_PUBLIC_FIREBASE_API_URL;
-const LOCAL_URL = process.env.EXPO_PUBLIC_LOCAL_FIREBASE;
 
 const PlayerCard = forwardRef<TouchableOpacity, PlayerCardProps>(({ player, favoritePlayers, onPress }, ref) => {
     const { isLoaded, userId, sessionId, getToken } = useAuth();
@@ -22,7 +21,7 @@ const PlayerCard = forwardRef<TouchableOpacity, PlayerCardProps>(({ player, favo
         setIsFavorite(isFav);
     }, [favoritePlayers, player.id]);
 
-    // TODO: Handle toggle logic
+    // Handle toggle logic
     const handleFavoriteToggle = async () => {
         if (userId) {
             try {
@@ -34,32 +33,38 @@ const PlayerCard = forwardRef<TouchableOpacity, PlayerCardProps>(({ player, favo
 
                 if (isFavorite) {
                     console.log(userId + " deleting " + player.Player);
-                    await fetch(`${LOCAL_URL}/api/removeFavoritePlayer`, {
+                    await fetch(`${FIREBASE_API_URL}/api/removeFavoritePlayer`, {
                         method: 'DELETE',
                         headers,
                         body: JSON.stringify({
                             userId,
                             id: player.id,
                             Player: player.Player,
+                            PlayerFaceURL: player.PlayerFaceURL,
                             LeagueNation: player.LeagueNation,
                             SquadLogoURL: player.SquadLogoURL,
                             SquadFlagURL: player.SquadFlagURL,
                             SquadName: player.SquadName,
+                            NationalityFlagURL: player.NationalityFlagURL,
+                            Nationality: player.Nationality,
                         }),
                     });
                 } else {
                     console.log(userId + " favouriting " + player.Player);
-                    await fetch(`${LOCAL_URL}/api/addFavoritePlayer`, {
+                    await fetch(`${FIREBASE_API_URL}/api/addFavoritePlayer`, {
                         method: 'POST',
                         headers,
                         body: JSON.stringify({
                             userId,
                             id: player.id,
                             Player: player.Player,
+                            PlayerFaceURL: player.PlayerFaceURL,
                             LeagueNation: player.LeagueNation,
                             SquadLogoURL: player.SquadLogoURL,
                             SquadFlagURL: player.SquadFlagURL,
                             SquadName: player.SquadName,
+                            NationalityFlagURL: player.NationalityFlagURL,
+                            Nationality: player.Nationality,
                         }),
                     });
                 }
@@ -72,7 +77,7 @@ const PlayerCard = forwardRef<TouchableOpacity, PlayerCardProps>(({ player, favo
 
     return (
         <TouchableOpacity ref={ref} style={styles.card} onPress={onPress}>
-            <View style={styles.teamDetails}>
+            <View style={styles.playerDetails}>
                 <Image source={{ uri: player.SquadLogoURL }} style={styles.logo} />
                 <Image source={{ uri: player.NationalityFlagURL }} style={styles.logo} />
                 <Image source={{ uri: player.PlayerFaceURL }} style={styles.logo} />
@@ -107,7 +112,7 @@ const styles = StyleSheet.create({
         ...defaultStyles.text,
         fontFamily: 'pop-bold',
     },
-    teamDetails: {
+    playerDetails: {
         flexDirection: 'row',
         alignItems: 'center',
         padding: 4,

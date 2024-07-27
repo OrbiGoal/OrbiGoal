@@ -8,7 +8,6 @@ import { useUser } from '@clerk/clerk-expo';
 import PlayerCard from '@/components/PlayerCard';
 
 const FIREBASE_API_URL = process.env.EXPO_PUBLIC_FIREBASE_API_URL
-const LOCAL_URL = process.env.EXPO_PUBLIC_LOCAL_FIREBASE
 
 const Players: React.FC = () => {
   const [players, setPlayers] = useState<any>([]);
@@ -19,42 +18,37 @@ const Players: React.FC = () => {
   const { isLoaded, isSignedIn, user } = useUser();
   const [loading, setLoading] = useState(false);
 
-  // Get player data from data base
   useEffect(() => {
     setLoading(true);
-    axios.get(`${LOCAL_URL}/get-player-names`)
-      .then(response => {
-        if (Array.isArray(response.data) && response.data.length > 0) {
-          setPlayers(response.data);
-        } else {
-          console.error('Expected an array but got:', response.data);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching player names:', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    const fetchPlayers = async () => {
+      try {
+        // Get player data and favorited players data if user is signed in
+        const [allPlayersResponse, favoritePlayersResponse] = await Promise.all([
+          axios.get(`${FIREBASE_API_URL}/get-player-names`),
+          isSignedIn ? axios.get(`${FIREBASE_API_URL}/api/getFavoritePlayers/${user.id}`) : Promise.resolve({ data: [] })
+        ]);
 
-  // TODO: Get signed in data for favorited players
-  // useEffect(() => {
-  //   if (isSignedIn) {
-  //     setLoading(true);
-  //     fetch(`${FIREBASE_API_URL}/api/getFavoritePlayers/${user.id}`)
-  //       .then(response => response.json())
-  //       .then(data => {
-  //         setFavoritePlayers(data);
-  //       })
-  //       .catch(error => {
-  //         console.error('Error fetching favorite teams:', error);
-  //       })
-  //       .finally(() => {
-  //         setLoading(false);
-  //       });
-  //   }
-  // }, [isSignedIn, user]);
+        const allPlayers = allPlayersResponse.data;
+        const favoritePlayers = favoritePlayersResponse.data;
+
+        // Sort favorited players data and put favorited players data at the start of the page (if any)
+        const favoritePlayerIds = new Set(favoritePlayers.map((player: Player) => player.id));
+        const sortedPlayers = allPlayers.map((player: Player) => ({
+          ...player,
+          isFavorite: favoritePlayerIds.has(player.id),
+        })).sort((a: Player, b: Player) => Number(b.isFavorite) - Number(a.isFavorite));
+
+        setPlayers(sortedPlayers);
+        setFavoritePlayers(favoritePlayers);
+      } catch (error) {
+        console.error('Error fetching player names or favorite players:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlayers();
+  }, [isSignedIn, user]);
 
   const filterPlayers = (players: Player[]): Player[] => {
     let filteredPlayers = players;
@@ -104,7 +98,7 @@ const Players: React.FC = () => {
             ref={listRef}
             data={filterPlayers(players)}
             renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item) => item.id.toString()}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={defaultStyles.searchPage}
           />

@@ -5,6 +5,7 @@ interface Team {
     Squad: string;
     full_name: string;
     season: string;
+    isFavorite: boolean;
 }
 
 interface FavoriteTeam {
