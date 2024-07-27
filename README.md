@@ -15,9 +15,10 @@
 1. [**Project Overview**](#project-overview)
 2. [**Foreword**](#foreword)
 3. [**Getting Started**](#getting-started)
-4. [**Features**](#features)
+4. [**App Features**](#app-features)
 5. [**Overall Navigation Flow**](#overall-navigation-flow)
 6. [**User Interface Design**](#user-interface-design)
+7. [**User Testinig**](#user-testing)
 8. [**Software Engineering Practices**](#software-engineering-practices)
 10. [**Tech Stack**](#tech-stack)
 13. [**Project Log**](#project-log)
@@ -144,7 +145,6 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 ---
 
 ## App Features
-## App Features
 
 ### User Account Authentication
 #### Description
@@ -254,7 +254,6 @@ A dedicated page for displaying comprehensive details about a team to analyse hi
 <div style="page-break-after: always;"></div>
 
 ### Match Predictions (In development)
-### Match Predictions (In development)
 #### Description
 This feature provides users with predictions for upcoming football matches based on historical data and performance metrics. This feature was implemented through the usage of artificial neural networks, and the TensorFlow package in python. The predictions were weighted against key performance indicators of a team's previous few games such as goals scored, red cards, yellow cards and possession.
 This feature provides users with predictions for upcoming football matches based on historical data and performance metrics. This feature was implemented through the usage of artificial neural networks, and the TensorFlow package in python. The predictions were weighted against key performance indicators of a team's previous few games such as goals scored, red cards, yellow cards and possession.
@@ -294,7 +293,6 @@ While the entire process of building the model can be found in this repository â
 <div style="page-break-after: always;"></div>
 
 ### Customize Dashboard (In development)
-### Customize Dashboard (In development)
 #### Description
 Users can customize their dashboard to display their preferred teams, players, and statistics, providing a personalized experience.
 
@@ -311,7 +309,6 @@ Users can customize their dashboard to display their preferred teams, players, a
 
 <div style="page-break-after: always;"></div>
 
-### Notifications 
 ### Notifications 
 #### Description
 This feature sends notifications to users about important updates and latest results of matches from top 5 leagues globally. The results of football matches are retrieved from API calls to https://www.football-data.org/.
@@ -402,19 +399,38 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 <div style="page-break-after: always;"></div>
 ---
 
+## User Testing
+- Landing Page:
+  1. Landing page initially wanted to put all the matches available for the player's liked teams, but realised that users of the app said it made the loading times very slow and it was unnecessary. As such, we only limited to showing the top 8 most recent matches.
+  2. Landing page initially displayed "No upcoming matches" even though the page was still loading the data from our API. After it finished loading, it will suddenly change from "No upcoming matches" to a list of upcoming matches which made the user quite confused. As such, we implemented an activity indicator to indicate to the user that the information is still loading and will only display "No upcoming matches" if user has not favorited a team
+- Team Page:
+  1. User thought that there was a bug with the app because the information took some time to load and nothing was displaying on the search page. As such, we implemented an activity indicator to indicate that the information from our database was still loading
+- Notifications Page:
+  1. User noticed that the league selection drop picker does not render with the proper size on their devices (the bar would go beyond the screen). This was later identified to be due to the fact that the notifications page was developed on an iPhone 15 Pro Max simulator. The size of the drop picker was designed to fit the screen of a bigger iPhone model. As such, the size of the drop picker was adjusted in the stylesheet to match those of a regular iPhone size. 
+  2. The notifications page would initially display all recent matches in the top 5 leagues. After selecting a league from the drop picker, the page would filter the matches to only display matches of the selected league. However, user noticed that after selecting a league, if the user were to selected the default "Select League" option of the drop picker, an error would show and the page would not render properly again when selecting another league. To tackle this, the "Select League" option in the drop picker was "invalidated" after selecting an actual league, such that when the user attempts to select it manually, the drop picker would automatically change to select the previously selected league, ensuring "Select League" can never be selected manually and therefore fixing the bug, using an if else statement in the function that handles league change.
+  3. Users noticed that the images of the crests of the teams, or the country flags of the league, would not render properly. This was later identified to be due to the fact that the some of the images are in .svg format from the API. To tackle this, metro.config.js was modified to include an svg transformer. The notifications page was also updated to include import react native's svg package, and logic to render both svg and png images, depending on the format of the image.
+- Predictions Page:
+  1. User noticed that prediction card is pressed, the predicted score would sometimes display NaN - NaN. This was because the user selected the same team for home and away. As such, an alert was implemented to pop up when the user attempts to select the same team for home and away, and the prediction card would not be rendered so as to tackle the bug.
+  2. As the predictions page also used the same API as the notifications page, user experienced the same issue rendering images in .svg format. The same package and logic was implemented to render images properly.
+  3. User would sometimes experience AxiosError 429 when clicking navigating around the page too quickly. This was because the page retrieves all scheduled matches in the next 3 months first then filter down to the top 5 leagues. To tackle this, the filter was implemented during the fetching of scheduled matches in the initial fetch with the API, such that only matches in the top 5 leagues are fetched. A delay of 1 second was also implemented after fetching data of one league before moving on to the next (so in total, 4 seconds delay as there are 5 leagues) so as to eliminate other potential reasons of getting AxiosError 429, sacrificing a little performance speed for a better experience overall.
+
 ## Software Engineering Practices
 
 1. **Agile Methodology**: We follow an agile approach to project management, breaking down our development process into small, manageable tasks or sprints. This allows us to adapt quickly to changes and deliver features incrementally.
 
 2. **Version Control with Git**: We use Git for version control, enabling our team to collaborate seamlessly on the codebase. With Git, we can track changes, manage branches, and merge code efficiently.
 
+<img width="1316" alt="image" src="https://github.com/user-attachments/assets/afb153b9-8cb4-484d-9d02-0e4295ef531d">
+
 3. **Code Reviews**: We conduct regular code reviews to ensure the quality of our codebase. By reviewing each other's code, we can identify potential issues, share knowledge, and maintain consistency across our project.
 
 4. **Testing**: We will implement a comprehensive testing strategy, including features such as end-to-end tests. Testing helps us validate the functionality of our application, catch bugs early, and ensure a reliable user experience.
-4. **Testing**: We will implement a comprehensive testing strategy, including features such as end-to-end tests. Testing helps us validate the functionality of our application, catch bugs early, and ensure a reliable user experience.
 
 5. **Documentation**: We maintain thorough documentation throughout our development process. This includes README files, code comments, and user guides. Documentation helps us communicate effectively, onboard new team members, and ensure the long-term maintainability of our project.
-5. **Documentation**: We maintain thorough documentation throughout our development process. This includes README files, code comments, and user guides. Documentation helps us communicate effectively, onboard new team members, and ensure the long-term maintainability of our project.
+
+<img width="1316" alt="image" src="https://github.com/user-attachments/assets/20bfb882-26cd-4912-8d11-6fd042ba67a8">
+
+<img width="1316" alt="image" src="https://github.com/user-attachments/assets/a062b479-9c69-43b1-9265-65fcd43fd74f">
 
 <div style="page-break-after: always;"></div>
 ---
@@ -422,13 +438,52 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 ## Tech Stack
 
 - **Python**: Backend development and data processing
-- **Python**: Backend development and data processing
+  1. app.py
+  <img width="839" alt="image" src="https://github.com/user-attachments/assets/28eaf4a8-edd3-4b8d-8f52-869447d4c1d1">
+  <img width="839" alt="image" src="https://github.com/user-attachments/assets/99edc165-3828-463d-9d26-583d269add4e">
+  2. cleaning.ipynb
+  <img width="839" alt="image" src="https://github.com/user-attachments/assets/d4f9d5e9-7622-430c-9ce7-28a567d5982b">
+  <img width="839" alt="image" src="https://github.com/user-attachments/assets/7d55bd3b-48b2-45c1-8e2c-4c98acef0db7">
+  3. uploaddata.py
+  <img width="839" alt="image" src="https://github.com/user-attachments/assets/6bba428c-5a28-4c2c-8a50-97629aa63dd5">
+  4. PredictiveModel.ipynb
+  <img width="839" alt="image" src="https://github.com/user-attachments/assets/a38c8baf-8eef-4182-be37-88f569e1282b">
+  <img width="839" alt="image" src="https://github.com/user-attachments/assets/af653dd0-19db-4652-b284-924ae334a64b">
+
+
 - **React Native/Expo Go**: Mobile application development
+<img width="173" alt="image" src="https://github.com/user-attachments/assets/b46fed3b-0630-4535-b793-6707633c7770">
+
+
 - **TypeScript**: Frontend development
-- **TypeScript**: Frontend development
+  1. index.tsx
+  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/cd5654bb-8dee-445f-a97d-a8a8f753f80a">
+  2. notifications.tsx
+  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/b296aec7-cd5a-4300-bf26-4f683e2aafe1">
+  2.1 \[notifId].tsx
+  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/4eb3f67c-f43b-4dec-a885-46ce67cc8081">
+  3. teams.tsx
+  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/af9e82f8-8b72-4b35-9b6b-6fe81cc3752c">
+  3.1 \[teamId].tsx
+  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/11a1568c-3a33-4816-b2d4-a01b8ddffa77">
+  4. predictions.tsx
+  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/afef3085-40c8-4864-aa72-f6d065020c17">
+  5. _layout.tsx
+  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/a9b824fa-31a1-47ac-a56c-e6016ed06505">
+
 - **Firebase**: Database management
+Teams data used for teams page
+<img width="1498" alt="image" src="https://github.com/user-attachments/assets/3e69a947-ece1-40c7-84ac-300662dde285">
+Top clubs data used for predictions page
+<img width="1498" alt="image" src="https://github.com/user-attachments/assets/27b9fead-037e-4d5d-90c3-110888c60a25">
+User data used for favouriting and home page
+<img width="1498" alt="image" src="https://github.com/user-attachments/assets/290788dd-2c61-449c-8ba5-58cae11f582d">
+<img width="1498" alt="image" src="https://github.com/user-attachments/assets/bd8bb9a6-4c74-4bc1-b1bf-06a1572bbc3b">
+
 - **Scikit-learn, TensorFlow, Keras**: Machine learning algorithms
-- **Scikit-learn, TensorFlow, Keras**: Machine learning algorithms
+<img width="845" alt="image" src="https://github.com/user-attachments/assets/c7480cd3-0f64-491e-814f-1652efb527fb">
+<img width="845" alt="image" src="https://github.com/user-attachments/assets/adf5664a-c3a5-48c0-9987-80a94994ce6a">
+
 
 <div style="page-break-after: always;"></div>
 ---
@@ -477,8 +532,5 @@ git commit -m "Description of your changes"
 git push origin feature/your-feature-name
 ```
 
-<<<<<<< HEAD
-Step 6: Open a pull request and describe the changes
-=======
 Step 6: Open a pull request and describe the changes
 
