@@ -22,6 +22,7 @@
 8. [**User Testing**](#user-testing)
 9. [**Software Engineering Practices**](#software-engineering-practices)
 10. [**Tech Stack**](#tech-stack)
+11. [**Project Timeline**](#project-timeline)
 13. [**Project Log**](#project-log)
 14. [**Contact**](#contact)
 
@@ -165,6 +166,10 @@ Another alternative explored was to build the predictive model on the spot, afte
 
 ### Design Principles
 
+Modularity: Some components such as `ExploreHeader` were developed to be reusable. This modular pieces of code allows for easy integration into different parts of the application. This approach also allows for easier maintenance and updates as changes to the `ExploreHeader` component would automatically propagate to other parts of the app where it is used.
+
+Single Responsibility Principle: Components such as `ExploreHeader` is responsible solely for one purpose. For instance, `ExploreHeader` renders the search header and handles search input only, ensuring that the component is focused and easy to manage/extend.
+
 Encapsulation: By encapsulating data and certain functionality within modules, we ensured that each module's internal workings were hidden from the rest of the application. This promotes separation of concerns and reduces the risk of unintended interactions between different parts of the application.
 
 Scalability and Performance Optimization: We designed the app with scalability in mind, ensuring that it can handle a growing number of users and data. Performance optimization techniques, such as efficient data fetching and caching, were implemented to provide a smooth user experience.
@@ -191,6 +196,8 @@ This feature allows users to create accounts, log in, and manage their profiles 
     <img src="https://i.imgur.com/rysE88R.png" alt="Log in" width="400" style="margin-bottom: 20px;">
 </div>
 
+As the first core feature, we followed an online tutorial and developed it with the aid of the package clerk-expo. Upon user sign up or login with google, user data is automatically stored in Firebase to keep track of favourited players and teams.
+
 <div style="page-break-after: always;"></div>
 
 ### Teams & Players Search
@@ -215,7 +222,7 @@ This feature allows users to search for detailed information about teams and pla
 After working on the team search page for Milestone 2, we managed to create a more intuitive and efficient team search page. Utilizing the `Flatlist` component, we were able to achieve greater performance as compared to the `ScrollView` component which we were using initially. We also implemented a league filter for the teams so users can filter for those teams in relevant leagues. We plan to integrate more filters in the future for teams and players alike. Due to the significantly expansive size of the players dataset, coupled with a lack of suitable dataset that mapped the player's faces to their statistics, we are unable to create the player's search page by Milestone 2. However, Milestone 2 allowed us to experiment with different types of the teams page and implementations, which will undoubtedly help us in expediting the process to build the player's page. This is our updated team search page.
 
 <div align="left" style="margin-right: 20px;">
-    <img src="https://imgur.com/iW3l43v.png" alt="Updated Team Search" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/urSELJv.png" alt="Updated Team Search" width="400" style="margin-bottom: 20px;">
 </div>
 
 In Milestone 2, we also implemented the filter for leagues and working search bar. 
@@ -224,6 +231,12 @@ In Milestone 2, we also implemented the filter for leagues and working search ba
     <img src="https://imgur.com/6mi8aEd.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/jWnGUBw.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/jr2ofZ0.png" alt="Using search bar" width="400" style="margin-bottom: 20px;">
+</div>
+
+In Milestone 3, the teams search page was further updated with a heart-shaped button to favourite and unfavourite teams. User's favourited teams are automatically updated on Firebase with each interaction with the button. Moreover, the home page was updated to display upcoming matches from the league of the favourited team, providing more information of the league in hopes of introducing more teams to and sparking a deeper interest in the user.
+
+<div align="left" style="margin-right: 20px;">
+    <img src="https://imgur.com/iW3l43v.png" alt="Updated Team Search" width="400" style="margin-bottom: 20px;">
 </div>
 
 <div style="page-break-after: always;"></div>  
@@ -381,21 +394,34 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 ---
 
 ## User Testing
-- Landing Page:
-  1. Landing page initially wanted to put all the matches available for the player's liked teams, but realised that users of the app said it made the loading times very slow and it was unnecessary. As such, we only limited to showing the top 8 most recent matches.
-  2. Landing page initially displayed "No upcoming matches" even though the page was still loading the data from our API. After it finished loading, it will suddenly change from "No upcoming matches" to a list of upcoming matches which made the user quite confused. As such, we implemented an activity indicator to indicate to the user that the information is still loading and will only display "No upcoming matches" if user has not favorited a team.
-- Team Page:
-  1. User thought that there was a bug with the app because the information took some time to load and nothing was displaying on the search page. As such, we implemented an activity indicator to indicate that the information from our database was still loading.
-  2. Users have commented that it was troublesome to see which teams they have liked on the search page if the favorited teams are at the bottom. As such, we have bubbled the favorited teams at the top of the search page before displaying the rest of the team data.
-- Notifications Page:
-  1. User noticed that the league selection drop picker does not render with the proper size on their devices (the bar would go beyond the screen). This was later identified to be due to the fact that the notifications page was developed on an iPhone 15 Pro Max simulator. The size of the drop picker was designed to fit the screen of a bigger iPhone model. As such, the size of the drop picker was adjusted in the stylesheet to match those of a regular iPhone size. 
-  2. The notifications page would initially display all recent matches in the top 5 leagues. After selecting a league from the drop picker, the page would filter the matches to only display matches of the selected league. However, user noticed that after selecting a league, if the user were to selected the default "Select League" option of the drop picker, an error would show and the page would not render properly again when selecting another league. To tackle this, the "Select League" option in the drop picker was "invalidated" after selecting an actual league, such that when the user attempts to select it manually, the drop picker would automatically change to select the previously selected league, ensuring "Select League" can never be selected manually and therefore fixing the bug, using an if else statement in the function that handles league change.
-  3. Users noticed that the images of the crests of the teams, or the country flags of the league, would not render properly. This was later identified to be due to the fact that the some of the images are in .svg format from the API. To tackle this, metro.config.js was modified to include an svg transformer. The notifications page was also updated to include import react native's svg package, and logic to render both svg and png images, depending on the format of the image.
-- Predictions Page:
-  1. User noticed that prediction card is pressed, the predicted score would sometimes display NaN - NaN. This was because the user selected the same team for home and away. As such, an alert was implemented to pop up when the user attempts to select the same team for home and away, and the prediction card would not be rendered so as to tackle the bug.
-  2. As the predictions page also used the same API as the notifications page, user experienced the same issue rendering images in .svg format. The same package and logic was implemented to render images properly.
-  3. User would sometimes experience AxiosError 429 when clicking navigating around the page too quickly. This was because the page retrieves all scheduled matches in the next 3 months first then filter down to the top 5 leagues. To tackle this, the filter was implemented during the fetching of scheduled matches in the initial fetch with the API, such that only matches in the top 5 leagues are fetched. A delay of 1 second was also implemented after fetching data of one league before moving on to the next (so in total, 4 seconds delay as there are 5 leagues) so as to eliminate other potential reasons of getting AxiosError 429, sacrificing a little performance speed for a better experience overall.
- 
+
+### Landing Page
+| User ID | Issue                                                                                                  | Solution                                                                                               | Solution Philosophy/Reasoning                                                                                           |
+|---------|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| 1       | Loading times were very slow due to showing all matches for liked teams                                | Limited to showing the top 8 most recent matches                                                       | Improve performance by reducing the data load, ensuring a smoother user experience                                     |
+| 2       | Displayed "No upcoming matches" while data was still loading                                           | Implemented an activity indicator to show loading status and display "No upcoming matches" only if no team is favorited | Provide users with feedback during data loading to avoid confusion and enhance user experience                         |
+
+### Team Page
+| User ID | Issue                                                                                                  | Solution                                                                                               | Solution Philosophy/Reasoning                                                                                           |
+|---------|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| 3       | Information took time to load, causing users to think there was a bug                                   | Implemented an activity indicator to show data is loading                                               | Inform users of the loading process to improve transparency and perceived responsiveness                               |
+| 4       | Favorited teams were at the bottom, making it troublesome for users                                     | Bubbled favorited teams to the top of the search page                                                   | Prioritize user-preferred content to enhance usability and satisfaction                                                 |
+
+### Notifications Page
+| User ID | Issue                                                                                                  | Solution                                                                                               | Solution Philosophy/Reasoning                                                                                           |
+|---------|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| 5       | League selection drop picker did not render properly on certain devices                                | Adjusted the size of the drop picker in the stylesheet to match regular iPhone size                    | Ensure consistent and responsive UI across different device sizes                                                      |
+| 1       | Selecting the default "Select League" option caused errors                                             | Invalidated the "Select League" option after selecting a league to prevent manual selection             | Prevent user errors and ensure a smooth user experience by avoiding invalid selections                                 |
+| 2       | Images of team crests or country flags did not render properly due to being in .svg format             | Modified metro.config.js to include an svg transformer and updated notifications page to handle .svg and .png images | Ensure proper image rendering to maintain visual integrity and user experience                                          |
+
+### Predictions Page
+| User ID | Issue                                                                                                  | Solution                                                                                               | Solution Philosophy/Reasoning                                                                                           |
+|---------|--------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| 3       | Predicted score displayed NaN - NaN when the same team was selected for home and away                  | Implemented an alert to prevent selecting the same team for home and away                              | Guide users to make valid selections, preventing errors and ensuring accurate predictions                              |
+| 4       | Issues rendering images in .svg format                                                                 | Applied the same svg handling logic from notifications page                                            | Maintain consistency in handling image formats across different app components                                          |
+| 5       | AxiosError 429 occurred when navigating around the page too quickly                                    | Implemented filtering during initial data fetch and added a 1-second delay between league data fetches to reduce API call frequency | Reduce API call frequency to prevent rate limiting and improve data retrieval efficiency                                |
+
+
 <div style="page-break-after: always;"></div>
 ---
 
@@ -403,15 +429,15 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 
 1. **Agile Methodology**: We follow an agile approach to project management, breaking down our development process into small, manageable tasks or sprints. This allows us to adapt quickly to changes and deliver features incrementally.
 
-2. **Version Control with Git**: We use Git for version control, enabling our team to collaborate seamlessly on the codebase. With Git, we can track changes, manage branches, and merge code efficiently.
+2. **Version Control with Git**: We used GitHub for version control to manage and streamline our development process efficiently. GitHub enabled us to track changes to our codebase, collaborate seamlessly, and manage multiple versions of our project. By creating branches for new features and bug fixes, we ensured that our main codebase remained stable while allowing for parallel development. Pull requests and code reviews facilitated rigorous scrutiny and integration of new code, maintaining high-quality standards. This structured approach ensured transparency, accountability, and effective collaboration among team members, ultimately leading to a more robust and well-maintained application.
 
 <img width="1316" alt="image" src="https://github.com/user-attachments/assets/afb153b9-8cb4-484d-9d02-0e4295ef531d">
 
-3. **Code Reviews**: We conduct regular code reviews to ensure the quality of our codebase. By reviewing each other's code, we can identify potential issues, share knowledge, and maintain consistency across our project.
+3. **Code Reviews**: We conducted code reviews extensively throughout the development of OrbiGoal to ensure the highest quality of code and maintain consistency across the project. Regular code reviews allowed team members to share knowledge, identify potential issues, and provide constructive feedback, which led to more robust and efficient code. This practice helped us catch bugs early, enforce coding standards, and improve the overall readability and maintainability of our codebase. By fostering a culture of collaboration and continuous improvement, code reviews contributed to a more reliable and scalable application, ultimately enhancing the user experience.
 
-4. **Testing**: We will implement a comprehensive testing strategy, including features such as end-to-end tests. Testing helps us validate the functionality of our application, catch bugs early, and ensure a reliable user experience.
+4. **Testing**: Built with a user-centric approach, OrbiGoal is designed to be an application to engage users. We used user testing extensively in the development of OrbiGoal to ensure the application met the needs and expectations of our target audience. We approached 5 users of different demographics to test out the different features OrbiGoal has to offer. By engaging real users throughout the development process, we were able to gather valuable feedback on the usability, functionality, and overall user experience of the app. This iterative approach allowed us to identify and address potential issues early, refine features based on user preferences, and ultimately create a more intuitive and engaging product. User testing helped us validate our design decisions, prioritize features, and ensure that OrbiGoal provides a seamless and enjoyable experience for football fans. Details to the outcomes of user testing can be found in [**User Testing**](#user-testing).
 
-5. **Documentation**: We maintain thorough documentation throughout our development process. This includes README files, code comments, and user guides. Documentation helps us communicate effectively, onboard new team members, and ensure the long-term maintainability of our project.
+5. **Documentation**: We maintain thorough documentation throughout our development process. This includes README files, code comments, and user guides. Documentation helps us communicate effectively, onboard new team members, and ensure the long-term maintainability of our project. Additionally, our README files include links to further documentation, application user interface diagrams and project log, which foster consistency and clarity across the development team. By maintaining thorough documentation, we enhance collaboration, streamline project management, and ensure that the knowledge is easily accessible and transferable.
 
 <img width="1316" alt="image" src="https://github.com/user-attachments/assets/20bfb882-26cd-4912-8d11-6fd042ba67a8">
 
@@ -422,7 +448,7 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 
 ## Tech Stack
 
-- **Python**: Backend development and data processing
+- **Python**: Python was used for backend development and data processing.
 1. app.py <br />
   <img width="839" alt="image" src="https://github.com/user-attachments/assets/28eaf4a8-edd3-4b8d-8f52-869447d4c1d1"> <br />
   <img width="839" alt="image" src="https://github.com/user-attachments/assets/99edc165-3828-463d-9d26-583d269add4e"> <br />
@@ -440,7 +466,7 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 <img width="173" alt="image" src="https://github.com/user-attachments/assets/b46fed3b-0630-4535-b793-6707633c7770"> <br />
 
 
-- **TypeScript**: Frontend development
+- **TypeScript**: Typescript was used for most of the frontend development, with some splashes of javascript.
 1. index.tsx <br />
   <img width="1499" alt="image" src="https://github.com/user-attachments/assets/cd5654bb-8dee-445f-a97d-a8a8f753f80a"> <br />
 2. notifications.tsx <br />
@@ -456,7 +482,7 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 5. _layout.tsx <br />
   <img width="1499" alt="image" src="https://github.com/user-attachments/assets/a9b824fa-31a1-47ac-a56c-e6016ed06505"> <br />
 
-- **Firebase**: Database management
+- **Firebase**: Firebase was used for convenient database management.
 Teams data used for teams page <br />
 <img width="1498" alt="image" src="https://github.com/user-attachments/assets/3e69a947-ece1-40c7-84ac-300662dde285"> <br />
 Top clubs data used for predictions page <br />
@@ -465,9 +491,39 @@ User data used for favouriting and home page <br />
 <img width="1498" alt="image" src="https://github.com/user-attachments/assets/290788dd-2c61-449c-8ba5-58cae11f582d"> <br />
 <img width="1498" alt="image" src="https://github.com/user-attachments/assets/bd8bb9a6-4c74-4bc1-b1bf-06a1572bbc3b"> <br />
 
-- **Scikit-learn, TensorFlow, Keras**: Machine learning algorithms
+- **Scikit-learn, TensorFlow, Keras**: Along with Python, these packages were used to develop machine learning algorithms.
 <img width="845" alt="image" src="https://github.com/user-attachments/assets/c7480cd3-0f64-491e-814f-1652efb527fb"> <br />
 <img width="845" alt="image" src="https://github.com/user-attachments/assets/adf5664a-c3a5-48c0-9987-80a94994ce6a"> <br />
+
+<div style="page-break-after: always;"></div>
+---
+
+## Project Timeline
+
+### Milestones
+
+| Milestone         | Description                                        | Deadline       | Status       |
+|-------------------|----------------------------------------------------|----------------|--------------|
+| Project Liftoff   | Initial project planning and team formation        | May 20, 2024 | Completed    |
+| Milestone 1 | Designing system architecture and user interfaces | June 3, 2024 | Completed    |
+| Milestone 2      | Developing core features    | July 1, 2024 | Completed    |
+| Milestone 3 | Developing extension features                        | July 29, 2024 | Completed  |
+| Splashdown | Project presentation         | August 19, 2024 | Planned      |
+
+### Detailed Schedule
+
+| Task                        | Description                                                                                                 | Start Date       | End Date         | Dependencies                   |
+|-----------------------------|-------------------------------------------------------------------------------------------------------------|------------------|------------------|--------------------------------|
+| Project Initialization | Produceed detailed project planning, liftoff poster and video to showcase project vision                      | May 13, 2024 | May 20, 2024 | Project Liftoff                |
+| Setup Development Environment | Set up the initial development environment including visual studio code, react native expo, firebase and github                    | May 21, 2024 | May 23, 2024 | Milestone 1                |
+| Home Page and Profile Page            | Designed home page and profile page for account sign up and log in authentication                                          | May 24, 2024 | June 2, 2024| Milestone 1       |
+| Navigation        | Developed the sidebar and tab bar navigation interface                                                     | June 3, 2024| June 16, 2024   | Milestone 2                 |
+| Teams and Players Page         | Developed logic to filter and search up teams and players with API calls                                        | June 17, 2024| June 30, 2024   | Milestone 2                  |
+| Notifications Page                | Developed logic to retrieve latest match results with API calls                                                             | July 1, 2024   | July 11, 2024    | Milestone 3           |
+| Predictions Page             | Developed predictive model and developed logic to make predictions on teams upcoming matches                                    | July 12, 2024    | July 18, 2024   | Milestone 3                   |
+| User Testing               | Approach users for testing of the application                                                          | July 19, 2024   | July 26, 2024   | Milestone 3                 |
+| Final Review                | Conduct a final review of the system, ensuring all requirements are met and deploy     | July 27, 2024      | July 28, 2024      | Milestone 3        |
+
 
 <div style="page-break-after: always;"></div>
 ---
