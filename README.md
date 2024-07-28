@@ -361,10 +361,12 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
     <img src="https://imgur.com/jWnGUBw.png" alt="Filter button that allows filtering by league" width="400" style="margin-bottom: 20px;">
     <img src="https://imgur.com/jr2ofZ0.png" alt="Using search bar" width="400" style="margin-bottom: 20px;">
     <p>Search for your favourite players under the players tab.</p>
-    <img src="https://imgur.com/rYde3M4.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/BLDH8tT.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/AL49Fg4.png" alt="Log in" width="400" style="margin-bottom: 20px;">
-    <img src="https://imgur.com/AL49Fg4.png" alt="Log in" width="400" style="margin-bottom: 20px;">
+    <div align="left" style="margin-right: 20px;">
+    <img src="https://i.imgur.com/zXChUCb.jpeg" alt="Updated Player Search" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/ianKqMX.jpeg" alt="Updated Player Search" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/LDiMovg.jpeg" alt="Updated Player Search" width="400" style="margin-bottom: 20px;">
+    <img src="https://i.imgur.com/ZTjDIxI.jpeg" alt="Updated Player Search" width="400" style="margin-bottom: 20px;">
+</div>
 </div>
 
 <div style="page-break-after: always;"></div>
