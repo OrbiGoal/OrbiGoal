@@ -99,17 +99,17 @@ Please do also bring along your mobile device (iOS or Android), or have a simula
 ## App Design
 
 ### Architecture/Activity Diagram
-<img width="1500" alt="image" src="https://github.com/user-attachments/assets/a83b8751-2132-4d58-86fc-3da6e1a49cac">
+<img width="1500" alt="image" src="https://imgur.com/3biJKM4.png">
 
 An alternative implementation of profile and notifications would be to implement all within the same drawer as teams, players and predictions. However, that would cause the drawer to look cluttered and is against our principle of keeping the application user friendly. 
 An alternative implementation of the landing page would be to remove the log in prompt and allow users to log in only in the profile tab. However, without logging in, favourited teams and players would not be kept track. Users may find it frustrating to realise they cannot favourite teams and players, and see their followed leagues in the home page. Therefore, we thought it would be more user friendly to prompt the users to log in as soon as they open up the application.
 
-<img width="1500" alt="image" src="https://github.com/user-attachments/assets/a0cd0290-1475-4134-81d7-6e247156ed88">
-<img width="1500" alt="image" src="https://github.com/user-attachments/assets/9d12cb9e-97a6-4a37-84f1-df33f68f0e49">
+<img width="1500" alt="image" src="https://imgur.com/58yqCWL.png">
+<img width="1500" alt="image" src="https://imgur.com/axzLSta.png">
 
 While the search bar should function just as well independently, adding a filter option would smoothen the process and declutter the teams that pop up in the search in case the team that the user is looking for is far below in the search.
 
-<img width="1500" alt="image" src="https://github.com/user-attachments/assets/e8090e40-768f-4f39-b281-da3d90e1c38d">
+<img width="1500" alt="image" src="https://imgur.com/PVZGxBx.png">
 
 An alternative explored previously was to predict the match score on the teams' next encounter regardless of home and away. However, in real life scenarios, teams tend to do better in their home stadium. Therefore, the model is split between home and away, making use of home and away data separately to make fairer predictions.
 Another alternative explored was to build the predictive model on the spot, after users have selected two teams. However, training the model takes up significant time. If the user wants to make multiple predictions across multiple teams, doing so would significantly impact the user's experience.
@@ -431,7 +431,7 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 
 2. **Version Control with Git**: We used GitHub for version control to manage and streamline our development process efficiently. GitHub enabled us to track changes to our codebase, collaborate seamlessly, and manage multiple versions of our project. By creating branches for new features and bug fixes, we ensured that our main codebase remained stable while allowing for parallel development. Pull requests and code reviews facilitated rigorous scrutiny and integration of new code, maintaining high-quality standards. This structured approach ensured transparency, accountability, and effective collaboration among team members, ultimately leading to a more robust and well-maintained application.
 
-<img width="1316" alt="image" src="https://github.com/user-attachments/assets/afb153b9-8cb4-484d-9d02-0e4295ef531d">
+<img width="1316" alt="image" src="https://imgur.com/L3BsYXm.png">
 
 3. **Code Reviews**: We conducted code reviews extensively throughout the development of OrbiGoal to ensure the highest quality of code and maintain consistency across the project. Regular code reviews allowed team members to share knowledge, identify potential issues, and provide constructive feedback, which led to more robust and efficient code. This practice helped us catch bugs early, enforce coding standards, and improve the overall readability and maintainability of our codebase. By fostering a culture of collaboration and continuous improvement, code reviews contributed to a more reliable and scalable application, ultimately enhancing the user experience.
 
@@ -439,9 +439,8 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 
 5. **Documentation**: We maintain thorough documentation throughout our development process. This includes README files, code comments, and user guides. Documentation helps us communicate effectively, onboard new team members, and ensure the long-term maintainability of our project. Additionally, our README files include links to further documentation, application user interface diagrams and project log, which foster consistency and clarity across the development team. By maintaining thorough documentation, we enhance collaboration, streamline project management, and ensure that the knowledge is easily accessible and transferable.
 
-<img width="1316" alt="image" src="https://github.com/user-attachments/assets/20bfb882-26cd-4912-8d11-6fd042ba67a8">
-
-<img width="1316" alt="image" src="https://github.com/user-attachments/assets/a062b479-9c69-43b1-9265-65fcd43fd74f">
+<img width="1316" alt="image" src="https://imgur.com/vjBGtLk.png">
+<img width="1316" alt="image" src="https://imgur.com/lmrWJxT.png">
 
 <div style="page-break-after: always;"></div>
 ---
@@ -450,50 +449,50 @@ Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cq
 
 - **Python**: Python was used for backend development and data processing.
 1. app.py <br />
-  <img width="839" alt="image" src="https://github.com/user-attachments/assets/28eaf4a8-edd3-4b8d-8f52-869447d4c1d1"> <br />
-  <img width="839" alt="image" src="https://github.com/user-attachments/assets/99edc165-3828-463d-9d26-583d269add4e"> <br />
+  <img width="839" alt="image" src="https://imgur.com/poSCMj7.png"> <br />
+  <img width="839" alt="image" src="https://imgur.com/c7q1HTb.png"> <br />
 2. cleaning.ipynb <br />
-  <img width="839" alt="image" src="https://github.com/user-attachments/assets/d4f9d5e9-7622-430c-9ce7-28a567d5982b"> <br />
-  <img width="839" alt="image" src="https://github.com/user-attachments/assets/7d55bd3b-48b2-45c1-8e2c-4c98acef0db7"> <br />
+  <img width="839" alt="image" src="https://imgur.com/n5TNnjh.png"> <br />
+  <img width="839" alt="image" src="https://imgur.com/1ecU2Nm.png"> <br />
 3. uploaddata.py <br />
-  <img width="839" alt="image" src="https://github.com/user-attachments/assets/6bba428c-5a28-4c2c-8a50-97629aa63dd5"> <br />
+  <img width="839" alt="image" src="https://imgur.com/1t5Bpf0.png"> <br />
 4. PredictiveModel.ipynb <br />
-  <img width="839" alt="image" src="https://github.com/user-attachments/assets/a38c8baf-8eef-4182-be37-88f569e1282b"> <br />
-  <img width="839" alt="image" src="https://github.com/user-attachments/assets/af653dd0-19db-4652-b284-924ae334a64b"> <br />
+  <img width="839" alt="image" src="https://imgur.com/MgeZQvJ.png"> <br />
+  <img width="839" alt="image" src="https://imgur.com/E7Wi7yN.png"> <br />
 
 
 - **React Native/Expo Go**: Mobile application development <br />
-<img width="173" alt="image" src="https://github.com/user-attachments/assets/b46fed3b-0630-4535-b793-6707633c7770"> <br />
+<img width="173" alt="image" src="https://imgur.com/iw8uHWp.png"> <br />
 
 
 - **TypeScript**: Typescript was used for most of the frontend development, with some splashes of javascript.
 1. index.tsx <br />
-  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/cd5654bb-8dee-445f-a97d-a8a8f753f80a"> <br />
+  <img width="1499" alt="image" src="https://imgur.com/GV2vSnK.png"> <br />
 2. notifications.tsx <br />
-  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/b296aec7-cd5a-4300-bf26-4f683e2aafe1"> <br />
+  <img width="1499" alt="image" src="https://imgur.com/HJt5qu1.png"> <br />
 2.1 [notifId].tsx <br />
-  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/4eb3f67c-f43b-4dec-a885-46ce67cc8081"> <br />
+  <img width="1499" alt="image" src="https://imgur.com/ggKXjqU.png"> <br />
 3. teams.tsx <br />
-  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/af9e82f8-8b72-4b35-9b6b-6fe81cc3752c"> <br />
+  <img width="1499" alt="image" src="https://imgur.com/ByfwRR6.png"> <br />
 3.1 [teamId].tsx <br />
-  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/11a1568c-3a33-4816-b2d4-a01b8ddffa77"> <br />
+  <img width="1499" alt="image" src="https://imgur.com/EG1chYG.png"> <br />
 4. predictions.tsx <br />
-  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/afef3085-40c8-4864-aa72-f6d065020c17"> <br />
+  <img width="1499" alt="image" src="https://imgur.com/qOybM82.png"> <br />
 5. _layout.tsx <br />
-  <img width="1499" alt="image" src="https://github.com/user-attachments/assets/a9b824fa-31a1-47ac-a56c-e6016ed06505"> <br />
+  <img width="1499" alt="image" src="https://imgur.com/NiqT8Nc.png"> <br />
 
 - **Firebase**: Firebase was used for convenient database management.
 Teams data used for teams page <br />
-<img width="1498" alt="image" src="https://github.com/user-attachments/assets/3e69a947-ece1-40c7-84ac-300662dde285"> <br />
+<img width="1498" alt="image" src="https://imgur.com/6EmaxyV.png"> <br />
 Top clubs data used for predictions page <br />
-<img width="1498" alt="image" src="https://github.com/user-attachments/assets/27b9fead-037e-4d5d-90c3-110888c60a25"> <br />
+<img width="1498" alt="image" src="https://imgur.com/HYGw4QF.png"> <br />
 User data used for favouriting and home page <br />
-<img width="1498" alt="image" src="https://github.com/user-attachments/assets/290788dd-2c61-449c-8ba5-58cae11f582d"> <br />
-<img width="1498" alt="image" src="https://github.com/user-attachments/assets/bd8bb9a6-4c74-4bc1-b1bf-06a1572bbc3b"> <br />
+<img width="1498" alt="image" src="https://imgur.com/4XeQgD5.png"> <br />
+<img width="1498" alt="image" src="https://imgur.com/DQeeLqj.png"> <br />
 
 - **Scikit-learn, TensorFlow, Keras**: Along with Python, these packages were used to develop machine learning algorithms.
-<img width="845" alt="image" src="https://github.com/user-attachments/assets/c7480cd3-0f64-491e-814f-1652efb527fb"> <br />
-<img width="845" alt="image" src="https://github.com/user-attachments/assets/adf5664a-c3a5-48c0-9987-80a94994ce6a"> <br />
+<img width="845" alt="image" src="https://imgur.com/Fcl2ucB.png"> <br />
+<img width="845" alt="image" src="https://imgur.com/BGgvMzH.png"> <br />
 
 <div style="page-break-after: always;"></div>
 ---
