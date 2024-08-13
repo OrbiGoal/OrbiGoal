@@ -388,7 +388,7 @@ Watch [this video](https://drive.google.com/file/d/1gjAvnkLFX5tYebkHPtpCdLzUEE7t
 
 ## User Interface Design
 
-Visit [Figma](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cqZNFjx_ze_DIgwsXuE/edit?usp=sharing) for our UI design!
+Visit [Figma](https://www.figma.com/design/94azhs4ECr4WR69Abwqa6i/OrbiGoal?node-id=0-1&t=m2z2fqamrWJDFhiv-1) for our UI design!
 
 <div style="page-break-after: always;"></div>
 ---
@@ -530,6 +530,90 @@ User data used for favouriting and home page <br />
 ## Project Log
 
 For the detailed project log, please refer to [this Google Sheet](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cqZNFjx_ze_DIgwsXuE/edit?usp=sharing).
+
+## Project Timeline
+
+| Date       | Description of Activity                                                                                                                                                                      | Hours |
+|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|
+| 5/16/2024  | Designed lift-off poster on Figma                                                                                                                                                            | 3     |
+| 5/18/2024  | Mission Control #1 – Mobile App Development Part 1                                                                                                                                           | 2     |
+| 5/18/2024  | Designed presentation for lift-off video                                                                                                                                                     | 2     |
+| 5/19/2024  | Produced lift-off video                                                                                                                                                                      | 2     |
+| 5/20/2024  | **Tutorial**: Airbnb Clone with React Native (Expo Router, Authentication, Reanimated, Clerk) <br> - Learnt to create tab bar navigation and stack pages using Expo Router <br> - Learnt to authenticate users using Clerk <br> - Learnt to create custom headers for pages | 3     |
+| 5/21/2024  | **Developed technical proof-of-concept** <br> - Set up React Native environment <br> - Created template for homepage, including header component, logo and other frontend features <br> - Created tab bar and skeletal pages for other tabs, including dynamic changes to the icons when it is pressed <br> - Designed app splash and loading page on Figma <br> - Set up GitHub repository and made first few commits of current progress onto GitHub, including writing first README.md draft  | 8     |
+| 5/23/2024  | **Developed technical proof-of-concept** <br> - Refactored code to make it more readable and scalable <br> - Set up general layout for home, teams, and players page <br> - Learnt and set up log-in authentication with Google using Clerk and Google Platform Console <br> - Created custom headers for homepage, teams page, and players page | 8     |
+| 5/24/2024  | **Developed technical proof-of-concept** <br> - Learnt how to create card component to represent match <br> - Learnt to fetch football API into the app                                      | 4     |
+| 5/25/2024  | Mission Control #2 – Mobile App Development Part 2                                                                                                                                           | 2     |
+| 5/26/2024  | **Developed technical proof-of-concept** <br> - Studied how to integrate sidebar navigation with tab bar navigation <br> - Integrated sidebar navigation with tab bar navigation               | 4     |
+| 5/27/2024  | **Developed technical proof-of-concept** <br> - Learnt to create branches in GitHub and create fork and pull request workflow                                                                | 2     |
+| 5/29/2024  | **Developed technical proof-of-concept** <br> - Learnt to fetch data from Firebase <br> - Wrote functions that fetched, wrote, and updated data from Firebase <br> - Wrote function that saved data into local device from Firebase. This form of data is constant and does not need to be constantly called from the Firebase API, effectively reducing the number of API calls to our database | 8   |
+| 5/31/2024  | **Tutorial**: Airbnb Clone with React Native (Expo Router, Authentication, Reanimated, Clerk) <br> - Learnt to create parallax effect in pages                                               | 2     |
+| 6/1/2024   | **Milestone 1** <br> - Designed prototype of features in app for visualisation purposes in Milestone 1 video <br> - Produced and edited video for milestone 1                                | 5     |
+| 6/3/2024   | **Product Development** <br> - Learnt TensorFlow from YouTube tutorial <br> - Experimented with building machine learning model with past match data from Kaggle                              | 10    |
+| 6/5/2024   | Mission Control #3: Machine Learning Part 1                                                                                                                                                   | 2     |
+| 6/7/2024   | **Product Development** <br> - Trained multiple machine learning models locally using past match data <br> - Studied and compared various ways to encode different features of data <br> - Experimented with different parameters in learning model, such as learning rate and different optimizers <br> - Researched on how others built similar football analytics model in the past | 8   |
+| 6/8/2024   | Mission Control #4: Machine Learning Part 2                                                                                                                                                   | 2     |
+| 6/9/2024   | **Product Development** <br> - Studied how to create Flask app, make routes and get data from Firebase onto local server <br> - Created routes and processed data from database using Pandas   | 6     |
+| 6/11/2024  | **Product Development** <br> - Manipulated database to create unique team ID for each team as its primary key <br> - Sourced for data on teams logo and uploaded to GitHub <br> - Created Python script to map team name to URL of team logo using fuzzywuzzy package | 7   |
+| 6/15/2024  | **Product Development** <br> - Studied how to implement FlatList for better performance on React Native compared to ScrollView component <br> - Created the team search page using FlatList   | 4   |
+| 6/20/2024  | **Product Development** <br> - Studied using Axios to get data from local host <br> - Used Axios to hook data from local host into React Native app in Team Details page <br> - Created Stat component to ease creation of team statistics | 6   |
+| 6/22/2024  | **Product Development** <br> - Studied how to create a dropdown picker in React Native <br> - Created the detailed teams page that checks if the team has one or two seasons worth of data and with a filter function using the seasons dropdown menu | 4  |
+| 6/25/2024  | **Product Development** <br> - Researched for player data online to find player faces <br> - Experimented and created another function for player data processing <br> - Faced difficulty in creating this function due to complexity of player names which lie in their similarity | 4 |  
+| 6/30/2024  | **Milestone 2** <br> - Designed the poster                                                                                                                                                   | 2     |
+| 7/1/2024   | **Milestone 2** <br> - Produced and edited the video for our Milestone 2 prototype <br> - Updated the README.md                                                                              | 6     |
+| 7/2/2024   | **Product Development** <br> - Studied and experimented with Expo notifications                                                                                                             | 2     |
+| 7/5/2024   | **Product Development** <br> - Fixed bugs on Teams search page that caused details page to not load <br> - Conducted first round of user testing to get feedback on the app | 3 |  
+| 7/10/2024  | **Product Development** <br> - Created players' tab with explore header <br> - Bubbled favorited teams up to the top of search page based on feedback received by users <br> - Implemented an activity indicator to indicate that the information from our database was still loading as users thought that there was a bug with the app because the information took some time to load and nothing was displaying on the search page | 3 |  
+| 7/12/2024  | **Product Development** <br> - Updated heart icon in team card to allow favoriting of teams in the teams search page <br> - Planned how to use user token of Clerk authentication to map each user's favorite team and player in Firebase <br> - Studied how to write to Firebase within React Native to store users' favorited teams and players <br> - Integrated working favorite feature within teams page | 6 |  
+| 7/15/2024  | **Product Development** <br> - Data cleaning on players' dataset <br> - Uploaded players' dataset onto database and ensured it was working and consistent | 3 |  
+| 7/17/2024  | **Product Development** <br> - Created players' search page with working player card, and favoriting function similar to teams' page <br> - Bubbled favorited players to the top of the page <br> - Created new routes and data processing functions in the backend for players' data | 3 |  
+| 7/19/2024  | **Product Development** <br> - Learnt to deploy app on Expo Go <br> - Deployed app on Expo Go | 3 |  
+| 7/20/2024  | **Product Development** <br> - Leveraged users' favorite team data on the database to create an upcoming matches function on the homepage <br> - Conducted the second round of user testing | 3 |  
+| 7/22/2024  | **Product Development** <br> - Improved landing page initially displayed "No upcoming matches" even though the page was still loading the data from our API. After it finished loading, it will suddenly change from "No upcoming matches" to a list of upcoming matches which made the user quite confused. As such, we implemented an activity indicator to indicate to the user that the information is still loading and will only display "No upcoming matches" if the user has not favorited a team | 4     |
+| 7/26/2024  | **Product Development** <br> - Developed spider chart for players' detailed page to create intuitive visualization for users when browsing players' data <br> - Improved the layout of the statistics on players' page | 3     |
+| 7/28/2024  | **Milestone 3** <br> - Produced and edited the video for Milestone 3 submission <br> - Contributed to README | 4     |
+**Total Hours: 153**
+
+## Project Timeline
+
+| Date       | Description of Activity                                                                                                                                                                      | Hours |
+|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|
+| 5/16/2024  | Designed lift-off 1 poster on Figma                                                                                                                                                            | 3     |
+| 5/18/2024  | Mission Control #1 Web App Development - Part 1                                                                                                                                               | 2     |
+| 5/18/2024  | Mission Control #1 Mobile App Development - Part 2                                                                                                                                             | 2     |
+| 5/18/2024  | Designed presentation for lift-off video                                                                                                                                                       | 2     |
+| 5/23/2024  | **Tutorial**: React Native Full 8 Hours Course (Expo, Expo Router, Supabase)                                                                                                                   | 8     |
+| 5/23/2024  | Set up local development environment                                                                                                                                                           | 2     |
+| 5/25/2024  | Mission Control #2 Web App Development - Part 1                                                                                                                                               | 2     |
+| 5/25/2024  | Mission Control #2 Mobile App Development - Part 2                                                                                                                                             | 2     |
+| 5/27/2024  | **Developed technical proof-of-concept** <br> - Downloaded and cleaned data from Kaggle <br> - Learned different encodings for the datasets, and how to deal with special characters <br> - Learned how to upload data onto Firebase through Firebase SDK, and how to retrieve them in TypeScript | 8  |
+| 5/27/2024  | **Developed technical proof-of-concept** <br> - Manually cleaned rows in the datasets that couldn't be done easily with code                                                                  | 3     |
+| 6/1/2024   | Wrote milestone 1 README.md on GitHub                                                                                                                                                         | 6     |
+| 6/5/2024   | Milestone Control #3 Machine Learning - Part 1                                                                                                                                                 | 2     |
+| 6/12/2024  | Milestone Control #4 Machine Learning - Part 2                                                                                                                                                 | 2     |
+| 6/14/2024  | **Tutorial**: Airbnb Clone with React Native (Expo Router, Authentication, Reanimated, Clerk)                                                                                                 | 6     |
+| 6/18/2024  | CS50: AI with Python lectures 4                                                                                                                                                                | 2     |
+| 6/18/2024  | CS50: AI with Python lectures 5, 6                                                                                                                                                             | 4     |
+| 6/22/2024  | **Product Development** <br> - Learned how to use Jupyter Notebook <br> - Followed along CS50: AI with Python lectures to develop the basic predictive model <br> - Tested model with various optimizers and types of neural networks | 8     |
+| 6/24/2024  | **Product Development** <br> - Enhanced predictive model by splitting features from what was one <br> - Debugged and refined predictive model                                                 | 8     |
+| 6/26/2024  | **Product Development** <br> - Learned how to use expo-router to push and Axios to get data with API call <br> - Developed a basic notifications page with API calls to retrieve the latest match results | 8  |
+| 6/29/2024  | **Product Development** <br> - Developed interactive match result notifications for users to click into <br> - Learned and implemented react native's reanimated package to add animations <br> - Styled notification page to match theme | 8 |
+| 6/30/2024  | **Milestone 2** <br> - Designed poster <br> - Updated README.md                                                                                                                               | 6     |
+| 7/1/2024   | **Milestone 2** <br> - Scripted video                                                                                                                                                          | 1     |
+| 7/2/2024   | **Product Development** <br> - Learned how to push notifications to users' devices                                                                                                           | 5     |
+| 7/9/2024   | **Product Development** <br> - Created first draft of the predictions page with API calls to football.org                                                                                     | 4     |
+| 7/11/2024  | **Product Development** <br> - Updated each prediction card to be an interactive TouchableOpacity <br> - Simulated predictions onPress using a random number generator                        | 4     |
+| 7/15/2024  | **Product Development** <br> - Updated predictive model to predict with appropriate and available weights to match the data used for predictions <br> - Exported predictive model as .h5, then converted to .json and .bin using tensorflowjs converter | 7  |
+| 7/17/2024  | Mission Control #5 - Poster and video                                                                                                                                                          | 2     |
+| 7/18/2024  | **Product Development** <br> - Bug fix package dependency errors, especially those to do with tensorflowjs and expo-camera <br> - Identify and bug fix model conversion issues by modifying model.json manually | 6  |
+| 7/19/2024  | **Product Development** <br> - Added drop picker to predictions page with RNPickerSelect <br> - Added logic to trigger alerts to reduce potential bad request errors <br> - Finalized predictions page | 5   |
+| 7/20/2024  | **Product Development** <br> - Updated notifications page to correctly make API calls to football.org <br> - Added logic to display error messages                                           | 3     |
+| 7/22/2024  | **Product Development** <br> - Updated each notification card and the page that displays onPress <br> - Finalized notification cards and notifications page                                  | 5     |
+| 7/24/2024  | **Product Development** <br> - Bug fix .svg images not rendering properly on home page, notification page, and prediction page by using react-native-svg and modifying metro.config.js         | 4     |
+| 7/26/2024  | **Product Development** <br> - Data cleaning for players page                                                                                                                                  | 4     |
+| 7/27/2024  | **Milestone 3** <br> - Designed poster <br> - Updated README.md with drawn diagrams and user testing <br> - Updated other parts of README.md                                                 | 5     |
+**Total Hours: 149**
+
 
 <div style="page-break-after: always;"></div>
 ---
