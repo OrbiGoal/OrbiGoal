@@ -531,8 +531,6 @@ User data used for favouriting and home page <br />
 
 For the detailed project log, please refer to [this Google Sheet](https://docs.google.com/spreadsheets/d/179DmH_i8CaoBr9kc0jjaFGT2cqZNFjx_ze_DIgwsXuE/edit?usp=sharing).
 
-## Project Timeline
-
 | Date       | Description of Activity                                                                                                                                                                      | Hours |
 |------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|
 | 5/16/2024  | Designed lift-off poster on Figma                                                                                                                                                            | 3     |
@@ -573,8 +571,6 @@ For the detailed project log, please refer to [this Google Sheet](https://docs.g
 | 7/26/2024  | **Product Development** <br> - Developed spider chart for players' detailed page to create intuitive visualization for users when browsing players' data <br> - Improved the layout of the statistics on players' page | 3     |
 | 7/28/2024  | **Milestone 3** <br> - Produced and edited the video for Milestone 3 submission <br> - Contributed to README | 4     |
 **Total Hours: 153**
-
-## Project Timeline
 
 | Date       | Description of Activity                                                                                                                                                                      | Hours |
 |------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|
