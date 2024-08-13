@@ -570,7 +570,8 @@ For the detailed project log, please refer to [this Google Sheet](https://docs.g
 | 7/22/2024  | **Product Development** <br> - Improved landing page initially displayed "No upcoming matches" even though the page was still loading the data from our API. After it finished loading, it will suddenly change from "No upcoming matches" to a list of upcoming matches which made the user quite confused. As such, we implemented an activity indicator to indicate to the user that the information is still loading and will only display "No upcoming matches" if the user has not favorited a team | 4     |
 | 7/26/2024  | **Product Development** <br> - Developed spider chart for players' detailed page to create intuitive visualization for users when browsing players' data <br> - Improved the layout of the statistics on players' page | 3     |
 | 7/28/2024  | **Milestone 3** <br> - Produced and edited the video for Milestone 3 submission <br> - Contributed to README | 4     |
-**Total Hours: 153**
+
+Brian Lim: **Total Hours: 153**
 
 | Date       | Description of Activity                                                                                                                                                                      | Hours |
 |------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|
@@ -608,7 +609,8 @@ For the detailed project log, please refer to [this Google Sheet](https://docs.g
 | 7/24/2024  | **Product Development** <br> - Bug fix .svg images not rendering properly on home page, notification page, and prediction page by using react-native-svg and modifying metro.config.js         | 4     |
 | 7/26/2024  | **Product Development** <br> - Data cleaning for players page                                                                                                                                  | 4     |
 | 7/27/2024  | **Milestone 3** <br> - Designed poster <br> - Updated README.md with drawn diagrams and user testing <br> - Updated other parts of README.md                                                 | 5     |
-**Total Hours: 149**
+
+Li Han Lin: **Total Hours: 149**
 
 
 <div style="page-break-after: always;"></div>
